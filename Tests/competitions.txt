@@ -2,61 +2,61 @@ Futebol
 12
 
 Fase1
-21/09/2020
-22/09/2020
+25/07/2020
+26/07/2020
 Portugal-National,Spain-National,Russia-National
 
 Fase2
-21/09/2020
-22/09/2020
+27/07/2020
+29/07/2020
 Spain-National,Russia-National,Japan-National
 ////////
 Badminton
 2
 
 comp1
-20/09/2020
-24/09/2020
+30/07/2020
+01/08/2020
 Russia-EqRussia1,Portugal-EqPort1,Japan-EqJapan3
 //
 prova1
 2
-20/09/2020
+30/07/2020
 EqRussia1,EqPort1
 EqPort1
 //
 prova2
 2
-20/09/2020
+31/08/2020
 EqJapan3,EqPort1
 EqJapan3
 //
 prova3
 2
-20/09/2020
+01/08/2020
 EqJapan3,EqRussia1
 EqJapan3
 //
 final
 2
-24/09/2020
+01/08/2020
 EqJapan3,EqPort1
 EqPort1
 
 comp2
-21/09/2020
-21/09/2020
+03/08/2020
+05/08/2020
 Russia-EqRussia6,Portugal-EqPort3,Portugal-EqPort1
 //
 semi final
 2
-20/09/2020
+03/08/2020
 EqPort3,EqPort4
 EqPort3
 //
 final
 2
-24/09/2020
+04/08/2020
 EqPort3,EqRussia6
 EqRussia6
 ////////
@@ -64,24 +64,24 @@ Vela
 2
 
 v1
-22/09/2020
-24/09/2020
+30/07/2020
+04/08/2020
 Spain-V1,Portugal-V3,Japan-V5
 
 v2
-22/09/2020
-24/09/2020
+05/08/2020
+07/08/2020
 Spain-V8,Japan-V6,Japan-V5
 ////////
 Atletismo
 1
 
 100mts
-22/09/2020
-24/09/2020
+29/07/2020
+03/08/2020
 Spain-Juan,Portugal-Maurilio Maria,Japan-Ximimi
 
 200mt
-22/09/2020
-24/09/2020
+04/08/2020
+04/08/2020
 Spain-Juan,Japan-Sali,Portugal-Maurilio Maria

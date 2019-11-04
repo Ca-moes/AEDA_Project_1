@@ -14,8 +14,9 @@ const string & Sport::getName() const{
     return name;
 }
 
-void Sport::setName(const string & n){
+void Sport::setName(string n){
     name = n;
+    cout<< "set name não dá";
 }
 
 void Sport::setCompetitions(const vector<Competition> & competitions){

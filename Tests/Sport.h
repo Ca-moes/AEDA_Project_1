@@ -16,7 +16,7 @@ public:
     ~Sport();
     Sport(const string &name, const vector<Competition>  & competitions);
     const string & getName() const;
-    void setName(const string & n);
+    void setName(string n);
     virtual const vector<Participant*> & getParticipants() const=0;
     void setCompetitions(const vector<Competition> & competitions);
     const vector<Competition> & getCompetitions() const;
