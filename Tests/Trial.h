@@ -30,7 +30,7 @@ public:
     void setPlayers(const vector<string> & players);
     unsigned int getNumberOfElements() const;
     void setNumberOfElements(unsigned int n);
-
+    string info() const;
 };
 
 ostream& operator<<(ostream& os, const Trial & g);

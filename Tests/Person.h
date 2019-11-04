@@ -62,14 +62,15 @@ private:
 
 class Participant {
     string sport;
-    //unsigned int ranking; // o ranking é recebido mas alterado com base nos dados fornecidos?
+protected:
+    vector<string> competitions;
 public:
     Participant(){}
     Participant(const string & sport);
     virtual const string &getName() const=0;
     virtual void setName(const string &name)=0;
-    //unsigned int getRanking() const;
-    //void setRanking(int ranking);
+    void setCompetitions(const vector<string> & competitions);
+    const vector<string> & getCompetitions() const;
     const string & getSport() const;
     void setSport(const string & sport);
 };
@@ -77,7 +78,6 @@ public:
 class Athlete : public Person, public Participant{
     float weight;
     float height;
-    vector<string> competitions;
     vector<Medal> medals;
 public:
     Athlete();
@@ -90,8 +90,6 @@ public:
     void setWeight(float weight);
     float getHeight() const;
     void setHeight(float height);
-    void setCompetitions(const vector<string> & competitions);
-    const vector<string> & getCompetitions() const;
     string info();
     bool isAthlete(){return true;};
     //double getDailyCost();
@@ -101,13 +99,14 @@ class Team: public Participant{
 private:
     vector<Athlete> athletes;
     string name;
-    vector <string> competitions;
     //historial
 public:
     Team (){};
+    Team (const Team & t);
     Team(const string &name, const string & sport);
     const string &getName() const;
     void setName(const string &name);
+    const vector<Athlete> & getAthletes() const;
 };
 
 class Staff: public Person{

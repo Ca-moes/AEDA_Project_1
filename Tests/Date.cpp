@@ -76,6 +76,18 @@ bool Date::leapYear(){
     return (year % 4 == 0) && (year % 10 != 0);
 }
 
+bool Date::isOlimpianDate() {
+    return ((month == 7 && day >= 24 && day <= 31) || (month == 8 && day >= 1 && day <= 9)) && (year == 2020);
+}
+
+int daysBetween(const Date begin, const Date end) {
+    if(end.day < begin.day){
+        return 32-begin.day + end.day;
+    } else {
+        return end.day - begin.day +1;
+    }
+}
+
 ostream& operator<<(ostream& os, const Date & d){
     os << d.getDay() << "/" << d.getMonth() << "/" << d.getYear();
     return os;

@@ -5,12 +5,25 @@ using namespace std;
 
 Sport::~Sport(){}
 
+Sport::Sport(const string &name, const vector<Competition>  & competitions){
+    this->name = name;
+    this->competitions = competitions;
+}
+
 const string & Sport::getName() const{
     return name;
 }
 
 void Sport::setName(const string & n){
     name = n;
+}
+
+void Sport::setCompetitions(const vector<Competition> & competitions){
+    this->competitions=competitions;
+}
+
+const vector<Competition> & Sport::getCompetitions() const{
+    return competitions;
 }
 
 void Sport::addCompetition(const Competition & c){
@@ -25,11 +38,6 @@ void Sport::updateCompetition(const string & c){
 
 }
 
-void Sport::showCompetitions() const{
-
-}
-
-
 void Sport::removeParticipant(const string & p){
 
 }
@@ -42,12 +50,32 @@ void Sport::showParticipants() const{
 
 }
 
-void Sport::setCompetitions(const vector<Competition> & competitions){
-    this->competitions=competitions;
+string Sport::info() const{
+    ostringstream os;
+    os <<  left <<setw(17) << "Name" << setw(4) << " "<<  getName() << setw(3) <<endl;
+    os <<  left <<setw(17) << "Competitions" <<setw(4) << " ";
+    for(const auto & competition : competitions){
+        os << competition.info() <<" ";
+        os << endl;
+    }
+    return os.str();
+}
+
+void Sport::showCompetitions() const{
+
 }
 
 void TeamSport::setNumberofElements(unsigned int n){
     numberOfElements = n;
+}
+
+TeamSport::TeamSport(const TeamSport & s) : Sport(s.getName(), s.getCompetitions()) {
+    vector<Team *>::iterator it;
+    Team * t;
+    for(it = s.getTeams().begin(); it!= s.getTeams().end(); it++){
+        t = new Team(**it);
+        teams.push_back(t);
+    }
 }
 
 void TeamSport::setParticipants(const vector<Team> & tems){
@@ -66,6 +94,10 @@ void TeamSport::addTeam(Team* t){
     teams.push_back(t);
 }
 
+vector<Team*> TeamSport::getTeams() const{
+    return teams;
+}
+
 void IndividualSport::setParticipants(const vector<Athlete *> & athletes){
     this->athletes = athletes;
 }
@@ -80,4 +112,8 @@ const vector<Participant*> & IndividualSport::getParticipants() const{
 
 void  IndividualSport::addAthlete(Athlete* a){
     athletes.push_back(a);
+}
+
+vector<Athlete*> IndividualSport::getAthletes() const{
+    return athletes;
 }

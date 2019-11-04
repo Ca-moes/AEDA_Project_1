@@ -84,4 +84,4 @@ Spain-Juan,Portugal-Maurilio Maria,Japan-Ximimi
 200mt
 22/09/2020
 24/09/2020
-Spain-V8,Japan-V6,Portugal-Maurilio Maria
+Spain-Juan,Japan-Sali,Portugal-Maurilio Maria
