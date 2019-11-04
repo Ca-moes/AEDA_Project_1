@@ -1,5 +1,6 @@
 Portugal
-67.7
+67.70
+59.50
 500
 people
 competitions

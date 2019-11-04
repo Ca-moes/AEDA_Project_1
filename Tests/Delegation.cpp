@@ -48,21 +48,26 @@ void Delegation::readDelegationFile(){
                 line = regex_replace(line, regex("^ +| +$|( ) +"), "$1");
                 if(checkFloatInput(line) != 0)
                     throw FileStructureError(file);
-                setDailyCost(stof(line));
+                setDailyCostAthlete(stof(line));
                 break;
-
             case 3:
+                line = regex_replace(line, regex("^ +| +$|( ) +"), "$1");
+                if(checkFloatInput(line) != 0)
+                    throw FileStructureError(file);
+                setDailyCostStaff(stof(line));
+                break;
+            case 4:
                 line = regex_replace(line, regex("^ +| +$|( ) +"), "$1");
                 if(checkFloatInput(line) != 0)
                     throw FileStructureError(file);
                 setTotalCost(stof(line));
                 break;
-            case 4:
+            case 5:
                 peopleFilename = regex_replace(line, regex("^ +| +$|( ) +"), "$1");
                 if(checkStringInput(line) != 0)
                     throw FileStructureError(file);
                 break;
-            case 5:
+            case 6:
                 competitionsFilename = regex_replace(line, regex("^ +| +$|( ) +"), "$1");
                 if(checkStringInput(line) != 0)
                     throw FileStructureError(file);
@@ -178,11 +183,6 @@ void Delegation::readPeopleFile(const vector<string> & lines) {
                     if(checkFloatInput(line) != 0)
                         throw FileStructureError(peopleFilename);
                     a->setHeight(stof(line));
-                    break;
-                case 10:
-                    if(checkPositiveIntInput(line) != 0) //to do: check if it is an int
-                        throw FileStructureError(peopleFilename);
-                    a->setRanking(stoi(line));
                     people.push_back(new Athlete(*a));
                     athletes.push_back(new Athlete(*a));
                     break;
@@ -268,6 +268,10 @@ void Delegation::readCompetitionsFile(const vector<string> & lines){
                     competitions.push_back(competition);
                 if(teamSport){
                     teamSport->setCompetitions(competitions);
+                    for(size_t i=0; i< teams.size();i++){
+                        if(teams[i]->getSport() == teamSport->getName())
+                            teamSport->addTeam(teams[i]);
+                    }
                     sports.push_back(teamSport);
                     competitions.resize(0);
                     trials.resize(0);
@@ -275,6 +279,10 @@ void Delegation::readCompetitionsFile(const vector<string> & lines){
                 }
                 else{
                     individualSport->setCompetitions(competitions);
+                    for(size_t i=0; i< athletes.size();i++){
+                        if(athletes[i]->getSport() == individualSport->getName())
+                            individualSport->addAthlete(athletes[i]);
+                    }
                     sports.push_back(individualSport);
                 }
                 read = 's';
@@ -342,7 +350,7 @@ void Delegation::readCompetitionsFile(const vector<string> & lines){
             case 5:
                 //ler competições - confirmar estrutura
                 participantsStream.str(line);
-                while (getline(participantsStream, name, ' ')){
+                while (getline(participantsStream, name, ',')){
                     if(name.find('-') != string::npos){
                         pCountry=name.substr(0,name.find('-'));
                         participant=name.substr(name.find('-'),name.size());
@@ -387,14 +395,6 @@ void Delegation::readCompetitionsFile(const vector<string> & lines){
         }
         trials.push_back(trial);
     }
-
-    /*vector<Athlete *>::iterator a;
-    for(a=athletes.begin(); a != athletes.end(); a++){
-        vector<Sport*>::iterator it = find(sports.begin(),sports.end(),(*a)->getSport());
-        if(it != sports.end()){
-            (*it)->addParticipant(a);
-        }
-    }*/
 }
 
 const string &Delegation::getCountry() const {
@@ -405,12 +405,20 @@ void Delegation::setCountry(const string &country) {
     this->country = country;
 }
 
-float Delegation::getDailyCost() const {
-    return dailyCost;
+float Delegation::getDailyCostAthlete() const {
+    return dailyCostAthlete;
 }
 
-void Delegation::setDailyCost(float dailyCost) {
-    this->dailyCost = dailyCost;
+void Delegation::setDailyCostAthlete(float dailyCost) {
+    this->dailyCostAthlete = dailyCost;
+}
+
+float Delegation::getDailyCostStaff() const {
+    return dailyCostStaff;
+}
+
+void Delegation::setDailyCostStaff(float dailyCost) {
+    this->dailyCostStaff = dailyCost;
 }
 
 float Delegation::getTotalCost() const {

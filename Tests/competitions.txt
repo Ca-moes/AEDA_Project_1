@@ -4,61 +4,61 @@ Futebol
 Fase1
 21/09/2020
 22/09/2020
-Portugal-National Spain-National Russia-National
+Portugal-National,Spain-National,Russia-National
 
 Fase2
 21/09/2020
 22/09/2020
-Spain-National Russia-National Japan-National
+Spain-National,Russia-National,Japan-National
 ////////
-Atletismo
-1
+Badminton
+2
 
-100mts
+comp1
 20/09/2020
 24/09/2020
-Russia-jsjs Portugal-fvgtrvrf Japan-cfdeds
+Russia-EqRussia1,Portugal-EqPort1,Japan-EqJapan3
 //
-semi final1
+prova1
 2
 20/09/2020
-fvgtrvrf cfdeds
-fvgtrvrf
+EqRussia1,EqPort1
+EqPort1
 //
-semi final2
+prova2
 2
 20/09/2020
-jsjs cfdeds
-jsjs
+EqJapan3,EqPort1
+EqJapan3
 //
-semi final3
+prova3
 2
 20/09/2020
-fvgtrvrf jsjs
-fvgtrvrf
+EqJapan3,EqRussia1
+EqJapan3
 //
 final
 2
 24/09/2020
-jsjs fvgtrvrf
-fvgtrvrf
+EqJapan3,EqPort1
+EqPort1
 
-200mts
+comp2
 21/09/2020
 21/09/2020
-Russia-Sari Portugal-Maurilio Japan-Xil
+Russia-EqRussia6,Portugal-EqPort3,Portugal-EqPort1
 //
 semi final
 2
 20/09/2020
-fvgtrvrf jsjs
-fvgtrvrf
+EqPort3,EqPort4
+EqPort3
 //
 final
 2
 24/09/2020
-jsjs fvgtrvrf
-fvgtrvrf
+EqPort3,EqRussia6
+EqRussia6
 ////////
 Vela
 2
@@ -66,9 +66,22 @@ Vela
 v1
 22/09/2020
 24/09/2020
-Spain-V1 Portugal-V3 Japan-V5
+Spain-V1,Portugal-V3,Japan-V5
 
 v2
 22/09/2020
 24/09/2020
-Spain-V8 Japan-V6 Japan-V5
+Spain-V8,Japan-V6,Japan-V5
+////////
+Atletismo
+1
+
+100mts
+22/09/2020
+24/09/2020
+Spain-Juan,Portugal-Maurilio Maria,Japan-Ximimi
+
+200mt
+22/09/2020
+24/09/2020
+Spain-V8,Japan-V6,Portugal-Maurilio Maria

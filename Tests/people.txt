@@ -7,7 +7,6 @@ Futebol
 Fase1 Fase2
 55
 164
-4
 
 Carlos Dias
 09/09/1993
@@ -25,7 +24,6 @@ Vela
 v1 v2
 60
 167
-3
 
 Nao sei
 10/03/1980
@@ -43,9 +41,8 @@ Vela
 v1 v2
 65
 179
-3
 
-Maurilio
+Maurilio Maria
 30/01/1998
 CB089178
 21/09/2020
@@ -54,4 +51,3 @@ Atletismo
 100mts 200mts
 57
 163
-4
