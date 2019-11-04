@@ -2,7 +2,6 @@
 #define PROJECT_1_SPORT_H
 
 #include "Competition.h"
-#include "Team.h"
 #include "Person.h"
 
 class Team;

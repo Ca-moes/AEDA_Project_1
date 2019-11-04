@@ -9,7 +9,6 @@ add_executable(project_1 main.cpp
         Tests/Competition.cpp
         Tests/Date.cpp
         Tests/Trial.cpp
-        Tests/Team.cpp
         Tests/Person.cpp
         Tests/Medal.cpp
         Tests/Delegation.cpp

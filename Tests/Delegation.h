@@ -7,7 +7,6 @@
 #ifndef PROJECT_1_DELEGATION_H
 #define PROJECT_1_DELEGATION_H
 
-#include "Team.h"
 #include "Sport.h"
 #include "fstream"
 #include <regex>
@@ -20,7 +19,7 @@ class Delegation {
     float totalCost;
     vector<Person *> people;
     vector<Athlete *> athletes;
-    vector<Team> teams;
+    vector<Team*> teams;
     vector<Sport*> sports;
 public:
     /** Delegation Default Constructor*/

@@ -268,6 +268,10 @@ void Delegation::readCompetitionsFile(const vector<string> & lines){
                     competitions.push_back(competition);
                 if(teamSport){
                     teamSport->setCompetitions(competitions);
+                    for(size_t i=0; i< teams.size();i++){
+                        if(teams[i]->getSport() == teamSport->getName())
+                            teamSport->addTeam(teams[i]);
+                    }
                     sports.push_back(teamSport);
                     competitions.resize(0);
                     trials.resize(0);
@@ -275,6 +279,10 @@ void Delegation::readCompetitionsFile(const vector<string> & lines){
                 }
                 else{
                     individualSport->setCompetitions(competitions);
+                    for(size_t i=0; i< athletes.size();i++){
+                        if(athletes[i]->getSport() == individualSport->getName())
+                            individualSport->addAthlete(athletes[i]);
+                    }
                     sports.push_back(individualSport);
                 }
                 read = 's';
@@ -387,14 +395,6 @@ void Delegation::readCompetitionsFile(const vector<string> & lines){
         }
         trials.push_back(trial);
     }
-
-    /*vector<Athlete *>::iterator a;
-    for(a=athletes.begin(); a != athletes.end(); a++){
-        vector<Sport*>::iterator it = find(sports.begin(),sports.end(),(*a)->getSport());
-        if(it != sports.end()){
-            (*it)->addParticipant(a);
-        }
-    }*/
 }
 
 const string &Delegation::getCountry() const {
