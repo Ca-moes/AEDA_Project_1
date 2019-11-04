@@ -350,7 +350,7 @@ void Delegation::readCompetitionsFile(const vector<string> & lines){
             case 5:
                 //ler competições - confirmar estrutura
                 participantsStream.str(line);
-                while (getline(participantsStream, name, ' ')){
+                while (getline(participantsStream, name, ',')){
                     if(name.find('-') != string::npos){
                         pCountry=name.substr(0,name.find('-'));
                         participant=name.substr(name.find('-'),name.size());
