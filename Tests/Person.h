@@ -62,14 +62,14 @@ private:
 
 class Participant {
     string sport;
-    unsigned int ranking; // o ranking é recebido mas alterado com base nos dados fornecidos?
+    //unsigned int ranking; // o ranking é recebido mas alterado com base nos dados fornecidos?
 public:
     Participant(){}
-    Participant(unsigned int ranking, const string & sport);
+    Participant(const string & sport);
     virtual const string &getName() const=0;
     virtual void setName(const string &name)=0;
-    unsigned int getRanking() const;
-    void setRanking(int ranking);
+    //unsigned int getRanking() const;
+    //void setRanking(int ranking);
     const string & getSport() const;
     void setSport(const string & sport);
 };
@@ -82,7 +82,7 @@ class Athlete : public Person, public Participant{
 public:
     Athlete();
     Athlete(const string &name, const Date &birth, const string & passport, const Date &arrival, const Date &departure, const string & sport, float weight,
-            float height, int ranking);
+            float height);
     Athlete(const Athlete & a); //copy constructor;
     void setName(const string &name);
     const string &getName() const;
@@ -105,7 +105,7 @@ private:
     //historial
 public:
     Team (){};
-    Team(const string &name, int ranking, const string & sport);
+    Team(const string &name, const string & sport);
     const string &getName() const;
     void setName(const string &name);
 };

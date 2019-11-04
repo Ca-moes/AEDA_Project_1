@@ -88,15 +88,15 @@ string Staff::info(){
 
 //Participant
 
-Participant::Participant(unsigned int ranking, const string & sport) : sport(sport), ranking(ranking) {}
+Participant::Participant(const string & sport) : sport(sport){}
 
-unsigned int Participant::getRanking() const {
+/*unsigned int Participant::getRanking() const {
     return ranking;
 }
 
 void Participant::setRanking(int ranking) {
     this->ranking = ranking;
-}
+}*/
 
 const string & Participant::getSport() const {
     return sport;
@@ -109,12 +109,12 @@ void Participant::setSport(const string & sport) {
 //Athlete
 
 Athlete::Athlete(const string &name, const Date &birth, const string & passport, const Date &arrival, const Date &departure, const string & sport, float weight,
-                 float height, int ranking) : Person(name, birth, passport, arrival, departure), Participant(ranking, sport), weight(weight), height(height){}
+                 float height) : Person(name, birth, passport, arrival, departure), Participant(sport), weight(weight), height(height){}
 
 Athlete::Athlete() : Person(){
 }
 
-Athlete::Athlete(const Athlete & a) : Person(a.getName(), a.getBirth(), a.getPassport(), a.getArrival(), a.getDeparture()), Participant(a.getRanking(),a.getSport()){
+Athlete::Athlete(const Athlete & a) : Person(a.getName(), a.getBirth(), a.getPassport(), a.getArrival(), a.getDeparture()), Participant(a.getSport()){
     weight = a.getWeight();
     height = a.getHeight();
     competitions = a.getCompetitions();
@@ -162,13 +162,13 @@ string Athlete::info(){
     os << endl;
     os <<  left <<setw(17) << "Weight" <<setw(4) << " " << to_string(weight) <<endl;
     os <<  left <<setw(17) << "Height" <<  setw(4) << " " << to_string(height) <<endl;
-    os <<  left <<setw(17) << "Ranking" <<  setw(4) << " " << to_string(getRanking()) <<endl;
+    //os <<  left <<setw(17) << "Ranking" <<  setw(4) << " " << to_string(getRanking()) <<endl;
     return os.str();
 }
 
 //Team
 
-Team::Team(const string &name, int ranking, const string &sport) : Participant(ranking,sport), name(name) {}
+Team::Team(const string &name, const string &sport) : Participant(sport), name(name) {}
 
 const string &Team::getName() const {
     return name;

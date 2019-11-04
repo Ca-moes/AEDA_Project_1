@@ -178,11 +178,6 @@ void Delegation::readPeopleFile(const vector<string> & lines) {
                     if(checkFloatInput(line) != 0)
                         throw FileStructureError(peopleFilename);
                     a->setHeight(stof(line));
-                    break;
-                case 10:
-                    if(checkPositiveIntInput(line) != 0) //to do: check if it is an int
-                        throw FileStructureError(peopleFilename);
-                    a->setRanking(stoi(line));
                     people.push_back(new Athlete(*a));
                     athletes.push_back(new Athlete(*a));
                     break;
