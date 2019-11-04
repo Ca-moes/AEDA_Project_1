@@ -155,12 +155,20 @@ void Delegation::readPeopleFile(const vector<string> & lines) {
                 case 4:
                     if(checkDateInput(line, d) != 0)
                         throw FileStructureError(peopleFilename);
-                    a->setArrival(d);
+                    if(d.isOlimpianDate()) {
+                        a->setArrival(d);
+                    } else {
+                        throw FileStructureError(peopleFilename);
+                    }
                     break;
                 case 5:
                     if(checkDateInput(line, d) != 0)
                         throw FileStructureError(peopleFilename);
-                    a->setDeparture(d);
+                    if(d.isOlimpianDate()) {
+                        a->setDeparture(d);
+                    } else {
+                        throw FileStructureError(peopleFilename);
+                    }
                     break;
                 case 6:
                     if(checkStringInput(line) != 0)
@@ -212,12 +220,20 @@ void Delegation::readPeopleFile(const vector<string> & lines) {
                 case 4:
                     if(checkDateInput(line, d) != 0)
                         throw FileStructureError(peopleFilename);
-                    s->setArrival(d);
+                    if(d.isOlimpianDate()) {
+                        a->setArrival(d);
+                    } else {
+                        throw FileStructureError(peopleFilename);
+                    }
                     break;
                 case 5:
                     if(checkDateInput(line, d) != 0)
                         throw FileStructureError(peopleFilename);
-                    s->setDeparture(d);
+                    if(d.isOlimpianDate()) {
+                        a->setDeparture(d);
+                    } else {
+                        throw FileStructureError(peopleFilename);
+                    }
                     break;
                 case 6:
                     if(checkStringInput(line) != 0)
