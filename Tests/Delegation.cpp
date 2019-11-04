@@ -337,9 +337,9 @@ void Delegation::readCompetitionsFile(const vector<string> & lines) {
                     if (checkPositiveIntInput(line) != 0) //check int input
                         throw FileStructureError(peopleFilename);
                     if (stoi(line) == 1) //individual sport
-                        individualSport->setName("diana");
+                        individualSport->setName(name);
                     else if (stoi(line) > 1) {
-                        teamSport->setName("nanana");
+                        teamSport->setName(name);
                         team = true;
                         teamSport->setNumberofElements(stoi(line));
                     } else // se for 0
