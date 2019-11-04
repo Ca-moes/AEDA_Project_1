@@ -294,7 +294,7 @@ void Delegation::readCompetitionsFile(const vector<string> & lines) {
             else if (line =="////////") {//novo desporto - guardar os dados das competições e jogos e limpar variáveis auxiliares
                 if (read == 't' || read == 'c')
                     competitions.push_back(competition);
-                if (teamSport) {
+                if (teamSport){
                     teamSport->setCompetitions(competitions);
                     for (size_t i = 0; i < teams.size(); i++) {
                         if (teams[i]->getSport() == teamSport->getName())
@@ -337,9 +337,9 @@ void Delegation::readCompetitionsFile(const vector<string> & lines) {
                     if (checkPositiveIntInput(line) != 0) //check int input
                         throw FileStructureError(peopleFilename);
                     if (stoi(line) == 1) //individual sport
-                        individualSport->setName(name);
+                        individualSport->setName("diana");
                     else if (stoi(line) > 1) {
-                        teamSport->setName(name);
+                        teamSport->setName("nanana");
                         team = true;
                         teamSport->setNumberofElements(stoi(line));
                     } else // se for 0
