@@ -1,0 +1,142 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/Tests/Competition.cpp
+Competition.h
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/Tests/Competition.h
+Trial.h
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/Tests/Trial.h
+Date.h
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/Tests/Date.h
+
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/Tests/Competition.h
+Trial.h
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/Tests/Trial.h
+Medal.h
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/Tests/Medal.h
+vector
+-
+map
+-
+
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/Tests/Date.cpp
+Date.h
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/Tests/Date.h
+
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/Tests/Date.h
+iostream
+-
+string
+-
+
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/Tests/Delegation.cpp
+Delegation.h
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/Tests/Delegation.h
+auxiliar.h
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/Tests/auxiliar.h
+regex
+-
+sstream
+-
+
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/Tests/Delegation.h
+Team.h
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/Tests/Team.h
+Sport.h
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/Tests/Sport.h
+fstream
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/Tests/fstream
+regex
+-
+
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/Tests/Medal.cpp
+Medal.h
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/Tests/Medal.h
+
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/Tests/Medal.h
+string
+-
+
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/Tests/Menus.cpp
+Menus.h
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/Tests/Menus.h
+regex
+-
+
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/Tests/Menus.h
+Delegation.h
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/Tests/Delegation.h
+iostream
+-
+
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/Tests/Person.cpp
+Person.h
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/Tests/Person.h
+
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/Tests/Person.h
+Date.h
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/Tests/Date.h
+vector
+-
+Sport.h
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/Tests/Sport.h
+iomanip
+-
+
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/Tests/Sport.cpp
+Sport.h
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/Tests/Sport.h
+algorithm
+-
+
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/Tests/Sport.h
+Competition.h
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/Tests/Competition.h
+Team.h
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/Tests/Team.h
+Person.h
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/Tests/Person.h
+
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/Tests/Team.cpp
+
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/Tests/Team.h
+
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/Tests/Trial.cpp
+Trial.h
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/Tests/Trial.h
+
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/Tests/Trial.h
+vector
+-
+iostream
+-
+Date.h
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/Tests/Date.h
+map
+-
+
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/Tests/auxiliar.cpp
+iostream
+-
+auxiliar.h
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/Tests/auxiliar.h
+
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/Tests/auxiliar.h
+string
+-
+regex
+-
+Date.h
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/Tests/Date.h
+
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/main.cpp
+iostream
+-
+Tests/Menus.h
+C:/Data/Andre/Work/MIEIC - ANO 2 - SEMESTRE 1/AEDA/project_1/Tests/Menus.h
+

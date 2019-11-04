@@ -1,0 +1,74 @@
+Futebol
+12
+
+Fase1
+21/09/2020
+22/09/2020
+Portugal-National Spain-National Russia-National
+
+Fase2
+21/09/2020
+22/09/2020
+Spain-National Russia-National Japan-National
+////////
+Atletismo
+1
+
+100mts
+20/09/2020
+24/09/2020
+Russia-jsjs Portugal-fvgtrvrf Japan-cfdeds
+//
+semi final1
+2
+20/09/2020
+fvgtrvrf cfdeds
+fvgtrvrf
+//
+semi final2
+2
+20/09/2020
+jsjs cfdeds
+jsjs
+//
+semi final3
+2
+20/09/2020
+fvgtrvrf jsjs
+fvgtrvrf
+//
+final
+2
+24/09/2020
+jsjs fvgtrvrf
+fvgtrvrf
+
+200mts
+21/09/2020
+21/09/2020
+Russia-Sari Portugal-Maurilio Japan-Xil
+//
+semi final
+2
+20/09/2020
+fvgtrvrf jsjs
+fvgtrvrf
+//
+final
+2
+24/09/2020
+jsjs fvgtrvrf
+fvgtrvrf
+////////
+Vela
+2
+
+v1
+22/09/2020
+24/09/2020
+Spain-V1 Portugal-V3 Japan-V5
+
+v2
+22/09/2020
+24/09/2020
+Spain-V8 Japan-V6 Japan-V5
