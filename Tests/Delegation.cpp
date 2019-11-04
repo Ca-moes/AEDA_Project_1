@@ -48,21 +48,26 @@ void Delegation::readDelegationFile(){
                 line = regex_replace(line, regex("^ +| +$|( ) +"), "$1");
                 if(checkFloatInput(line) != 0)
                     throw FileStructureError(file);
-                setDailyCost(stof(line));
+                setDailyCostAthlete(stof(line));
                 break;
-
             case 3:
+                line = regex_replace(line, regex("^ +| +$|( ) +"), "$1");
+                if(checkFloatInput(line) != 0)
+                    throw FileStructureError(file);
+                setDailyCostStaff(stof(line));
+                break;
+            case 4:
                 line = regex_replace(line, regex("^ +| +$|( ) +"), "$1");
                 if(checkFloatInput(line) != 0)
                     throw FileStructureError(file);
                 setTotalCost(stof(line));
                 break;
-            case 4:
+            case 5:
                 peopleFilename = regex_replace(line, regex("^ +| +$|( ) +"), "$1");
                 if(checkStringInput(line) != 0)
                     throw FileStructureError(file);
                 break;
-            case 5:
+            case 6:
                 competitionsFilename = regex_replace(line, regex("^ +| +$|( ) +"), "$1");
                 if(checkStringInput(line) != 0)
                     throw FileStructureError(file);
@@ -400,12 +405,20 @@ void Delegation::setCountry(const string &country) {
     this->country = country;
 }
 
-float Delegation::getDailyCost() const {
-    return dailyCost;
+float Delegation::getDailyCostAthlete() const {
+    return dailyCostAthlete;
 }
 
-void Delegation::setDailyCost(float dailyCost) {
-    this->dailyCost = dailyCost;
+void Delegation::setDailyCostAthlete(float dailyCost) {
+    this->dailyCostAthlete = dailyCost;
+}
+
+float Delegation::getDailyCostStaff() const {
+    return dailyCostStaff;
+}
+
+void Delegation::setDailyCostStaff(float dailyCost) {
+    this->dailyCostStaff = dailyCost;
 }
 
 float Delegation::getTotalCost() const {

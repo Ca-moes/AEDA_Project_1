@@ -15,7 +15,8 @@ class Delegation {
     string peopleFilename; /**< Nome do ficheiro People.txt*/
     string competitionsFilename; /**< Nome do ficheiro de competições*/
     string country;
-    float dailyCost;
+    float dailyCostStaff;
+    float dailyCostAthlete;
     float totalCost;
     vector<Person *> people;
     vector<Athlete *> athletes;
@@ -51,13 +52,33 @@ public:
     void setCountry(const string &country);
 
     /**
-     * Get the Delegation's daily cost
+     * Set the Delegation's daily cost for Athletes
      *
-     * @returns the Delegation's daily cost
+     * @param dailyCost the Delegation's daily cost for Athletes
      */
-    float getDailyCost() const;
 
-    void setDailyCost(float dailyCost);
+    void setDailyCostAthlete(float dailyCost);
+
+    /**
+   * Get the Delegation's daily cost for Athletes
+   *
+   * @returns the Delegation's daily cost for Athletes
+   */
+    float getDailyCostAthlete() const;
+
+    /**
+    * Set the Delegation's daily cost for Teams
+    *
+    * @param dailyCost the Delegation's daily cost for Teams
+    */
+    void setDailyCostStaff(float dailyCost);
+
+    /**
+   * Get the Delegation's daily cost for Teams
+   *
+   * @returns the Delegation's daily cost for Teams
+   */
+    float getDailyCostStaff() const;
 
     float getTotalCost() const;
 
