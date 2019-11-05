@@ -56,8 +56,6 @@ private:
     string passport;
     Date arrival;
     Date departure;
-    public:
-
 };
 
 class Participant {
