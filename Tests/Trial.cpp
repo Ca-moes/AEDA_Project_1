@@ -3,6 +3,7 @@
 //
 
 #include "Trial.h"
+#include <iomanip>
 
 const string & Trial::getName() const{
     return name;
@@ -38,4 +39,17 @@ void Trial::setNumberOfElements(unsigned int n){
 
 unsigned int Trial::getNumberOfElements() const{
     return numberOfElements;
+}
+
+string Trial::info() const{
+    ostringstream os;
+    os <<  left <<setw(17) << "Name" << setw(4) << " "<< name <<endl;
+    os <<  left <<setw(17) << "Date" <<setw(4) << " "<< date << endl;
+    os <<  left <<setw(17) << "Participants" <<setw(4) << " ";
+    for(const auto & participant : participants)
+        os << participant <<" ";
+    os << endl;
+    os <<  left <<setw(17) << "Winner" << setw(4) << " "<< winner <<endl;
+    os <<  left <<setw(17) << "Number of Elements" << setw(4) << " "<< numberOfElements <<endl;
+    return os.str();
 }

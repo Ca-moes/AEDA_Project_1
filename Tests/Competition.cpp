@@ -1,6 +1,7 @@
 #include "Competition.h"
 #include "Trial.h"
 #include "Date.h"
+#include <iomanip>
 
 
 Competition::Competition(){
@@ -77,6 +78,16 @@ void Competition::updateParticipant(const string & p){}
 
 void Competition::showParticipants() const{}
 
+string Competition::info() const{
+    ostringstream os;
+    os <<  left <<setw(17) << "Name" << setw(4) << " "<<  getName() << setw(3) <<endl;
+    os <<  left <<setw(17) << "Begin Date" << setw(4) << " "<< getBegin() << setw(3) <<endl;
+    os <<  left <<setw(17) << "End Date" << setw(4) << " "<< getEnd() << setw(3) <<endl;
+    for(const auto & trial : trials)
+        os << trial.info()<<" ";
+    os << endl;
+    return os.str();
+}
 
 ostream& operator<<(ostream& os, const Competition & c)
 {

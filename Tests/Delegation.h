@@ -34,13 +34,13 @@ public:
      *
      * @param lines a vector with the lines from People's file
      */
-    void readPeopleFile(const vector<string> & lines);
+    void readPeopleFile(const vector<string> &lines);
 
     /**Reads the File with the information about the Delegation's Athletes and Staff and structures it in the program
- *
- * @param lines a vector with the lines from People's file
- */
-    void readCompetitionsFile(const vector<string> & lines);
+    *
+    * @param lines a vector with the lines from People's file
+    */
+    void readCompetitionsFile(const vector<string> &lines);
 
     /**
      * Get the Delegation's Country
@@ -61,10 +61,10 @@ public:
     void setDailyCostAthlete(float dailyCost);
 
     /**
-   * Get the Delegation's daily cost for Athletes
-   *
-   * @returns the Delegation's daily cost for Athletes
-   */
+    * Get the Delegation's daily cost for Athletes
+    *
+    * @returns the Delegation's daily cost for Athletes
+    */
     float getDailyCostAthlete() const;
 
     /**
@@ -86,7 +86,6 @@ public:
    *
    * @returns the Delegation's total cost
    */
-
     float getTotalCost() const;
 
     /**
@@ -94,16 +93,21 @@ public:
    *
    * @param totalCost the Delegation's total cost
    */
-
     void setTotalCost(float totalCost);
 
     /**
    * Calculates the Delegation's total cost
    * Sets the Delegation's total cost
    */
-
     void calculateTotalCost();
 
+
+    /**
+    * Get the information about the Delegation in a formatted way
+    *
+    * @returns the Delegation's information
+    */
+    string info();
 };
 
 //Exceptions

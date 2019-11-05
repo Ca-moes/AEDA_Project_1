@@ -33,7 +33,7 @@ int checkStringInput(string & str);
 int checkFloatInput(string & st);
 
 /**
-* Check if date is in the format dd/mm/yyyy
+* Check if a date is in the format dd/mm/yyyy
 *
 *
 * @param date the date string
