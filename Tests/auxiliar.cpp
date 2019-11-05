@@ -86,3 +86,11 @@ vector<string> fileToLineVector(istream & in){
 
     return v;
 }
+
+int daysBetween(const Date begin, const Date end) {
+    if(end.getDay() < begin.getDay()){
+        return 32-begin.getDay() + end.getDay();
+    } else {
+        return end.getDay() - begin.getDay() +1;
+    }
+}

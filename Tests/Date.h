@@ -24,7 +24,6 @@ public:
     bool validateDate();
     bool isOlimpianDate();
     bool leapYear();
-    friend int daysBetween(const Date begin, const Date end);
 private:
     unsigned short int year;
     unsigned short int month;

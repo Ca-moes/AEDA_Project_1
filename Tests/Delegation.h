@@ -8,6 +8,7 @@
 #define PROJECT_1_DELEGATION_H
 
 #include "Sport.h"
+#include "auxiliar.h"
 #include "fstream"
 #include <regex>
 
@@ -80,9 +81,28 @@ public:
    */
     float getDailyCostStaff() const;
 
+    /**
+   * Get the Delegation's total cost
+   *
+   * @returns the Delegation's total cost
+   */
+
     float getTotalCost() const;
 
+    /**
+   * Set the Delegation's total cost
+   *
+   * @param totalCost the Delegation's total cost
+   */
+
     void setTotalCost(float totalCost);
+
+    /**
+   * Calculates the Delegation's total cost
+   * Sets the Delegation's total cost
+   */
+
+    void calculateTotalCost();
 
 };
 

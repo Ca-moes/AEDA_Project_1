@@ -44,19 +44,29 @@ int checkFloatInput(string & st);
 int checkDateInput(string date, Date & d);
 
 /**
- * Transforms a the file's lines to a vector
- *
- * @param in the stream with the file's lines
- * @returns the vector with the file's lines
- */
-
-/**
 * Check if a string can be converted to an int
 *
 * @returns 0 if the string is convertible to an int
 */
 int checkPositiveIntInput(string & str);
 
+/**
+ * Transforms a the file's lines to a vector
+ *
+ * @param in the stream with the file's lines
+ * @returns the vector with the file's lines
+ */
+
 vector<string> fileToLineVector(istream & in);
+
+/**
+ * Counts the days between (and including) two dates
+ *
+ * @param begin the date of beginning
+ * @param end the date of ending
+ * @returns the numbers of days
+ */
+
+int daysBetween(const Date begin, const Date end);
 
 #endif //PROJECT_1_INPUTCHECK_H
