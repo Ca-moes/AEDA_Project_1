@@ -86,9 +86,12 @@ void Delegation::readDelegationFile(){
     delegationFile.close();
     delegationFile.clear();
 
-    //for testing purposes - print people
-    for(size_t i = 0; i< people.size(); i++)
-        cout << (people[i])->info() << endl;
+    //for testing purposes
+    //print delegation info
+    //cout << info();
+    //print people
+    //for(size_t i = 0; i< people.size(); i++)
+        //cout << (people[i])->info() << endl;
 
     //Read competitions file
     delegationFile.open(competitionsFilename+".txt");
@@ -97,6 +100,11 @@ void Delegation::readDelegationFile(){
     readCompetitionsFile(fileToLineVector(delegationFile));
     delegationFile.clear();
 
+    //for testing purposes - print sports
+    cout << sports.size();
+    for(size_t i = 0; i < sports.size(); i++){
+        cout << sports[i]->info();
+    }
 }
 
 void Delegation::readPeopleFile(const vector<string> & lines) {
@@ -155,12 +163,20 @@ void Delegation::readPeopleFile(const vector<string> & lines) {
                 case 4:
                     if(checkDateInput(line, d) != 0)
                         throw FileStructureError(peopleFilename);
-                    a->setArrival(d);
+                    if(d.isOlimpianDate()) {
+                        a->setArrival(d);
+                    } else {
+                        throw FileStructureError(peopleFilename);
+                    }
                     break;
                 case 5:
                     if(checkDateInput(line, d) != 0)
                         throw FileStructureError(peopleFilename);
-                    a->setDeparture(d);
+                    if(d.isOlimpianDate()) {
+                        a->setDeparture(d);
+                    } else {
+                        throw FileStructureError(peopleFilename);
+                    }
                     break;
                 case 6:
                     if(checkStringInput(line) != 0)
@@ -212,12 +228,20 @@ void Delegation::readPeopleFile(const vector<string> & lines) {
                 case 4:
                     if(checkDateInput(line, d) != 0)
                         throw FileStructureError(peopleFilename);
-                    s->setArrival(d);
+                    if(d.isOlimpianDate()) {
+                        s->setArrival(d);
+                    } else {
+                        throw FileStructureError(peopleFilename);
+                    }
                     break;
                 case 5:
                     if(checkDateInput(line, d) != 0)
                         throw FileStructureError(peopleFilename);
-                    s->setDeparture(d);
+                    if(d.isOlimpianDate()) {
+                        s->setDeparture(d);
+                    } else {
+                        throw FileStructureError(peopleFilename);
+                    }
                     break;
                 case 6:
                     if(checkStringInput(line) != 0)
@@ -232,55 +256,58 @@ void Delegation::readPeopleFile(const vector<string> & lines) {
     }
 }
 
-void Delegation::readCompetitionsFile(const vector<string> & lines){
-    int numline=0;
+void Delegation::readCompetitionsFile(const vector<string> & lines) {
+    int numline = 0;
     string line;
     Date d;
-    char read; // auxiliar para saber se vamos ler um sport, uma competition ou um trial (s,c ou t)
+    char read = 's'; // auxiliar para saber se vamos ler um sport, uma competition ou um trial (s,c ou t)
     //objects to create a sport
     bool team = false;
-    TeamSport * teamSport;
-    IndividualSport * individualSport;
-    string name,participant,pCountry;
+    TeamSport *teamSport;
+    IndividualSport *individualSport;
+    string name, participant, pCountry;
     Competition competition;
     vector<Competition> competitions;
     istringstream participantsStream;
     vector<Medal> medals;
     Medal medal;
+    int medalCount=0;
     Trial trial;
     vector<string> trialPlayers;
     vector<Trial> trials;
 
-    for(size_t i=0; i < lines.size(); i++){
+    for (size_t i = 0; i < lines.size(); i++) {
         numline++;
         line = lines[i];
 
-        if(numline == 1){ // se for a primeira linha de uma pessoa vamos ver se é uma nova modalidade, competição ou jogo
-            if(line.empty()){ // Se alinha está vazia voltamos a colocar o numLines a 0 para ler a próxima competição
+        if (numline == 1) {// se for a primeira linha de uma pessoa vamos ver se é uma nova modalidade, competição ou jogo
+            if (line.empty()){// Se alinha está vazia vamos ler a próxima competição
+                if (read == 'c' || read == 't'){
+                    competitions.push_back(competition);
+                    medals.resize(0);
+                    medalCount = 0;
+                }
                 read = 'c';
-                numline = 1;
                 i++;
                 line = lines[i];
-                competitions.push_back(competition);
             }
-            else if(line == "////////"){//novo desporto - guardar os dados das competições e jogos e limpar variáveis auxiliares
-                if(read == 't' || read == 'c')
+            else if (line =="////////") {//novo desporto - guardar os dados das competições e jogos e limpar variáveis auxiliares
+                if (read == 't' || read == 'c')
                     competitions.push_back(competition);
-                if(teamSport){
+                if (teamSport){
                     teamSport->setCompetitions(competitions);
-                    for(size_t i=0; i< teams.size();i++){
-                        if(teams[i]->getSport() == teamSport->getName())
+                    for (size_t i = 0; i < teams.size(); i++) {
+                        if (teams[i]->getSport() == teamSport->getName())
                             teamSport->addTeam(teams[i]);
                     }
-                    sports.push_back(teamSport);
+                    sports.push_back(new TeamSport(*teamSport));
                     competitions.resize(0);
                     trials.resize(0);
                     medals.resize(0);
-                }
-                else{
+                } else {
                     individualSport->setCompetitions(competitions);
-                    for(size_t i=0; i< athletes.size();i++){
-                        if(athletes[i]->getSport() == individualSport->getName())
+                    for (size_t i = 0; i < athletes.size(); i++) {
+                        if (athletes[i]->getSport() == individualSport->getName())
                             individualSport->addAthlete(athletes[i]);
                     }
                     sports.push_back(individualSport);
@@ -290,7 +317,7 @@ void Delegation::readCompetitionsFile(const vector<string> & lines){
                 i++;
                 line = lines[i];
             }
-            else if(line == "//"){ //novo trial
+            else if (line == "//") { //novo trial
                 read = 't';
                 numline = 1;
                 i++;
@@ -298,105 +325,111 @@ void Delegation::readCompetitionsFile(const vector<string> & lines){
                 trialPlayers.resize(0);
             }
         }
-    }
         //ler sport
-        if(read == 's'){
-            switch (numline)
-            {
+        if (read == 's') {
+            switch (numline) {
                 case 1:
-                    if(checkStringInput(line) != 0)
+                    if (checkStringInput(line) != 0)
                         throw FileStructureError(peopleFilename);
                     name = line;
                     break;
                 case 2:
-                    if(checkPositiveIntInput(line) != 0) //check int input
+                    if (checkPositiveIntInput(line) != 0) //check int input
                         throw FileStructureError(peopleFilename);
-                    if(stoi(line) == 1) //individual sport
+                    if (stoi(line) == 1) //individual sport
                         individualSport->setName(name);
-                    else if(stoi(line) > 1){
+                    else if (stoi(line) > 1) {
                         teamSport->setName(name);
-                        team=true;
+                        team = true;
                         teamSport->setNumberofElements(stoi(line));
-                    }
-                    else // se for 0
+                    } else // se for 0
                         throw FileStructureError(peopleFilename);
+                    numline = 0;
                     break;
                 default:
                     throw FileStructureError(peopleFilename);
             }
         }
-    //ler competição
-    if(read == 'c'){
-        switch (numline)
-        {
-            case 1:
-                competition.setName(line);
-                break;
-            case 2:
-                if(checkDateInput(line,d) != 0)
-                    throw FileStructureError(peopleFilename);
-                competition.setBegin(d);
-                break;
-            case 3:
-                if(checkDateInput(line,d) != 0)//pode-se confirmar também se begin é na data dos jogos
-                    throw FileStructureError(peopleFilename);
-                competition.setBegin(d);
-                break;
-            case 4:
-                if(checkDateInput(line,d) != 0) //pode-se confirmar também se end é depois de begin e se end é antes do fim dos jogos
-                    throw FileStructureError(peopleFilename);
-                competition.setEnd(d);
-                break;
-            case 5:
-                //ler competições - confirmar estrutura
-                participantsStream.str(line);
-                while (getline(participantsStream, name, ',')){
-                    if(name.find('-') != string::npos){
-                        pCountry=name.substr(0,name.find('-'));
-                        participant=name.substr(name.find('-'),name.size());
-                        medal.setWinner(participant);
-                        medal.setCountry(pCountry);
+        //ler competição
+        if (read == 'c') {
+            switch (numline) {
+                case 1:
+                    competition.setName(line);
+                    break;
+                case 2:
+                    if (checkDateInput(line, d) != 0)
+                        throw FileStructureError(peopleFilename);
+                    competition.setBegin(d);
+                    break;
+                case 3:
+                    if (checkDateInput(line, d) != 0)//pode-se confirmar também se begin é na data dos jogos
+                        throw FileStructureError(peopleFilename);
+                    competition.setEnd(d);
+                    break;
+                case 4:
+                    if (checkDateInput(line, d) !=
+                        0) //pode-se confirmar também se end é depois de begin e se end é antes do fim dos jogos
+                        throw FileStructureError(peopleFilename);
+                    competition.setEnd(d);
+                    break;
+                case 5:
+                    //ler competições - confirmar estrutura
+                    participantsStream.str(line);
+                    while (getline(participantsStream, name, ',')) {
+                        if (name.find('-') != string::npos) {
+                            pCountry = name.substr(0, name.find('-'));
+                            participant = name.substr(name.find('-'), name.size());
+                            medal.setWinner(participant);
+                            medal.setCountry(pCountry);
+                            if(medalCount == 0)
+                                medal.setType('g');
+                            else if (medalCount == 1)
+                                medal.setType('s');
+                            else
+                                medal.setType('b');
+                            medals.push_back(medal);
+                        }
                     }
-                }
-                participantsStream.clear();
-                break;
-            default:
-                throw FileStructureError(peopleFilename);
-        }
-    }
-    //ler jogo
-    if(read == 't'){
-        switch (numline)
-        {
-            case 1:
-                trial.setName(line);
-                break;
-            case 2:
-                if(checkPositiveIntInput(line) != 0)
+                    participantsStream.clear();
+                    numline = 0;
+                    break;
+                default:
                     throw FileStructureError(peopleFilename);
-                if(stoi(line) != 0)
-                    trial.setNumberOfElements(stoi(line));
-                break;
-            case 3:
-                if(checkDateInput(line,d) != 0)
-                    throw FileStructureError(peopleFilename);
-                trial.setDate(d);
-                break;
-            case 4:
-                while (getline(participantsStream, name, ' '))
-                    trialPlayers.push_back(name);
-                trial.setPlayers(trialPlayers);
-                break;
-            case 5:
-                trial.setWinner(line);
-                break;
-            default:
-                throw FileStructureError(peopleFilename);
+            }
         }
-        trials.push_back(trial);
+        //ler jogo
+        if (read == 't') {
+            switch (numline) {
+                case 1:
+                    trial.setName(line);
+                    break;
+                case 2:
+                    if (checkPositiveIntInput(line) != 0)
+                        throw FileStructureError(peopleFilename);
+                    if (stoi(line) != 0)
+                        trial.setNumberOfElements(stoi(line));
+                    break;
+                case 3:
+                    if (checkDateInput(line, d) != 0)
+                        throw FileStructureError(peopleFilename);
+                    trial.setDate(d);
+                    break;
+                case 4:
+                    while (getline(participantsStream, name, ' '))
+                        trialPlayers.push_back(name);
+                    trial.setPlayers(trialPlayers);
+                    break;
+                case 5:
+                    trial.setWinner(line);
+                    numline = 0;
+                    trials.push_back(trial);
+                    break;
+                default:
+                    throw FileStructureError(peopleFilename);
+            }
+        }
     }
 }
-
 const string &Delegation::getCountry() const {
     return country;
 }
@@ -429,6 +462,14 @@ void Delegation::setTotalCost(float totalCost) {
     this->totalCost = totalCost;
 }
 
+string Delegation::info(){
+    ostringstream os;
+    os <<  left <<setw(17) << "Country" << setw(4) << " "<<  country << setw(3) <<endl;
+    os <<  left <<setw(17) << "Staff's Daily Cost" << setw(4) << " "<< dailyCostStaff << setw(3) <<endl;
+    os <<  left <<setw(17) << "Athlete's Daily Cost" << setw(4) << " "<< dailyCostAthlete << setw(3) <<endl;
+    os <<  left <<setw(17) << "Total Cost" << setw(4) << " "<< totalCost << setw(3) <<endl;
+    return os.str();
+}
 //File Errors - Exceptions
 
 FileError::FileError(string file) : file(file){}

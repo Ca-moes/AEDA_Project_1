@@ -106,6 +106,14 @@ void Participant::setSport(const string & sport) {
     this->sport = sport;
 }
 
+void Participant::setCompetitions(const vector<string> & competitions) {
+    this->competitions = competitions;
+}
+
+const vector<string> & Participant::getCompetitions() const{
+    return competitions;
+}
+
 //Athlete
 
 Athlete::Athlete(const string &name, const Date &birth, const string & passport, const Date &arrival, const Date &departure, const string & sport, float weight,
@@ -134,14 +142,6 @@ float Athlete::getHeight() const {
 
 void Athlete::setHeight(float height) {
     this->height = height;
-}
-
-void Athlete::setCompetitions(const vector<string> & competitions) {
-    this->competitions = competitions;
-}
-
-const vector<string> & Athlete::getCompetitions() const{
-    return competitions;
 }
 
 const string &Athlete::getName() const {
@@ -176,4 +176,15 @@ const string &Team::getName() const {
 
 void Team::setName(const string &name) {
     this->name = name;
+}
+
+Team::Team(const Team & t) : Participant(t.getSport()){
+    name = t.getName();
+    competitions = t.getCompetitions();
+    for(size_t i = 0; i< t.getAthletes().size();i++)
+        athletes.push_back(t.getAthletes()[i]);
+}
+
+const vector<Athlete> & Team::getAthletes() const{
+    return athletes;
 }
