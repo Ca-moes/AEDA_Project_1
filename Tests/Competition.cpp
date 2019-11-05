@@ -23,6 +23,15 @@ Competition::Competition(string name, Date begin, Date end){
     this ->end = end;
 }
 
+Competition::Competition(const Competition & c){
+    name = c.getName();
+    begin = c.getBegin();
+    end = c.getEnd();
+    for(size_t i = 0; i< c.getTrials().size(); i++){
+        trials.push_back(Trial(c.getTrials()[i]));
+    }
+}
+
 const Date & Competition::getBegin() const{
     return begin;
 }
@@ -36,19 +45,25 @@ const string &  Competition::getName() const{
 }
 
 void Competition::setName(const string &n) {
-    this->name = name;
+    this->name = n;
 }
 
 void Competition::setBegin(const Date &b) {
-    this->begin = begin;
+    this->begin = b;
 }
 
 void Competition::setEnd(const Date &e) {
-    this->end = end;
+    this->end = e;
 }
 
-void Competition::setTrial(const vector<Trial> & trials){
-    this->trials=trials;
+void Competition::setTrials(const vector<Trial> & trials){
+    for(size_t i = 0; i< trials.size(); i++){
+        this->trials.push_back(trials[i]);
+    }
+}
+
+const vector<Trial> & Competition::getTrials() const{
+    return trials;
 }
 
 void Competition::setMedals(const vector<Medal> &medals){

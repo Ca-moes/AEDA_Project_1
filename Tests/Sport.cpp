@@ -3,12 +3,15 @@
 
 using namespace std;
 
+//Sport
 Sport::~Sport(){
 }
 
 Sport::Sport(const string &name, const vector<Competition>  & competitions){
     this->name = name;
-    this->competitions = competitions;
+    for(size_t i = 0; i< competitions.size(); i++){
+        this->competitions.push_back(Competition(competitions[i]));
+    }
 }
 
 const string & Sport::getName() const{
@@ -54,7 +57,7 @@ void Sport::showParticipants() const{
 string Sport::info() const{
     ostringstream os;
     os <<  left <<setw(17) << "Name" << setw(4) << " "<<  getName() << setw(3) <<endl;
-    os <<  left <<setw(17) << "Competitions" <<setw(4) << " ";
+    os <<  left <<setw(17) << "Competitions" <<setw(4) << endl;
     for(const auto & competition : competitions){
         os << competition.info() <<" ";
         os << endl;
@@ -66,15 +69,15 @@ void Sport::showCompetitions() const{
 
 }
 
+//Team Sport
 void TeamSport::setNumberofElements(unsigned int n){
     numberOfElements = n;
 }
 
 TeamSport::TeamSport(const TeamSport & s) : Sport(s.getName(), s.getCompetitions()) {
     vector<Team *>::iterator it;
-    Team * t;
     for(it = s.getTeams().begin(); it!= s.getTeams().end(); it++){
-        t = new Team(**it);
+        Team * t = new Team(*(*it));
         teams.push_back(t);
     }
 }
@@ -99,8 +102,18 @@ vector<Team*> TeamSport::getTeams() const{
     return teams;
 }
 
+//Individual Sport
 void IndividualSport::setParticipants(const vector<Athlete *> & athletes){
     this->athletes = athletes;
+}
+
+IndividualSport::IndividualSport(const IndividualSport & s) : Sport(s.getName(), s.getCompetitions()) {
+    vector<Athlete *>::iterator it;
+    Athlete * a;
+    for(it = s.getAthletes().begin(); it != s.getAthletes().end(); it++){
+        a = new Athlete(**it);
+        athletes.push_back(a);
+    }
 }
 
 const vector<Participant*> & IndividualSport::getParticipants() const{

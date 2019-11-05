@@ -102,9 +102,8 @@ void Delegation::readDelegationFile(){
     delegationFile.clear();
 
     //for testing purposes - print sports
-    cout << sports.size();
     for(auto & sport : sports){
-        cout << sport->info();
+        cout << sport->info()<<endl;
     }
 }
 
@@ -280,11 +279,15 @@ void Delegation::readCompetitionsFile(const vector<string> & lines) {
         if (numline == 1){// se for a primeira linha de uma pessoa vamos ver se é uma nova modalidade, competição ou jogo
             if (line.empty()){// Se alinha está vazia vamos ler a próxima competição
                 if (read == 'c' || read == 't'){
+                    if(read == 't')
+                        competition.setTrials(trials);
+                    competition.setMedals(medals);
                     competitions.push_back(competition);
                     medals.resize(0);
                 }
                 read = 'c';
                 i++;
+                numline = 1;
                 line = lines[i];
             }
             else if (line =="////////") {//novo desporto - guardar os dados das competições e jogos e limpar variáveis auxiliares
@@ -353,18 +356,17 @@ void Delegation::readCompetitionsFile(const vector<string> & lines) {
         }
         //ler competição
         if (read == 'c') {
-            switch (numline) {
+            switch (numline){
                 case 1:
                     competition.setName(line);
                     break;
                 case 2:
                     if (checkDateInput(line, d) != 0)
                         throw FileStructureError(competitionsFilename);
-                    if(d.isOlimpianDate()) {
+                    if(d.isOlimpianDate())
                         competition.setBegin(d);
-                    } else {
+                    else
                         throw FileStructureError(peopleFilename);
-                    }
                     break;
                 case 3:
                     if (checkDateInput(line, d) != 0)
@@ -435,13 +437,28 @@ void Delegation::readCompetitionsFile(const vector<string> & lines) {
         }
     }
 
-    if (read == 'c' || read == 't'){
+    /*if (read == 'c' || read == 't'){
+        if(read == 't')
+           competition.setTrials(trials);
+        competition.setMedals(medals);
         competitions.push_back(competition);
-        if(isTeamSport)
+        if(isTeamSport){
+            teamSport->setCompetitions(competitions);
+            for (auto & team : teams) {
+                if (team->getSport() == teamSport->getName())
+                    teamSport->addTeam(team);
+            }
             sports.push_back( new TeamSport(*teamSport));
-        else
+        }
+        else{
+            individualSport->setCompetitions(competitions);
+            for (auto & athlete : athletes) {
+                if (athlete->getSport() == individualSport->getName())
+                    individualSport->addAthlete(athlete);
+            }
             sports.push_back( new IndividualSport(*individualSport));
-    }
+        }
+    }*/
 
 }
 const string &Delegation::getCountry() const {
