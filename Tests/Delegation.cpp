@@ -6,6 +6,7 @@
 #include "auxiliar.h"
 #include <regex>
 #include <sstream>
+#include <utility>
 
 Delegation::Delegation(){
     try{
@@ -75,7 +76,7 @@ void Delegation::readDelegationFile(){
             default:
                 throw FileStructureError(file);
         }
-    };
+    }
     delegationFile.close();
     delegationFile.clear();
     //Read people file
@@ -85,7 +86,6 @@ void Delegation::readDelegationFile(){
     readPeopleFile(fileToLineVector(delegationFile));
     delegationFile.close();
     delegationFile.clear();
-
     //for testing purposes
     //print delegation info
     //cout << info();
@@ -95,15 +95,16 @@ void Delegation::readDelegationFile(){
 
     //Read competitions file
     delegationFile.open(competitionsFilename+".txt");
-    if(delegationFile.fail())
-        throw FileError(competitionsFilename+".txt");
+    if(delegationFile.fail()) {
+        throw FileError(competitionsFilename + ".txt");
+    }
     readCompetitionsFile(fileToLineVector(delegationFile));
     delegationFile.clear();
 
     //for testing purposes - print sports
     cout << sports.size();
-    for(size_t i = 0; i < sports.size(); i++){
-        cout << sports[i]->info();
+    for(auto & sport : sports){
+        cout << sport->info();
     }
 }
 
@@ -111,8 +112,8 @@ void Delegation::readPeopleFile(const vector<string> & lines) {
     int numline=0;
     string line;
     Date d;
-    bool readFunc;
-    Athlete * a;
+    bool readFunc = false;
+    Athlete *a;
     Staff *s;
     //Variables to read Competitions:
     istringstream competitionsStream;
@@ -130,10 +131,7 @@ void Delegation::readPeopleFile(const vector<string> & lines) {
         }
 
         if(numline == 1){ // se for a primeira linha de uma pessoa vamos ver se é funcionário ou atleta
-            if(lines[i+6].empty())
-                readFunc = true;
-            else
-                readFunc = false;
+            readFunc = lines[i + 6].empty();
             competitions.resize(0);
             a=new Athlete();
             s=new Staff();
@@ -262,8 +260,8 @@ void Delegation::readCompetitionsFile(const vector<string> & lines) {
     Date d;
     char read = 's'; // auxiliar para saber se vamos ler um sport, uma competition ou um trial (s,c ou t)
     //objects to create a sport
-    bool team = false;
-    TeamSport *teamSport;
+    //bool team = false;   <- mudificado na linha 339 mas não usado em lado nenhum
+    TeamSport *teamSport ;
     IndividualSport *individualSport;
     string name, participant, pCountry;
     Competition competition;
@@ -275,7 +273,6 @@ void Delegation::readCompetitionsFile(const vector<string> & lines) {
     Trial trial;
     vector<string> trialPlayers;
     vector<Trial> trials;
-
     for (size_t i = 0; i < lines.size(); i++) {
         numline++;
         line = lines[i];
@@ -296,9 +293,9 @@ void Delegation::readCompetitionsFile(const vector<string> & lines) {
                     competitions.push_back(competition);
                 if (teamSport){
                     teamSport->setCompetitions(competitions);
-                    for (size_t i = 0; i < teams.size(); i++) {
-                        if (teams[i]->getSport() == teamSport->getName())
-                            teamSport->addTeam(teams[i]);
+                    for (auto & team : teams) {
+                        if (team->getSport() == teamSport->getName())
+                            teamSport->addTeam(team);
                     }
                     sports.push_back(new TeamSport(*teamSport));
                     competitions.resize(0);
@@ -306,9 +303,9 @@ void Delegation::readCompetitionsFile(const vector<string> & lines) {
                     medals.resize(0);
                 } else {
                     individualSport->setCompetitions(competitions);
-                    for (size_t i = 0; i < athletes.size(); i++) {
-                        if (athletes[i]->getSport() == individualSport->getName())
-                            individualSport->addAthlete(athletes[i]);
+                    for (auto & athlete : athletes) {
+                        if (athlete->getSport() == individualSport->getName())
+                            individualSport->addAthlete(athlete);
                     }
                     sports.push_back(individualSport);
                 }
@@ -340,7 +337,7 @@ void Delegation::readCompetitionsFile(const vector<string> & lines) {
                         individualSport->setName(name);
                     else if (stoi(line) > 1) {
                         teamSport->setName(name);
-                        team = true;
+                        //team = true;
                         teamSport->setNumberofElements(stoi(line));
                     } else // se for 0
                         throw FileStructureError(peopleFilename);
@@ -367,8 +364,7 @@ void Delegation::readCompetitionsFile(const vector<string> & lines) {
                     competition.setEnd(d);
                     break;
                 case 4:
-                    if (checkDateInput(line, d) !=
-                        0) //pode-se confirmar também se end é depois de begin e se end é antes do fim dos jogos
+                    if (checkDateInput(line, d) != 0) //pode-se confirmar também se end é depois de begin e se end é antes do fim dos jogos
                         throw FileStructureError(peopleFilename);
                     competition.setEnd(d);
                     break;
@@ -388,6 +384,7 @@ void Delegation::readCompetitionsFile(const vector<string> & lines) {
                             else
                                 medal.setType('b');
                             medals.push_back(medal);
+                            medalCount++;
                         }
                     }
                     participantsStream.clear();
@@ -434,8 +431,8 @@ const string &Delegation::getCountry() const {
     return country;
 }
 
-void Delegation::setCountry(const string &country) {
-    this->country = country;
+void Delegation::setCountry(const string &count) {
+    this->country = count;
 }
 
 float Delegation::getDailyCostAthlete() const {
@@ -458,19 +455,19 @@ float Delegation::getTotalCost() const {
     return totalCost;
 }
 
-void Delegation::setTotalCost(float totalCost) {
-    this->totalCost = totalCost;
+void Delegation::setTotalCost(float totalcost) {
+    this->totalCost = totalcost;
 }
 
 
 void Delegation::calculateTotalCost() {
     float result = 0;
 
-    for(int i = 0; i < people.size(); i++){
-        if(people.at(i)->isAthlete()){
-            result += daysBetween(people.at(i)->getArrival(), people.at(i)->getDeparture()) * dailyCostAthlete;
+    for(auto & i : people){
+        if(i->isAthlete()){
+            result += (float)daysBetween(i->getArrival(), i->getDeparture()) * dailyCostAthlete;
         } else {
-            result += daysBetween(people.at(i)->getArrival(), people.at(i)->getDeparture()) * dailyCostStaff;
+            result += (float)daysBetween(i->getArrival(), i->getDeparture()) * dailyCostStaff;
         }
     }
 
@@ -487,14 +484,14 @@ string Delegation::info(){
 }
 //File Errors - Exceptions
 
-FileError::FileError(string file) : file(file){}
+FileError::FileError(string file) : file(move(file)){}
 
 ostream & operator << (ostream & os, const FileError & file){
     os <<"Error opening file " << file.file << "!"<<endl;
     return os;
 }
 
-FileStructureError::FileStructureError(string file) : file(file){}
+FileStructureError::FileStructureError(string file) : file(move(file)){}
 
 ostream & operator << (ostream & os, const FileStructureError & file){
     os <<"The structure of file " << file.file << " is not the expected!"<<endl;
