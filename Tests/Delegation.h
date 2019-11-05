@@ -16,9 +16,9 @@ class Delegation {
     string peopleFilename; /**< Nome do ficheiro People.txt*/
     string competitionsFilename; /**< Nome do ficheiro de competições*/
     string country;
-    float dailyCostStaff;
-    float dailyCostAthlete;
-    float totalCost;
+    float dailyCostStaff{};
+    float dailyCostAthlete{};
+    float totalCost{};
     vector<Person *> people;
     vector<Athlete *> athletes;
     vector<Team*> teams;
