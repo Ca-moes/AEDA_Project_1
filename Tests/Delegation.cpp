@@ -422,9 +422,11 @@ void Delegation::readCompetitionsFile(const vector<string> & lines) {
                     trial.setDate(d);
                     break;
                 case 4:
-                    while (getline(participantsStream, name, ' '))
+                    participantsStream.str(line);
+                    while (getline(participantsStream, name, ','))
                         trialPlayers.push_back(name);
                     trial.setPlayers(trialPlayers);
+                    participantsStream.clear();
                     break;
                 case 5:
                     trial.setWinner(line);

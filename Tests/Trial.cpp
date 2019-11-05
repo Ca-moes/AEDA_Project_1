@@ -38,7 +38,7 @@ void Trial::setName(const string & n){
 }
 
 void Trial::setWinner(const string &w) {
-    this->winner = winner;
+    this->winner = w;
 }
 
 void Trial::setPlayers(const vector<string> & players){
