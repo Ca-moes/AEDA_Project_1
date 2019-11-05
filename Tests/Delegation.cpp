@@ -113,8 +113,8 @@ void Delegation::readPeopleFile(const vector<string> & lines) {
     string line;
     Date d;
     bool readFunc = false;
-    Athlete *a = nullptr;
-    Staff *s = nullptr;
+    Athlete *a;
+    Staff *s;
     //Variables to read Competitions:
     istringstream competitionsStream;
     string compStr;
