@@ -462,6 +462,21 @@ void Delegation::setTotalCost(float totalCost) {
     this->totalCost = totalCost;
 }
 
+
+void Delegation::calculateTotalCost() {
+    float result = 0;
+
+    for(int i = 0; i < people.size(); i++){
+        if(people.at(i)->isAthlete()){
+            result += daysBetween(people.at(i)->getArrival(), people.at(i)->getDeparture()) * dailyCostAthlete;
+        } else {
+            result += daysBetween(people.at(i)->getArrival(), people.at(i)->getDeparture()) * dailyCostStaff;
+        }
+    }
+
+    this->totalCost = result;
+}
+
 string Delegation::info(){
     ostringstream os;
     os <<  left <<setw(17) << "Country" << setw(4) << " "<<  country << setw(3) <<endl;
