@@ -3,7 +3,8 @@
 
 using namespace std;
 
-Sport::~Sport(){}
+Sport::~Sport(){
+}
 
 Sport::Sport(const string &name, const vector<Competition>  & competitions){
     this->name = name;
@@ -16,7 +17,6 @@ const string & Sport::getName() const{
 
 void Sport::setName(string n){
     name = n;
-    cout<< "set name não dá";
 }
 
 void Sport::setCompetitions(const vector<Competition> & competitions){
@@ -113,6 +113,10 @@ const vector<Participant*> & IndividualSport::getParticipants() const{
 
 void  IndividualSport::addAthlete(Athlete* a){
     athletes.push_back(a);
+}
+
+IndividualSport::IndividualSport(){
+
 }
 
 vector<Athlete*> IndividualSport::getAthletes() const{
