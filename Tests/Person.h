@@ -76,7 +76,6 @@ public:
 class Athlete : public Person, public Participant{
     float weight;
     float height;
-    vector<Medal> medals;
 public:
     Athlete();
     Athlete(const string &name, const Date &birth, const string & passport, const Date &arrival, const Date &departure, const string & sport, float weight,

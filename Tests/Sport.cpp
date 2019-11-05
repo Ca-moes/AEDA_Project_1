@@ -109,9 +109,8 @@ void IndividualSport::setParticipants(const vector<Athlete *> & athletes){
 
 IndividualSport::IndividualSport(const IndividualSport & s) : Sport(s.getName(), s.getCompetitions()) {
     vector<Athlete *>::iterator it;
-    Athlete * a;
     for(it = s.getAthletes().begin(); it != s.getAthletes().end(); it++){
-        a = new Athlete(**it);
+        Athlete * a = new Athlete(*(*it));
         athletes.push_back(a);
     }
 }

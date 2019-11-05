@@ -6,7 +6,8 @@
 
 //Person
 Person::Person(const string &name, const Date &birth, const string & passport, const Date &arrival, const Date &departure) : name(
-        name), birth(birth), passport(passport), arrival(arrival), departure(departure) {}
+        name), birth(birth), passport(passport), arrival(arrival), departure(departure) {
+}
 
 Person::Person(){}
 
@@ -122,7 +123,7 @@ Athlete::Athlete(const string &name, const Date &birth, const string & passport,
 Athlete::Athlete() : Person(){
 }
 
-Athlete::Athlete(const Athlete & a) : Person(a.getName(), a.getBirth(), a.getPassport(), a.getArrival(), a.getDeparture()), Participant(a.getSport()){
+Athlete::Athlete(const Athlete & a): Participant(a.getSport()), Person(a.getName(), a.getBirth(), a.getPassport(), a.getArrival(), a.getDeparture()){
     weight = a.getWeight();
     height = a.getHeight();
     competitions = a.getCompetitions();

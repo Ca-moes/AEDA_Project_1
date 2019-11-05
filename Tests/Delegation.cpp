@@ -268,19 +268,27 @@ void Delegation::readCompetitionsFile(const vector<string> & lines) {
     istringstream participantsStream;
     vector<Medal> medals;
     Medal medal;
-    int medalCount=0;
+    int medalCount = 0;
     Trial trial;
     vector<string> trialPlayers;
     vector<Trial> trials;
-    for (size_t i = 0; i < lines.size(); i++) {
+    for (size_t i = 0; i < lines.size()+1; i++) {
+        if(i!=lines.size())
+            line = lines[i];
         numline++;
-        line = lines[i];
 
-        if (numline == 1){// se for a primeira linha de uma pessoa vamos ver se é uma nova modalidade, competição ou jogo
-            if (line.empty()){// Se alinha está vazia vamos ler a próxima competição
-                if (read == 'c' || read == 't'){
-                    if(read == 't')
+        if (numline == 1) {// se for a primeira linha de uma pessoa vamos ver se é uma nova modalidade, competição ou jogo
+            if (line.empty()) {// Se alinha está vazia vamos ler a próxima competição
+                if (read == 'c' || read == 't') {
+                    if (read == 't'){
+                        for(auto &athlete :athletes){
+                           for(auto & comp : athlete->getCompetitions()){
+                               if(comp == competition.getName())
+                                   competition.addParticipant(athlete->getName());
+                           }
+                        }
                         competition.setTrials(trials);
+                    }
                     competition.setMedals(medals);
                     competitions.push_back(competition);
                     medals.resize(0);
@@ -289,13 +297,12 @@ void Delegation::readCompetitionsFile(const vector<string> & lines) {
                 i++;
                 numline = 1;
                 line = lines[i];
-            }
-            else if (line =="////////") {//novo desporto - guardar os dados das competições e jogos e limpar variáveis auxiliares
+            } else if (line =="////////" || i==lines.size()){//novo desporto - guardar os dados das competições e jogos e limpar variáveis auxiliares
                 if (read == 't' || read == 'c')
                     competitions.push_back(competition);
-                if (isTeamSport){
+                if (isTeamSport) {
                     teamSport->setCompetitions(competitions);
-                    for (auto & team : teams) {
+                    for (auto &team : teams) {
                         if (team->getSport() == teamSport->getName())
                             teamSport->addTeam(team);
                     }
@@ -305,18 +312,18 @@ void Delegation::readCompetitionsFile(const vector<string> & lines) {
                     medals.resize(0);
                 } else {
                     individualSport->setCompetitions(competitions);
-                    for (auto & athlete : athletes) {
+                    for (auto &athlete : athletes) {
                         if (athlete->getSport() == individualSport->getName())
                             individualSport->addAthlete(athlete);
                     }
-                    sports.push_back(new IndividualSport(*individualSport));
+                    //sports.push_back(new IndividualSport(*individualSport));
                 }
+                if(lines.size() == i) break;
                 read = 's';
                 numline = 1;
                 i++;
                 line = lines[i];
-            }
-            else if (line == "//") { //novo trial
+            } else if (line == "//") { //novo trial
                 read = 't';
                 numline = 1;
                 i++;
@@ -335,14 +342,14 @@ void Delegation::readCompetitionsFile(const vector<string> & lines) {
                 case 2:
                     if (checkPositiveIntInput(line) != 0) //check int input
                         throw FileStructureError(competitionsFilename);
-                    if (stoi(line) == 1){
+                    if (stoi(line) == 1) {
                         //individual sport
                         individualSport = new IndividualSport();
                         individualSport->setName(name);
                         isTeamSport = false;
-                    }
-                    else if (stoi(line) > 1) {
-                        teamSport = new TeamSport() ;
+                    } else if (stoi(line) > 1) {
+                        //team Sport
+                        teamSport = new TeamSport();
                         teamSport->setName(name);
                         teamSport->setNumberofElements(stoi(line));
                         isTeamSport = true;
@@ -356,14 +363,14 @@ void Delegation::readCompetitionsFile(const vector<string> & lines) {
         }
         //ler competição
         if (read == 'c') {
-            switch (numline){
+            switch (numline) {
                 case 1:
                     competition.setName(line);
                     break;
                 case 2:
                     if (checkDateInput(line, d) != 0)
                         throw FileStructureError(competitionsFilename);
-                    if(d.isOlimpianDate())
+                    if (d.isOlimpianDate())
                         competition.setBegin(d);
                     else
                         throw FileStructureError(peopleFilename);
@@ -371,7 +378,7 @@ void Delegation::readCompetitionsFile(const vector<string> & lines) {
                 case 3:
                     if (checkDateInput(line, d) != 0)
                         throw FileStructureError(competitionsFilename);
-                    if(d.isOlimpianDate()) {
+                    if (d.isOlimpianDate()) {
                         competition.setEnd(d);
                     } else {
                         throw FileStructureError(competitionsFilename);
@@ -380,13 +387,13 @@ void Delegation::readCompetitionsFile(const vector<string> & lines) {
                 case 4:
                     //ler competições - confirmar estrutura
                     participantsStream.str(line);
-                    while (getline(participantsStream, name, ',')){
+                    while (getline(participantsStream, name, ',')) {
                         if (name.find('-') != string::npos) {
                             pCountry = name.substr(0, name.find('-'));
-                            participant = name.substr(name.find('-')+1, name.size());
+                            participant = name.substr(name.find('-') + 1, name.size());
                             medal.setWinner(participant);
                             medal.setCountry(pCountry);
-                            if(medalCount == 0)
+                            if (medalCount == 0)
                                 medal.setType('g');
                             else if (medalCount == 1)
                                 medal.setType('s');
@@ -398,7 +405,7 @@ void Delegation::readCompetitionsFile(const vector<string> & lines) {
                     }
                     participantsStream.clear();
                     numline = 0;
-                    medalCount=0;
+                    medalCount = 0;
                     break;
                 default:
                     throw FileStructureError(competitionsFilename);
@@ -438,30 +445,6 @@ void Delegation::readCompetitionsFile(const vector<string> & lines) {
             }
         }
     }
-
-    /*if (read == 'c' || read == 't'){
-        if(read == 't')
-           competition.setTrials(trials);
-        competition.setMedals(medals);
-        competitions.push_back(competition);
-        if(isTeamSport){
-            teamSport->setCompetitions(competitions);
-            for (auto & team : teams) {
-                if (team->getSport() == teamSport->getName())
-                    teamSport->addTeam(team);
-            }
-            sports.push_back( new TeamSport(*teamSport));
-        }
-        else{
-            individualSport->setCompetitions(competitions);
-            for (auto & athlete : athletes) {
-                if (athlete->getSport() == individualSport->getName())
-                    individualSport->addAthlete(athlete);
-            }
-            sports.push_back( new IndividualSport(*individualSport));
-        }
-    }*/
-
 }
 const string &Delegation::getCountry() const {
     return country;
