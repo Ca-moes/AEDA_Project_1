@@ -18,11 +18,37 @@
 int checkinputchoice(string& test, int lowerlimit, int upperlimit);
 
 /**
- * Display main menu with option to manage a delegation in a friendly way
+ * Display main menu with option to manage a delegation in a friendly way, connecting to submenus
  *
  * @param delegation a delegation
  */
 void mainMenu(Delegation &delegation);
 
+/**
+ * Display participants menu that redirects the user to submenus to manage athletes, teams, staff members and also to show all participants
+ *
+ * @param delegation a delegation
+ */
+void participantsMenu(Delegation & delegation);
 
+/**
+ * Display sports menu that redirects the user to submenus to manage competitions of a specific sport
+ *
+ * @param delegation a delegation
+ */
+void sportsMenu(Delegation & delegation);
+
+/**
+ * Display staff's menu that allows the use to manage staff's members - add, remove, change and check information
+ *
+ * @param delegation a delegation
+ */
+void staffMenu(Delegation & delegation);
+
+/**
+ * Display athletes menu that allows the user to add, remove, change athletes and to check athletes information
+ *
+ * @param delegation a delegation
+ */
+void athletesMenu(Delegation & delegation);
 #endif //PROJECT_1_MENUS_H
