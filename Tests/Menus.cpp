@@ -10,19 +10,19 @@ using namespace std;
 int checkinputchoice(string& test, int lowerlimit, int upperlimit) {
     do {
         getline(cin, test);
-        if (cin.eof()) { // se o input falhar
-            cin.clear(); // limpa o buffer
-            return 1; //dá erro
+        if (cin.eof()) {
+            cin.clear();
+            return 2;//ctrl z
         }
+
     } while (test.length() == 0);
     test = regex_replace(test, regex("^ +| +$|( ) +"), "$1"); // remove espaços no fim, inicio e meio
-
     for (unsigned int i = 0; i < test.length(); i++)
     {
-        if (!isdigit(test[i]))//se o input não for um dígito
+        if (!isdigit(test[i]))
             return 1;
     }
-    if (stoi(test) < lowerlimit || stoi(test) > upperlimit) // se for um numero fora dos limites dá erro
+    if (stoi(test) < lowerlimit || stoi(test) > upperlimit)
         return 1;
     return 0;
 }
@@ -47,9 +47,11 @@ void mainMenu(Delegation &delegation){
         //checking if option is valid
         do {
             testinput = checkinputchoice(input, 0, 3);
-            if (testinput != 0)
+            if (testinput != 0 && testinput != 2)
                 cerr << "Invalid option! Please try again." << endl;
-        } while (testinput != 0);
+        } while (testinput != 0 && testinput != 2);
+        if (testinput == 2)
+            input = "0";
 
         switch (stoi(input)) {
             case 1:
@@ -78,7 +80,7 @@ void participantsMenu(Delegation & delegation) {
     {
         system("cls");
         cout << "_____________________________________________________" << endl << endl;
-        cout << "\t\t   Participants Options " << endl;
+        cout << "\t\t   Members Options " << endl;
         cout << "_____________________________________________________" << endl << endl;
 
         //show client's menu
@@ -89,10 +91,12 @@ void participantsMenu(Delegation & delegation) {
         cout << "0 - BACK (Main Menu)" << endl;
 
         do {
-            testinput = checkinputchoice(input, 0, 3);
-            if (testinput != 0)
+            testinput = checkinputchoice(input, 0, 4);
+            if (testinput != 0 && testinput != 2)
                 cerr << "Invalid option! Please try again." << endl;
-        } while (testinput != 0);
+        } while (testinput != 0 && testinput != 2);
+        if (testinput == 2)
+            input = "0";
 
         switch (stoi(input)) {
             case 1:
@@ -130,10 +134,12 @@ void sportsMenu(Delegation & delegation) {
         cout << "0 - BACK" << endl;
 
         do {
-            testinput = checkinputchoice(input, 0, 3);
-            if (testinput != 0)
+            testinput = checkinputchoice(input, 0, 6);
+            if (testinput != 0 && testinput != 2)
                 cerr << "Invalid option! Please try again." << endl;
-        } while (testinput != 0);
+        } while (testinput != 0 && testinput != 2);
+        if (testinput == 2)
+        { input = "0"; }
 
         switch (stoi(input)) {
             case 1:
@@ -171,10 +177,12 @@ void resultsMenu(Delegation & delegation) {
         cout << "0 - BACK (Main Menu)" << endl;
 
         do {
-            testinput = checkinputchoice(input, 0, 4);
-            if (testinput != 0)
+            testinput = checkinputchoice(input, 0, 6);
+            if (testinput != 0 && testinput != 2)
                 cerr << "Invalid option! Please try again." << endl;
-        } while (testinput != 0);
+        } while (testinput != 0 && testinput != 2);
+        if (testinput == 2)
+        { input = "0"; }
 
         switch (stoi(input)) {
             case 1:
@@ -211,13 +219,15 @@ void staffMenu(Delegation & delegation) {
         cout << "2 - Remove Staff member" << endl;
         cout << "3 - Change Staff member" << endl;
         cout << "4 - Show Staff members" << endl;
-        cout << "0 - BACK (Main Menu)" << endl;
+        cout << "0 - BACK" << endl;
 
         do {
-            testinput = checkinputchoice(input, 0, 4);
-            if (testinput != 0)
+            testinput = checkinputchoice(input, 0, 6);
+            if (testinput != 0 && testinput != 2)
                 cerr << "Invalid option! Please try again." << endl;
-        } while (testinput != 0);
+        } while (testinput != 0 && testinput != 2);
+        if (testinput == 2)
+            input = "0";
 
         switch (stoi(input)) {
             case 1:
@@ -298,13 +308,13 @@ void teamsMenu(Delegation & delegation) {
         cout << "3 - Remove Athlete" << endl;
         cout << "4 - View Athlete Info (by PASSPORT)" << endl;
         cout << "5 - View All Athletes Info" << endl;
-        cout << "0 - BACK (Main Menu)" << endl;
+        cout << "0 - BACK" << endl;
 
         do {
             testinput = checkinputchoice(input, 0, 5);
-            if (testinput != 0 && testinput != 2)
+            if (testinput != 0)
                 cerr << "Invalid option! Please try again." << endl;
-        } while (testinput != 0 && testinput != 2); if (testinput == 2) { input = "0"; }
+        } while (testinput != 0);
 
         switch (stoi(input)) {
             case 1:
