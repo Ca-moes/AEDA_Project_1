@@ -26,6 +26,13 @@ int checkInvalidType(istream & in);
 int checkStringInput(string & str);
 
 /**
+* Check if a string is alphanumeric : non empty and with no symbols
+*
+* @returns 0 if string is valid and 1 otherwise
+*/
+int checkAlphaNumericInput(string & str);
+
+/**
 * Check if a string can be converted to float
 *
 * @returns 0 if the string is convertible to float

@@ -108,6 +108,12 @@ public:
     * @returns the Delegation's information
     */
     string info();
+
+    /**
+    * Adds a staff member to the people vector
+    *
+    */
+    void addStaffMember();
     void showPortugueseMembers();
 };
 

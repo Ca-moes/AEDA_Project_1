@@ -58,7 +58,7 @@ CB162732
 29/07/2020
 02/08/2020
 Badminton
-Pares_Masculinos
+ParesMasculinos
 120
 150
 
@@ -68,6 +68,6 @@ CB846485
 29/07/2020
 04/08/2020
 Badminton
-Pares_Masculinos
+ParesMasculinos
 115
 153

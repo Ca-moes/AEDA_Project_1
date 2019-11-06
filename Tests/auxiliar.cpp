@@ -23,6 +23,18 @@ int checkStringInput(string & str) {
     return 0;
 }
 
+int checkAlphaNumericInput(string & str){
+    //check if the string is empty
+    if (str.empty()) return 1;
+
+    //check for non alphanumeric values that make the string invalid
+    for (unsigned int i = 0; i < str.length(); i++)
+    {
+        if (!isalnum(str[i]) && str[i] != ' ') return 1;
+    }
+    return 0;
+}
+
 int checkFloatInput(string & str) {
     //check if the string is empty
     try{

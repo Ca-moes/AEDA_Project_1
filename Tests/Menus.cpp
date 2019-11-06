@@ -127,7 +127,7 @@ void sportsMenu(Delegation & delegation) {
         cout << "2 - Teams" << endl;
         cout << "3 - Staff" << endl;
         cout << "4 - All Participants" << endl;
-        cout << "0 - BACK (Main Menu)" << endl;
+        cout << "0 - BACK" << endl;
 
         do {
             testinput = checkinputchoice(input, 0, 3);
@@ -143,7 +143,7 @@ void sportsMenu(Delegation & delegation) {
                 //teamsMenu(delegation);
                 break;
             case 3:
-                //staffMenu(delegation);
+                staffMenu(delegation);
                 break;
             case 4:
                 //showParticipants();
@@ -171,7 +171,7 @@ void resultsMenu(Delegation & delegation) {
         cout << "0 - BACK (Main Menu)" << endl;
 
         do {
-            testinput = checkinputchoice(input, 0, 3);
+            testinput = checkinputchoice(input, 0, 4);
             if (testinput != 0)
                 cerr << "Invalid option! Please try again." << endl;
         } while (testinput != 0);
@@ -214,14 +214,14 @@ void staffMenu(Delegation & delegation) {
         cout << "0 - BACK (Main Menu)" << endl;
 
         do {
-            testinput = checkinputchoice(input, 0, 3);
+            testinput = checkinputchoice(input, 0, 4);
             if (testinput != 0)
                 cerr << "Invalid option! Please try again." << endl;
         } while (testinput != 0);
 
         switch (stoi(input)) {
             case 1:
-                //addStaffMember();
+                delegation.addStaffMember();
                 break;
             case 2:
                 //removeStaffMember();
@@ -253,13 +253,13 @@ void athletesMenu(Delegation & delegation) {
         cout << "3 - Remove Athlete" << endl;
         cout << "4 - View Athlete Info (by PASSPORT)" << endl;
         cout << "5 - View All Athletes Info" << endl;
-        cout << "0 - BACK (Main Menu)" << endl;
+        cout << "0 - BACK" << endl;
 
         do {
             testinput = checkinputchoice(input, 0, 5);
-            if (testinput != 0 && testinput != 2)
+            if (testinput != 0)
                 cerr << "Invalid option! Please try again." << endl;
-        } while (testinput != 0 && testinput != 2); if (testinput == 2) { input = "0"; }
+        } while (testinput != 0);
 
         switch (stoi(input)) {
             case 1:
