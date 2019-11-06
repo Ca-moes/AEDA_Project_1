@@ -10,19 +10,19 @@ using namespace std;
 int checkinputchoice(string& test, int lowerlimit, int upperlimit) {
     do {
         getline(cin, test);
-        if (cin.eof()) {
+        if (cin.eof()){
             cin.clear();
-            return 2;//ctrl z
+            return 2;//go back on ctrl+d
         }
 
     } while (test.length() == 0);
     test = regex_replace(test, regex("^ +| +$|( ) +"), "$1"); // remove espaços no fim, inicio e meio
     for (unsigned int i = 0; i < test.length(); i++)
     {
-        if (!isdigit(test[i]))
+        if (!isdigit(test[i]))//se não for um dígito não é uma opção válida
             return 1;
     }
-    if (stoi(test) < lowerlimit || stoi(test) > upperlimit)
+    if (stoi(test) < lowerlimit || stoi(test) > upperlimit) //se não estiver dentro dos limites
         return 1;
     return 0;
 }
@@ -222,12 +222,12 @@ void staffMenu(Delegation & delegation) {
         cout << "0 - BACK" << endl;
 
         do {
-            testinput = checkinputchoice(input, 0, 6);
+            testinput = checkinputchoice(input, 0, 4);
             if (testinput != 0 && testinput != 2)
                 cerr << "Invalid option! Please try again." << endl;
         } while (testinput != 0 && testinput != 2);
         if (testinput == 2)
-            input = "0";
+        { input = "0"; }
 
         switch (stoi(input)) {
             case 1:
@@ -267,9 +267,11 @@ void athletesMenu(Delegation & delegation) {
 
         do {
             testinput = checkinputchoice(input, 0, 5);
-            if (testinput != 0)
+            if (testinput != 0 && testinput != 2)
                 cerr << "Invalid option! Please try again." << endl;
-        } while (testinput != 0);
+        } while (testinput != 0 && testinput != 2);
+        if (testinput == 2)
+        { input = "0"; }
 
         switch (stoi(input)) {
             case 1:
@@ -312,9 +314,11 @@ void teamsMenu(Delegation & delegation) {
 
         do {
             testinput = checkinputchoice(input, 0, 5);
-            if (testinput != 0)
+            if (testinput != 0 && testinput != 2)
                 cerr << "Invalid option! Please try again." << endl;
-        } while (testinput != 0);
+        } while (testinput != 0 && testinput != 2);
+        if (testinput == 2)
+        { input = "0"; }
 
         switch (stoi(input)) {
             case 1:

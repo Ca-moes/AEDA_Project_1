@@ -532,11 +532,11 @@ void Delegation::addStaffMember() {
     Date tmp_date;
 
     cout << "Name: ";
-    cin >> tmp;
+    getline(cin,tmp);
     while(checkStringInput(tmp)){
         cout << "Invalid Name. Try again!" << endl;
         cout << "Name: ";
-        cin >> tmp;
+        getline(cin,tmp);
     }
     novo->setName(tmp);
 
@@ -577,11 +577,11 @@ void Delegation::addStaffMember() {
     novo->setDeparture(tmp_date);
 
     cout << "Function: ";
-    cin >> tmp;
+    getline(cin,tmp);
     while(checkStringInput(tmp) == 1){
         cout << "Invalid Function. Try again!" << endl;
         cout << "Function: ";
-        cin >> tmp;
+        getline(cin,tmp);
     }
     novo->setFunction(tmp);
 
