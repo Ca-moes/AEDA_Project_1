@@ -317,7 +317,6 @@ void Delegation::readCompetitionsFile(const vector<string> & lines) {
                             individualSport->addAthlete(athlete);
                     }
                     sports.push_back(new IndividualSport(*individualSport));
-                    cout << "pushed the new individual sport to the vector"<<endl;
                 }
                 if(lines.size() == i) break;
                 read = 's';

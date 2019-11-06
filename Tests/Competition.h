@@ -28,6 +28,7 @@ public:
     void setBegin(const Date &b);
     void setEnd(const Date &e);
     void setMedals(const vector<Medal> &medals);
+    const vector<Medal> & getMedals() const;
     void setTrials(const vector<Trial> & trials);
     const vector<Trial> & getTrials() const;
     void addTrial(const Trial & t);

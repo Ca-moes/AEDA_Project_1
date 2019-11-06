@@ -27,9 +27,10 @@ Competition::Competition(const Competition & c){
     name = c.getName();
     begin = c.getBegin();
     end = c.getEnd();
-    for(size_t i = 0; i< c.getTrials().size(); i++){
+    for(size_t i = 0; i< c.getTrials().size(); i++)
         trials.push_back(Trial(c.getTrials()[i]));
-    }
+    for(size_t i = 0; i< c.getMedals().size(); i++)
+        medals.push_back( c.getMedals()[i]);
 }
 
 const Date & Competition::getBegin() const{
@@ -42,6 +43,10 @@ const Date & Competition::getEnd() const{
 
 const string &  Competition::getName() const{
     return name;
+}
+
+const vector<Medal> & Competition::getMedals() const {
+    return medals;
 }
 
 void Competition::setName(const string &n) {
@@ -98,8 +103,15 @@ string Competition::info() const{
     os <<  left <<setw(17) << "Name" << setw(4) << " "<<  getName() << setw(3) <<endl;
     os <<  left <<setw(17) << "Begin Date" << setw(4) << " "<< getBegin() << setw(3) <<endl;
     os <<  left <<setw(17) << "End Date" << setw(4) << " "<< getEnd() << setw(3) <<endl;
-    for(const auto & trial : trials)
-        os << trial.info()<<" ";
+    if(!trials.empty()){
+        os <<  left <<setw(17) << "Trials" <<setw(4) << endl;
+        for(const auto & trial : trials)
+            os << trial.info()<<" ";
+        os << endl;
+    }
+    os <<  left <<setw(17) << "Medals" << setw(4) <<endl;
+    for(const auto & medal : getMedals())
+        os << medal.info()<<" ";
     os << endl;
     return os.str();
 }

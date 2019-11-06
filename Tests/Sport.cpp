@@ -62,6 +62,7 @@ string Sport::info() const{
         os << competition.info() <<" ";
         os << endl;
     }
+    os<< endl<<endl;
     return os.str();
 }
 
