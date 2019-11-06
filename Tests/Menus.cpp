@@ -34,9 +34,9 @@ void mainMenu(Delegation &delegation){
     do
     {
         system("cls");
-        cout << "_____________________________________________________" << endl << endl;
+        cout << "_____________________________________________________________________________" << endl << endl;
         cout << "\t\t" << delegation.getCountry() << "'s Olympic Delegation - Tokyo 2020" << endl;
-        cout << "_____________________________________________________" << endl << endl;
+        cout << "_____________________________________________________________________________" << endl << endl;
 
         cout << "Choose a option by typing a number and pressing Enter." << endl << endl;
         //show the main menu

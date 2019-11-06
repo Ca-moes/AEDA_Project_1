@@ -4,6 +4,7 @@
 
 #include "Delegation.h"
 #include "auxiliar.h"
+#include "Menus.h"
 #include <regex>
 #include <sstream>
 #include <utility>
@@ -20,6 +21,8 @@ Delegation::Delegation(){
         cout << s << endl;
         throw;
     }
+
+    mainMenu(*this);
 }
 
 void Delegation::readDelegationFile(){
@@ -93,6 +96,14 @@ void Delegation::readDelegationFile(){
     //for(size_t i = 0; i< people.size(); i++)
         //cout << (people[i])->info() << endl;
 
+    //Read teams file - necessário ler mais uma linha no ficheiro da delegação(adicionar no ficheiro), completar ficheiro das equipas e criar função para as ler
+    //delegationFile.open(peopleFilename+".txt");
+    //if(delegationFile.fail())
+        //throw FileError(peopleFilename+".txt");
+    //readPeopleFile(fileToLineVector(delegationFile));
+    //delegationFile.close();
+    //delegationFile.clear();
+
     //Read competitions file
     delegationFile.open(competitionsFilename+".txt");
     if(delegationFile.fail()) {
@@ -102,9 +113,8 @@ void Delegation::readDelegationFile(){
     delegationFile.clear();
 
     //for testing purposes - print sports
-    for(auto & sport : sports){
-        cout << sport->info()<<endl;
-    }
+    //for(auto & sport : sports)
+        //cout << sport->info()<<endl;
 }
 
 void Delegation::readPeopleFile(const vector<string> & lines) {
