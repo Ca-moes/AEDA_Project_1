@@ -59,12 +59,13 @@ private:
 };
 
 class Participant {
-    string sport;
 protected:
+    string sport;
     vector<string> competitions;
 public:
     Participant(){}
     Participant(const string & sport);
+    Participant(const string & sport,const vector<string> & comp);
     virtual const string &getName() const=0;
     virtual void setName(const string &name)=0;
     void setCompetitions(const vector<string> & competitions);
@@ -77,7 +78,7 @@ class Athlete : public Person, public Participant{
     float weight;
     float height;
 public:
-    Athlete();
+    Athlete(){};
     Athlete(const string &name, const Date &birth, const string & passport, const Date &arrival, const Date &departure, const string & sport, float weight,
             float height);
     Athlete(const Athlete & a); //copy constructor;

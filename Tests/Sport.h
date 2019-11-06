@@ -47,8 +47,7 @@ class IndividualSport: public Sport{
     vector<Athlete*> athletes;
 public:
     IndividualSport(const IndividualSport & s);
-    IndividualSport(Sport * sport);
-    IndividualSport();
+    IndividualSport(){};
     void setParticipants(const vector<Athlete*> & athletes);
     const vector<Participant*> & getParticipants() const;
     void addAthlete(Athlete* a);

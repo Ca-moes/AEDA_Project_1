@@ -127,10 +127,6 @@ void  IndividualSport::addAthlete(Athlete* a){
     athletes.push_back(a);
 }
 
-IndividualSport::IndividualSport(){
-
-}
-
 vector<Athlete*> IndividualSport::getAthletes() const{
     return athletes;
 }
