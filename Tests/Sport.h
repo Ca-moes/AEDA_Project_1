@@ -9,9 +9,9 @@ class Athlete;
 class Participant;
 
 class Sport {
-    string name;
     vector<Competition> competitions;
 public:
+    string name;
     Sport(){};
     ~Sport();
     Sport(const string &name, const vector<Competition>  & competitions);
@@ -47,7 +47,7 @@ class IndividualSport: public Sport{
     vector<Athlete*> athletes;
 public:
     IndividualSport(const IndividualSport & s);
-    IndividualSport(Sport * sport);
+    IndividualSport(){};
     void setParticipants(const vector<Athlete*> & athletes);
     const vector<Participant*> & getParticipants() const;
     void addAthlete(Athlete* a);

@@ -102,9 +102,8 @@ void Delegation::readDelegationFile(){
     delegationFile.clear();
 
     //for testing purposes - print sports
-    cout << sports.size();
     for(auto & sport : sports){
-        cout << sport->info();
+        cout << sport->info()<<endl;
     }
 }
 
@@ -260,8 +259,8 @@ void Delegation::readCompetitionsFile(const vector<string> & lines) {
     Date d;
     char read = 's'; // auxiliar para saber se vamos ler um sport, uma competition ou um trial (s,c ou t)
     //objects to create a sport
-    //bool team = false;   <- mudificado na linha 339 mas não usado em lado nenhum
-    TeamSport *teamSport ;
+    bool isTeamSport = false;
+    TeamSport *teamSport;
     IndividualSport *individualSport;
     string name, participant, pCountry;
     Competition competition;
@@ -269,31 +268,41 @@ void Delegation::readCompetitionsFile(const vector<string> & lines) {
     istringstream participantsStream;
     vector<Medal> medals;
     Medal medal;
-    int medalCount=0;
+    int medalCount = 0;
     Trial trial;
     vector<string> trialPlayers;
     vector<Trial> trials;
-    for (size_t i = 0; i < lines.size(); i++) {
+    for (size_t i = 0; i < lines.size()+1; i++) {
+        if(i!=lines.size())
+            line = lines[i];
         numline++;
-        line = lines[i];
 
         if (numline == 1) {// se for a primeira linha de uma pessoa vamos ver se é uma nova modalidade, competição ou jogo
-            if (line.empty()){// Se alinha está vazia vamos ler a próxima competição
-                if (read == 'c' || read == 't'){
+            if (line.empty()) {// Se alinha está vazia vamos ler a próxima competição
+                if (read == 'c' || read == 't') {
+                    if (read == 't'){
+                        for(auto &athlete :athletes){
+                           for(auto & comp : athlete->getCompetitions()){
+                               if(comp == competition.getName())
+                                   competition.addParticipant(athlete->getName());
+                           }
+                        }
+                        competition.setTrials(trials);
+                    }
+                    competition.setMedals(medals);
                     competitions.push_back(competition);
                     medals.resize(0);
-                    medalCount = 0;
                 }
                 read = 'c';
                 i++;
+                numline = 1;
                 line = lines[i];
-            }
-            else if (line =="////////") {//novo desporto - guardar os dados das competições e jogos e limpar variáveis auxiliares
+            } else if (line =="////////" || i==lines.size()){//novo desporto - guardar os dados das competições e jogos e limpar variáveis auxiliares; ou útlima linha do ficheiro
                 if (read == 't' || read == 'c')
                     competitions.push_back(competition);
-                if (teamSport){
+                if (isTeamSport){
                     teamSport->setCompetitions(competitions);
-                    for (auto & team : teams) {
+                    for (auto &team : teams) {
                         if (team->getSport() == teamSport->getName())
                             teamSport->addTeam(team);
                     }
@@ -303,18 +312,18 @@ void Delegation::readCompetitionsFile(const vector<string> & lines) {
                     medals.resize(0);
                 } else {
                     individualSport->setCompetitions(competitions);
-                    for (auto & athlete : athletes) {
+                    for (auto &athlete : athletes) {
                         if (athlete->getSport() == individualSport->getName())
                             individualSport->addAthlete(athlete);
                     }
-                    sports.push_back(individualSport);
+                    sports.push_back(new IndividualSport(*individualSport));
                 }
+                if(lines.size() == i) break;
                 read = 's';
                 numline = 1;
                 i++;
                 line = lines[i];
-            }
-            else if (line == "//") { //novo trial
+            } else if (line == "//") { //novo trial
                 read = 't';
                 numline = 1;
                 i++;
@@ -327,24 +336,29 @@ void Delegation::readCompetitionsFile(const vector<string> & lines) {
             switch (numline) {
                 case 1:
                     if (checkStringInput(line) != 0)
-                        throw FileStructureError(peopleFilename);
+                        throw FileStructureError(competitionsFilename);
                     name = line;
                     break;
                 case 2:
                     if (checkPositiveIntInput(line) != 0) //check int input
-                        throw FileStructureError(peopleFilename);
-                    if (stoi(line) == 1) //individual sport
+                        throw FileStructureError(competitionsFilename);
+                    if (stoi(line) == 1) {
+                        //individual sport
+                        individualSport = new IndividualSport();
                         individualSport->setName(name);
-                    else if (stoi(line) > 1) {
+                        isTeamSport = false;
+                    } else if (stoi(line) > 1) {
+                        //team Sport
+                        teamSport = new TeamSport();
                         teamSport->setName(name);
-                        //team = true;
                         teamSport->setNumberofElements(stoi(line));
+                        isTeamSport = true;
                     } else // se for 0
-                        throw FileStructureError(peopleFilename);
+                        throw FileStructureError(competitionsFilename);
                     numline = 0;
                     break;
                 default:
-                    throw FileStructureError(peopleFilename);
+                    throw FileStructureError(competitionsFilename);
             }
         }
         //ler competição
@@ -355,29 +369,31 @@ void Delegation::readCompetitionsFile(const vector<string> & lines) {
                     break;
                 case 2:
                     if (checkDateInput(line, d) != 0)
+                        throw FileStructureError(competitionsFilename);
+                    if (d.isOlimpianDate())
+                        competition.setBegin(d);
+                    else
                         throw FileStructureError(peopleFilename);
-                    competition.setBegin(d);
                     break;
                 case 3:
-                    if (checkDateInput(line, d) != 0)//pode-se confirmar também se begin é na data dos jogos
-                        throw FileStructureError(peopleFilename);
-                    competition.setEnd(d);
+                    if (checkDateInput(line, d) != 0)
+                        throw FileStructureError(competitionsFilename);
+                    if (d.isOlimpianDate()) {
+                        competition.setEnd(d);
+                    } else {
+                        throw FileStructureError(competitionsFilename);
+                    }
                     break;
                 case 4:
-                    if (checkDateInput(line, d) != 0) //pode-se confirmar também se end é depois de begin e se end é antes do fim dos jogos
-                        throw FileStructureError(peopleFilename);
-                    competition.setEnd(d);
-                    break;
-                case 5:
                     //ler competições - confirmar estrutura
                     participantsStream.str(line);
                     while (getline(participantsStream, name, ',')) {
                         if (name.find('-') != string::npos) {
                             pCountry = name.substr(0, name.find('-'));
-                            participant = name.substr(name.find('-'), name.size());
+                            participant = name.substr(name.find('-') + 1, name.size());
                             medal.setWinner(participant);
                             medal.setCountry(pCountry);
-                            if(medalCount == 0)
+                            if (medalCount == 0)
                                 medal.setType('g');
                             else if (medalCount == 1)
                                 medal.setType('s');
@@ -389,9 +405,10 @@ void Delegation::readCompetitionsFile(const vector<string> & lines) {
                     }
                     participantsStream.clear();
                     numline = 0;
+                    medalCount = 0;
                     break;
                 default:
-                    throw FileStructureError(peopleFilename);
+                    throw FileStructureError(competitionsFilename);
             }
         }
         //ler jogo
@@ -402,19 +419,21 @@ void Delegation::readCompetitionsFile(const vector<string> & lines) {
                     break;
                 case 2:
                     if (checkPositiveIntInput(line) != 0)
-                        throw FileStructureError(peopleFilename);
+                        throw FileStructureError(competitionsFilename);
                     if (stoi(line) != 0)
                         trial.setNumberOfElements(stoi(line));
                     break;
                 case 3:
                     if (checkDateInput(line, d) != 0)
-                        throw FileStructureError(peopleFilename);
+                        throw FileStructureError(competitionsFilename);
                     trial.setDate(d);
                     break;
                 case 4:
-                    while (getline(participantsStream, name, ' '))
+                    participantsStream.str(line);
+                    while (getline(participantsStream, name, ','))
                         trialPlayers.push_back(name);
                     trial.setPlayers(trialPlayers);
+                    participantsStream.clear();
                     break;
                 case 5:
                     trial.setWinner(line);
@@ -422,7 +441,7 @@ void Delegation::readCompetitionsFile(const vector<string> & lines) {
                     trials.push_back(trial);
                     break;
                 default:
-                    throw FileStructureError(peopleFilename);
+                    throw FileStructureError(competitionsFilename);
             }
         }
     }

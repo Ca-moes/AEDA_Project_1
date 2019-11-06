@@ -26,6 +26,8 @@ public:
 
     void setCountry(const string &country);
 
+    string info() const;
+
 private:
     char type;
     string winner;

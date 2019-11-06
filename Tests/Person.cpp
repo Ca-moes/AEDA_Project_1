@@ -6,7 +6,8 @@
 
 //Person
 Person::Person(const string &name, const Date &birth, const string & passport, const Date &arrival, const Date &departure) : name(
-        name), birth(birth), passport(passport), arrival(arrival), departure(departure) {}
+        name), birth(birth), passport(passport), arrival(arrival), departure(departure) {
+}
 
 Person::Person(){}
 
@@ -88,16 +89,9 @@ string Staff::info(){
 
 //Participant
 
-Participant::Participant(const string & sport) : sport(sport){}
+Participant::Participant(const string & sport, const vector<string> & comp) : sport(sport), competitions(comp){}
 
-/*unsigned int Participant::getRanking() const {
-    return ranking;
-}
-
-void Participant::setRanking(int ranking) {
-    this->ranking = ranking;
-}*/
-
+Participant::Participant(const string & sport):sport(sport){}
 const string & Participant::getSport() const {
     return sport;
 }
@@ -119,10 +113,8 @@ const vector<string> & Participant::getCompetitions() const{
 Athlete::Athlete(const string &name, const Date &birth, const string & passport, const Date &arrival, const Date &departure, const string & sport, float weight,
                  float height) : Person(name, birth, passport, arrival, departure), Participant(sport), weight(weight), height(height){}
 
-Athlete::Athlete() : Person(){
-}
 
-Athlete::Athlete(const Athlete & a) : Person(a.getName(), a.getBirth(), a.getPassport(), a.getArrival(), a.getDeparture()), Participant(a.getSport()){
+Athlete::Athlete(const Athlete & a): Person(a.getName(), a.getBirth(), a.getPassport(), a.getArrival(), a.getDeparture()){
     weight = a.getWeight();
     height = a.getHeight();
     competitions = a.getCompetitions();
@@ -178,9 +170,8 @@ void Team::setName(const string &name) {
     this->name = name;
 }
 
-Team::Team(const Team & t) : Participant(t.getSport()){
+Team::Team(const Team & t) : Participant(t.getSport(),t.getCompetitions()){
     name = t.getName();
-    competitions = t.getCompetitions();
     for(size_t i = 0; i< t.getAthletes().size();i++)
         athletes.push_back(t.getAthletes()[i]);
 }

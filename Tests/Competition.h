@@ -19,6 +19,7 @@ class Competition {
     vector<Medal> medals;
 public:
     Competition();
+    Competition(const Competition & c);
     Competition(string name, Date begin, Date end);
     const Date & getBegin() const;
     const Date & getEnd() const;
@@ -27,7 +28,9 @@ public:
     void setBegin(const Date &b);
     void setEnd(const Date &e);
     void setMedals(const vector<Medal> &medals);
-    void setTrial(const vector<Trial> & trials);
+    const vector<Medal> & getMedals() const;
+    void setTrials(const vector<Trial> & trials);
+    const vector<Trial> & getTrials() const;
     void addTrial(const Trial & t);
     void removeTrial(const string & t);
     void updateTrial(const string & t);

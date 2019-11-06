@@ -9,6 +9,18 @@ const string & Trial::getName() const{
     return name;
 }
 
+const vector<string> & Trial::getParticipants() const{
+    return participants;
+}
+
+Trial::Trial(const Trial & t){
+    name = t.getName();
+    date = t.getDate();
+    winner = t.getWinner();
+    numberOfElements = t.getNumberOfElements();
+    participants = t.getParticipants();
+}
+
 const string & Trial::getWinner() const{
     return winner;
 }
@@ -26,7 +38,7 @@ void Trial::setName(const string & n){
 }
 
 void Trial::setWinner(const string &w) {
-    this->winner = winner;
+    this->winner = w;
 }
 
 void Trial::setPlayers(const vector<string> & players){

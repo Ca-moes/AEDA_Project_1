@@ -21,9 +21,11 @@ class Trial {
     unsigned int numberOfElements;
 public:
     Trial(){};
+    Trial(const Trial & t);
     const string & getName() const;
     const string & getWinner() const;
     const Date & getDate() const;
+    const vector<string> & getParticipants() const;
     void setWinner(const string &w);
     void setDate(const Date & d);
     void setName(const string & n);

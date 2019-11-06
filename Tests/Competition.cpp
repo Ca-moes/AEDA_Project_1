@@ -23,6 +23,14 @@ Competition::Competition(string name, Date begin, Date end){
     this ->end = end;
 }
 
+Competition::Competition(const Competition & c){
+    name = c.getName();
+    begin = c.getBegin();
+    end = c.getEnd();
+    trials = c.getTrials();
+    medals = c.getMedals();
+}
+
 const Date & Competition::getBegin() const{
     return begin;
 }
@@ -35,20 +43,28 @@ const string &  Competition::getName() const{
     return name;
 }
 
+const vector<Medal> & Competition::getMedals() const {
+    return medals;
+}
+
 void Competition::setName(const string &n) {
-    this->name = name;
+    this->name = n;
 }
 
 void Competition::setBegin(const Date &b) {
-    this->begin = begin;
+    this->begin = b;
 }
 
 void Competition::setEnd(const Date &e) {
-    this->end = end;
+    this->end = e;
 }
 
-void Competition::setTrial(const vector<Trial> & trials){
-    this->trials=trials;
+void Competition::setTrials(const vector<Trial> & trials){
+    this->trials = trials;
+}
+
+const vector<Trial> & Competition::getTrials() const{
+    return trials;
 }
 
 void Competition::setMedals(const vector<Medal> &medals){
@@ -83,8 +99,15 @@ string Competition::info() const{
     os <<  left <<setw(17) << "Name" << setw(4) << " "<<  getName() << setw(3) <<endl;
     os <<  left <<setw(17) << "Begin Date" << setw(4) << " "<< getBegin() << setw(3) <<endl;
     os <<  left <<setw(17) << "End Date" << setw(4) << " "<< getEnd() << setw(3) <<endl;
-    for(const auto & trial : trials)
-        os << trial.info()<<" ";
+    if(!trials.empty()){
+        os <<  left <<setw(17) << "Trials" <<setw(4) << endl;
+        for(const auto & trial : trials)
+            os << trial.info()<<" ";
+        os << endl;
+    }
+    os <<  left <<setw(17) << "Medals" << setw(4) <<endl;
+    for(const auto & medal : getMedals())
+        os << medal.info()<<" ";
     os << endl;
     return os.str();
 }
