@@ -27,10 +27,8 @@ Competition::Competition(const Competition & c){
     name = c.getName();
     begin = c.getBegin();
     end = c.getEnd();
-    for(size_t i = 0; i< c.getTrials().size(); i++)
-        trials.push_back(Trial(c.getTrials()[i]));
-    for(size_t i = 0; i< c.getMedals().size(); i++)
-        medals.push_back( c.getMedals()[i]);
+    trials = c.getTrials();
+    medals = c.getMedals();
 }
 
 const Date & Competition::getBegin() const{
@@ -62,9 +60,7 @@ void Competition::setEnd(const Date &e) {
 }
 
 void Competition::setTrials(const vector<Trial> & trials){
-    for(size_t i = 0; i< trials.size(); i++){
-        this->trials.push_back(trials[i]);
-    }
+    this->trials = trials;
 }
 
 const vector<Trial> & Competition::getTrials() const{

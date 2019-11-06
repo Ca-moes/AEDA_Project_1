@@ -9,9 +9,7 @@ Sport::~Sport(){
 
 Sport::Sport(const string &name, const vector<Competition>  & competitions){
     this->name = name;
-    for(size_t i = 0; i< competitions.size(); i++){
-        this->competitions.push_back(Competition(competitions[i]));
-    }
+    this->competitions = competitions;
 }
 
 const string & Sport::getName() const{
