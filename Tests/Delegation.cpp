@@ -89,6 +89,9 @@ void Delegation::readDelegationFile(){
     readPeopleFile(fileToLineVector(delegationFile));
     delegationFile.close();
     delegationFile.clear();
+
+    calculateTotalCost();
+
     //for testing purposes
     //print delegation info
     //cout << info();
@@ -163,8 +166,8 @@ void Delegation::readPeopleFile(const vector<string> & lines) {
                     a->setBirth(d);
                     break;
                 case 3:
-                    //if(checkStringInput(line) != 0) // create a function to check passport's formats
-                        //throw FileStructureError(peopleFilename);
+                    if(checkAlphaNumericInput(line) != 0)
+                        throw FileStructureError(peopleFilename);
                     a->setPassport(line);
                     break;
                 case 4:
@@ -193,8 +196,11 @@ void Delegation::readPeopleFile(const vector<string> & lines) {
                 case 7:
                     //ler competições - confirmar estrutura
                     competitionsStream.str(line);
-                    while (getline(competitionsStream, compStr, ' '))
+                    while (getline(competitionsStream, compStr, ' ')){
+                        if(checkAlphaNumericInput(line) != 0)
+                            throw FileStructureError(peopleFilename);
                         competitions.push_back(compStr);
+                    }
                     a->setCompetitions(competitions);
                     break;
                 case 8:
@@ -228,8 +234,8 @@ void Delegation::readPeopleFile(const vector<string> & lines) {
                     s->setBirth(d);
                     break;
                 case 3:
-                    //if(checkStringInput(line) != 0) // create a function to check passport's formats
-                    //throw FileStructureError(peopleFilename);
+                    if(checkAlphaNumericInput(line) != 0)
+                        throw FileStructureError(peopleFilename);
                     s->setPassport(line);
                     break;
                 case 4:
@@ -456,6 +462,7 @@ void Delegation::readCompetitionsFile(const vector<string> & lines) {
         }
     }
 }
+
 const string &Delegation::getCountry() const {
     return country;
 }
@@ -488,7 +495,6 @@ void Delegation::setTotalCost(float totalcost) {
     this->totalCost = totalcost;
 }
 
-
 void Delegation::calculateTotalCost() {
     float result = 0;
 
@@ -510,6 +516,68 @@ string Delegation::info(){
     os <<  left <<setw(17) << "Athlete's Daily Cost" << setw(4) << " "<< dailyCostAthlete << setw(3) <<endl;
     os <<  left <<setw(17) << "Total Cost" << setw(4) << " "<< totalCost << setw(3) <<endl;
     return os.str();
+}
+
+void Delegation::addStaffMember() {
+    Staff* novo = new Staff();
+    string tmp;
+    Date tmp_date;
+
+    cout << "Name: ";
+    cin >> tmp;
+    while(checkStringInput(tmp)){
+        cout << "Invalid Name. Try again!" << endl;
+        cout << "Name: ";
+        cin >> tmp;
+    }
+    novo->setName(tmp);
+
+    cout << "Date of Birth: ";
+    cin >> tmp;
+    while(checkDateInput(tmp, tmp_date)){
+        cout << "Invalid Date. Try again!" << endl;
+        cout << "Date of Birth: ";
+        cin >> tmp;
+    }
+    novo->setBirth(tmp_date);
+
+    cout << "Passport: ";
+    cin >> tmp;
+    while(checkAlphaNumericInput(tmp)){
+        cout << "Invalid Passport. Try again!" << endl;
+        cout << "Passport: ";
+        cin >> tmp;
+    }
+    novo->setPassport(tmp);
+
+    cout << "Date of Arrival: ";
+    cin >> tmp;
+    while(checkDateInput(tmp, tmp_date) || !(tmp_date.isOlimpianDate())){
+        cout << "Invalid Date. Try again!" << endl;
+        cout << "Date of Arrival: ";
+        cin >> tmp;
+    }
+    novo->setArrival(tmp_date);
+
+    cout << "Date of Departure: ";
+    cin >> tmp;
+    while(checkDateInput(tmp, tmp_date) || !(tmp_date.isOlimpianDate())){
+        cout << "Invalid Date. Try again!" << endl;
+        cout << "Date of Departure: ";
+        cin >> tmp;
+    }
+    novo->setDeparture(tmp_date);
+
+    cout << "Function: ";
+    cin >> tmp;
+    while(checkStringInput(tmp) == 1){
+        cout << "Invalid Function. Try again!" << endl;
+        cout << "Function: ";
+        cin >> tmp;
+    }
+    novo->setFunction(tmp);
+
+    people.push_back(novo);
 }
 //File Errors - Exceptions
 

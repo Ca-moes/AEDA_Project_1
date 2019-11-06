@@ -104,7 +104,7 @@ void participantsMenu(Delegation & delegation) {
                 //teamsMenu(delegation);
                 break;
             case 3:
-                //staffMenu(delegation);
+                staffMenu(delegation);
                 break;
             case 4:
                 //showParticipants();
@@ -182,7 +182,7 @@ void staffMenu(Delegation & delegation) {
 
         switch (stoi(input)) {
             case 1:
-                //addStaffMember();
+                delegation.addStaffMember();
                 break;
             case 2:
                 //removeStaffMember();

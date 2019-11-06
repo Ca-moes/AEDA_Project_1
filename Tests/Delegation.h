@@ -108,9 +108,16 @@ public:
     * @returns the Delegation's information
     */
     string info();
+
+    /**
+    * Adds a staff member to the people vector
+    *
+    */
+    void addStaffMember();
 };
 
 //Exceptions
+
 //Opening Files Exceptions
 class FileError{
     string file;
