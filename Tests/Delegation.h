@@ -108,6 +108,7 @@ public:
     * @returns the Delegation's information
     */
     string info();
+    void showPortugueseMembers();
 };
 
 //Exceptions
@@ -127,43 +128,39 @@ public:
 };
 
 //Non Existent Sport
-template <class Participant>
 class NonExistentSport{
     string sport;
 public:
-    friend ostream & operator << <Participant>(ostream & os, const NonExistentSport<Participant> & c);
+    friend ostream & operator <<(ostream & os, const NonExistentSport & c);
     explicit NonExistentSport(string name);
 };
 
 //Non Existent Competition exception
-template <class Participant>
 class NonExistentCompetition{
     string competition;
     string sport;
 public:
-    friend ostream & operator << <Participant>(ostream & os, const NonExistentCompetition<Participant> & c);
+    friend ostream & operator <<(ostream & os, const NonExistentCompetition & c);
     explicit NonExistentCompetition(string name, string sport);
 };
 
 
 //Non Existent Trial
-template <class Participant>
 class NonExistentTrial{
     string name;
     string competition;
     string sport;
 public:
-    friend ostream & operator << <Participant> (ostream & os, NonExistentTrial & t);
+    friend ostream & operator <<(ostream & os, NonExistentTrial & t);
     NonExistentTrial(string name, string competition, string sport);
 };
 
 //Non Existent Participant (Team or person)
-template <class Participant>
 class NonExistentParticipant{
     string participant;
     string where;
 public:
-    friend ostream & operator << <Participant> (ostream & os, NonExistentParticipant & p);
+    friend ostream & operator <<(ostream & os, NonExistentParticipant & p);
     NonExistentParticipant(string name, string where);
 };
 

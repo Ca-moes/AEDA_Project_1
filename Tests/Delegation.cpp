@@ -488,7 +488,6 @@ void Delegation::setTotalCost(float totalcost) {
     this->totalCost = totalcost;
 }
 
-
 void Delegation::calculateTotalCost() {
     float result = 0;
 
@@ -501,6 +500,14 @@ void Delegation::calculateTotalCost() {
     }
 
     this->totalCost = result;
+}
+
+void Delegation::showPortugueseMembers(){
+    //orderMembers();
+    vector<Person *>::iterator it;
+    for(it=people.begin(); it != people.end(); it++){
+
+    }
 }
 
 string Delegation::info(){
@@ -529,53 +536,45 @@ ostream & operator << (ostream & os, const FileStructureError & file){
 
 //sport doesn't exist
 
-template <class Participant>
-NonExistentSport<Participant>::NonExistentSport(string name){
-    this->name = name;
+NonExistentSport::NonExistentSport(string name){
+    this->sport = name;
 }
 
-template <class Participant>
-ostream & operator << (ostream & os,  const NonExistentSport<Participant> & c){
-    os << c.competition << " doesn't exist in " << c.sport << "!\n";
+ostream & operator << (ostream & os,  const NonExistentSport & c){
+    os << c.sport << " doesn't exist!" << "!\n";
     return os;
 }
 
 //competition doesn't exist
-template <class Participant>
-NonExistentCompetition<Participant>::NonExistentCompetition(string name, string sport){
-    this->name = name;
+NonExistentCompetition::NonExistentCompetition(string name, string sport){
+    this->competition = name;
     this->sport = sport;
 }
 
-template <class Participant>
-ostream & operator <<(ostream & os, const NonExistentCompetition<Participant> & c){
+ostream & operator <<(ostream & os, const NonExistentCompetition & c){
     os << c.competition << " doesn't exist in " << c.sport << "!\n";
     return os;
 }
 
 //trial doesn't exist
-template <class Participant>
-NonExistentTrial<Participant>::NonExistentTrial(string name, string competition, string sport){
+NonExistentTrial::NonExistentTrial(string name, string competition, string sport){
     this->name = name;
     this->competition = competition;
     this->sport = sport;
 }
 
-template <class Participant>
-ostream & operator << (ostream & os, const NonExistentTrial<Participant> & t){
-    os << t << " doesn't exist in "  << t.competition <<  ", " << t.sport << "!\n";
+ostream & operator <<(ostream & os, NonExistentTrial & t){
+    os << t.name << " doesn't exist in "  << t.competition <<  ", " << t.sport << "!\n";
     return os;
 }
 
 //participant doesn't exist
-template <class Participant>
-NonExistentParticipant<Participant>::NonExistentParticipant(string name, string where){
+NonExistentParticipant::NonExistentParticipant(string name, string where){
     participant = name;
     this->where = where;
 }
 
-template <class Participant>
-ostream & operator <<(ostream & os, const NonExistentParticipant<Participant> & p){
-    os << p << " doesn't compete in " << p.where << "!\n";
+ostream & operator <<(ostream & os, NonExistentParticipant & p){
+    os << p.participant << " doesn't compete in " << p.where << "!\n";
     return os;
 }
