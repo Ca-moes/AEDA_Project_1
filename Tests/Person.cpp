@@ -61,9 +61,12 @@ string Person::info(){
     return os.str();
 }
 
-bool Person::operator <(const Person & p){
-
+bool Person::operator<(Person & p){
     return(name > p.getName());
+}
+
+bool Person::operator=(Person & p){
+    return(name == p.getName());
 }
 
 ostream & operator<<(ostream & os, const Person & p){

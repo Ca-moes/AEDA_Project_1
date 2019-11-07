@@ -9,12 +9,8 @@
 #include <sstream>
 #include <utility>
 #include <algorithm>
-#include <chrono>
 #include <functional>
-#include <thread>
-
-using namespace std::this_thread; // sleep_for, sleep_until
-using namespace std::chrono; // nanoseconds, system_clock, seconds
+#include <unistd.h>
 
 Delegation::Delegation(){
     try{
@@ -545,7 +541,7 @@ void Delegation::addStaffMember() {
     }
     cin.clear();
     while(checkStringInput(tmp)){
-        cout << "Invalid Name. Try again!" << endl;
+        cerr << "Invalid Name. Try again!" << endl;
         cout << "Name: ";
         getline(cin,tmp);
         if (cin.eof()){
@@ -555,14 +551,15 @@ void Delegation::addStaffMember() {
         cin.clear();
     }
     if (findPerson(tmp) != -1){
-        cout << "Person already exists!" << endl;
+        throw PersonAlreadyExists(tmp);
+        /*//cerr << "Person already exists!" << endl;
         cout << endl << "0 - BACK" << endl;
         do {
             test = checkinputchoice(input, 0, 0);
             if (test != 0 )
                 cerr << "Invalid option! Press 0 to go back." << endl;
         } while (test != 0 && test != 2);
-        return;
+        return;*/
     }
     novo->setName(tmp);
 
@@ -664,6 +661,9 @@ void Delegation::addStaffMember() {
     people.push_back(novo);
 }
 
+bool sortMembersAlphabetically(Person * p1, Person * p2){
+    return ((*p1)<(*p2));
+}
 void Delegation::showPortugueseMembers() const{
     int test = 0;
     string input = "";
@@ -672,7 +672,9 @@ void Delegation::showPortugueseMembers() const{
     cout << "_____________________________________________________" << endl << endl;
     cout << "\t\t   Portuguese Delegation Members" << endl;
     cout << "_____________________________________________________" << endl << endl;
-    if (people.size() != 0) {
+
+
+    if (!people.empty()) {
         //sort(people.begin(),people.end(),sortMembersAlphabetically);
         vector<Person*>::const_iterator it;
         for(it=people.begin();it != people.end(); it++){
@@ -682,8 +684,7 @@ void Delegation::showPortugueseMembers() const{
     }
     else {
         cerr << "No members to show!" << endl;
-        sleep_for(nanoseconds(10));
-        sleep_until(system_clock::now() + seconds(1));
+        sleep(4*1000);
     }
 
     cout << endl << "0 - BACK" << endl;
@@ -725,14 +726,7 @@ void Delegation::removeStaffMember() {
     }
     index = findPerson(tmp);
     if (index == -1 || people.at(index)->isAthlete()){
-        cout << "Staff Member does not exist!" << endl;
-        cout << endl << "0 - BACK" << endl;
-        do {
-            test = checkinputchoice(input, 0, 0);
-            if (test != 0 )
-                cerr << "Invalid option! Press 0 to go back." << endl;
-        } while (test != 0 && test != 2);
-        return;
+        throw NonExistentPerson(tmp);
     } else {
         vector<Person*>::iterator it = people.begin() + index;
         delete *it;
@@ -983,6 +977,7 @@ ostream & operator <<(ostream & os, NonExistentTrial & t){
 }
 
 //participant doesn't exist
+
 NonExistentParticipant::NonExistentParticipant(string name, string where){
     participant = name;
     this->where = where;
@@ -990,5 +985,23 @@ NonExistentParticipant::NonExistentParticipant(string name, string where){
 
 ostream & operator <<(ostream & os, NonExistentParticipant & p){
     os << p.participant << " doesn't compete in " << p.where << "!\n";
+    return os;
+}
+
+NonExistentPerson::NonExistentPerson(string name){
+    person = name;
+}
+
+ostream & operator<<(ostream & os, NonExistentPerson & p){
+    os << p.person << " doesn't exist!\n";
+    return os;
+}
+
+PersonAlreadyExists::PersonAlreadyExists(string person){
+    this->person = person;
+}
+
+ostream & operator<<(ostream & os, PersonAlreadyExists & p){
+    os << p.person << " already exists!\n";
     return os;
 }

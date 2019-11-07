@@ -77,5 +77,4 @@ vector<string> fileToLineVector(istream & in);
 
 int daysBetween(const Date begin, const Date end);
 
-bool sortMembersAlphabetically(Person * p1,Person * p2);
 #endif //PROJECT_1_INPUTCHECK_H

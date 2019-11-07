@@ -2,8 +2,6 @@
 // Created by Diana Freitas on 20/10/2019.
 //
 
-
-
 #ifndef PROJECT_1_DELEGATION_H
 #define PROJECT_1_DELEGATION_H
 
@@ -199,6 +197,22 @@ class NonExistentParticipant{
 public:
     friend ostream & operator <<(ostream & os, NonExistentParticipant & p);
     NonExistentParticipant(string name, string where);
+};
+
+/**@brief Non Existent Person (Staff or Athlete)*/
+class NonExistentPerson{
+    string person;
+public:
+    friend ostream & operator <<(ostream & os, NonExistentPerson & p);
+    NonExistentPerson(string name);
+};
+
+/**@brief Person already exists (Staff or Athlete)*/
+class PersonAlreadyExists{
+    string person; /**@brief the name or de passport*/
+public:
+    friend ostream & operator <<(ostream & os, PersonAlreadyExists & p);
+    PersonAlreadyExists(string person);
 };
 
 #endif //PROJECT_1_DELEGATION_H

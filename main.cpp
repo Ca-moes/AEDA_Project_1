@@ -3,7 +3,7 @@
 
 using namespace std;
 
-int main(int argc, char* argv[]) {
+int main() {
     cout << "AEDA 2019/2020 - Project 1" << endl;
     try{
         Delegation portugueseDelegation;

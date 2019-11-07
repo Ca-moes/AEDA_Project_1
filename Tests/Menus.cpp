@@ -219,10 +219,20 @@ void staffMenu(Delegation & delegation) {
 
         switch (stoi(input)) {
             case 1:
-                delegation.addStaffMember();
+                try{
+                    delegation.addStaffMember();
+                }
+                catch(PersonAlreadyExists & e){
+                    cout << e << endl;
+                }
                 break;
             case 2:
-                delegation.removeStaffMember();
+                try{
+                    delegation.removeStaffMember();
+                }
+                catch(NonExistentPerson & e){
+                    cout << e << endl;
+                }
                 break;
             case 3:
                 delegation.changeStaffMember();

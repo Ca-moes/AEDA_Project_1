@@ -85,7 +85,7 @@ void TeamSport::setParticipants(const vector<Team> & tems){
     this->teams = teams;
 }
 
-const vector<Participant*> & TeamSport::getParticipants() const{
+vector<Participant*> TeamSport::getParticipants() const{
     vector<Participant*> p;
     vector<Team*>::const_iterator it;
     for(it = teams.begin() ; it != teams.end() ; it++)
@@ -114,7 +114,7 @@ IndividualSport::IndividualSport(const IndividualSport & s) : Sport(s.getName(),
     }
 }
 
-const vector<Participant*> & IndividualSport::getParticipants() const{
+vector<Participant*> IndividualSport::getParticipants() const{
     vector<Participant*> p;
     vector<Athlete*>::const_iterator it;
     for(it = athletes.begin() ; it != athletes.end() ; it++)
