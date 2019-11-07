@@ -1,0 +1,34 @@
+Futebol
+Portugal
+Diana Freitas
+--------
+Badminton
+PortPM
+Joao Lopes, Adalbertino Carvalho
+PortPF
+
+--------
+Vela
+V3
+
+V4
+Jacinta Albertina, Pateta
+
+&&&&
+Ao detetar &&&& parar a leitura de ficheiros,
+assim é possível adicionar comentários no final
+competitions.txt :
+-Modalidade (string)
+-tamanho da equipa (1..)
+         (linha branca separa competições)
+-Competição
+-data de inicio     (24/07/2020 - 09/08/2020)
+-data de fim
+-medalhas
+//////// (8 / demarca inicio de outra modalidade a seguir)
+//       (2 / demarca jogos da competição a seguir)
+
+Teams.txt
+nome
+modalidade
+atletas (separados por virgulas)
