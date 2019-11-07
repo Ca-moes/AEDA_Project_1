@@ -9,6 +9,12 @@
 #include <sstream>
 #include <utility>
 #include <algorithm>
+#include <chrono>
+#include <functional>
+#include <thread>
+
+using namespace std::this_thread; // sleep_for, sleep_until
+using namespace std::chrono; // nanoseconds, system_clock, seconds
 
 Delegation::Delegation(){
     try{
@@ -586,11 +592,33 @@ void Delegation::addStaffMember() {
 }
 
 void Delegation::showPortugueseMembers() const{
-    //sort(people.begin(),people.end(),sortMembersAlphabetically);
-    vector<Person*>::const_iterator it;
-    for(it=people.begin();it != people.end(); it++){
-        cout << (*(*it));
+    int test = 0;
+    string input = "";
+
+    system("cls");
+    cout << "_____________________________________________________" << endl << endl;
+    cout << "\t\t   Portuguese Delegation Members" << endl;
+    cout << "_____________________________________________________" << endl << endl;
+    if (people.size() != 0) {
+        //sort(people.begin(),people.end(),sortMembersAlphabetically);
+        vector<Person*>::const_iterator it;
+        for(it=people.begin();it != people.end(); it++){
+            cout << (*(*it));
+            cout << endl;
+        }
     }
+    else {
+        cerr << "No members to show!" << endl;
+        sleep_for(nanoseconds(10));
+        sleep_until(system_clock::now() + seconds(1));
+    }
+
+    cout << endl << "0 - BACK" << endl;
+    do {
+        test = checkinputchoice(input, 0, 0);
+        if (test != 0 )
+            cerr << "Invalid option! Press 0 to go back." << endl;
+    } while (test != 0 && test != 2);
 }
 
 //File Errors - Exceptions
