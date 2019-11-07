@@ -235,7 +235,12 @@ void staffMenu(Delegation & delegation) {
                 }
                 break;
             case 3:
-                delegation.changeStaffMember();
+                try{
+                    delegation.changeStaffMember();
+                }
+                catch(NonExistentPerson & e){
+                    cout << e << endl;
+                }
                 break;
             case 4:
                 //delegation.showStaffMember(); // ou um menu com opção para mostrar ou só um ou todos os membros

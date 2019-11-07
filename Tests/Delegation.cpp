@@ -759,14 +759,7 @@ void Delegation::changeStaffMember() {
     }
     index = findPerson(tmp);
     if (index == -1 || people.at(index)->isAthlete()){
-        cout << "Staff Member does not exist!" << endl;
-        cout << endl << "0 - BACK" << endl;
-        do {
-            test = checkinputchoice(input, 0, 0);
-            if (test != 0 )
-                cerr << "Invalid option! Press 0 to go back." << endl;
-        } while (test != 0 && test != 2);
-        return;
+        throw NonExistentPerson(tmp);
     } else {
         system("cls");
         cout << "_____________________________________________________" << endl << endl;
