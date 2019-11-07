@@ -12,15 +12,15 @@
 #include <functional>
 #include <unistd.h>
 
-Delegation::Delegation(){
-    try{
+Delegation::Delegation() {
+    try {
         readDelegationFile();
     }
-    catch(FileError & e){
+    catch (FileError &e) {
         cout << e << endl;
         throw;
     }
-    catch(FileStructureError & s){
+    catch (FileStructureError &s) {
         cout << s << endl;
         throw;
     }
@@ -28,55 +28,53 @@ Delegation::Delegation(){
     mainMenu(*this);
 }
 
-void Delegation::readDelegationFile(){
+void Delegation::readDelegationFile() {
     int numline = 0;
-    string line,file;
+    string line, file;
     ifstream delegationFile;
     cout << "Delegation .txt File: ";
     // Falta checar inputs;
     cin >> file;
     file += ".txt";
     delegationFile.open(file);
-    if(delegationFile.fail())
+    if (delegationFile.fail())
         throw FileError(file);
 
-    while (getline(delegationFile, line))
-    {
+    while (getline(delegationFile, line)) {
         numline++;
-        switch (numline)
-        {
+        switch (numline) {
             case 1:
                 line = regex_replace(line, regex("^ +| +$|( ) +"), "$1"); // remove espaços no fim, inicio e meio
-                if(checkStringInput(line) != 0)
+                if (checkStringInput(line) != 0)
                     throw FileStructureError(file);
                 setCountry(line);
                 break;
             case 2:
                 line = regex_replace(line, regex("^ +| +$|( ) +"), "$1");
-                if(checkFloatInput(line) != 0)
+                if (checkFloatInput(line) != 0)
                     throw FileStructureError(file);
                 setDailyCostAthlete(stof(line));
                 break;
             case 3:
                 line = regex_replace(line, regex("^ +| +$|( ) +"), "$1");
-                if(checkFloatInput(line) != 0)
+                if (checkFloatInput(line) != 0)
                     throw FileStructureError(file);
                 setDailyCostStaff(stof(line));
                 break;
             case 4:
                 line = regex_replace(line, regex("^ +| +$|( ) +"), "$1");
-                if(checkFloatInput(line) != 0)
+                if (checkFloatInput(line) != 0)
                     throw FileStructureError(file);
                 setTotalCost(stof(line));
                 break;
             case 5:
                 peopleFilename = regex_replace(line, regex("^ +| +$|( ) +"), "$1");
-                if(checkStringInput(line) != 0)
+                if (checkStringInput(line) != 0)
                     throw FileStructureError(file);
                 break;
             case 6:
                 competitionsFilename = regex_replace(line, regex("^ +| +$|( ) +"), "$1");
-                if(checkStringInput(line) != 0)
+                if (checkStringInput(line) != 0)
                     throw FileStructureError(file);
                 break;
             default:
@@ -86,9 +84,9 @@ void Delegation::readDelegationFile(){
     delegationFile.close();
     delegationFile.clear();
     //Read people file
-    delegationFile.open(peopleFilename+".txt");
-    if(delegationFile.fail())
-        throw FileError(peopleFilename+".txt");
+    delegationFile.open(peopleFilename + ".txt");
+    if (delegationFile.fail())
+        throw FileError(peopleFilename + ".txt");
     readPeopleFile(fileToLineVector(delegationFile));
     delegationFile.close();
     delegationFile.clear();
@@ -99,20 +97,21 @@ void Delegation::readDelegationFile(){
     //print delegation info
     //cout << info();
     //print people
+
     //for(size_t i = 0; i< people.size(); i++)
-        //cout << (people[i])->info() << endl;
+    //cout << (people[i])->info() << endl;
 
     //Read teams file - necessário ler mais uma linha no ficheiro da delegação(adicionar no ficheiro), completar ficheiro das equipas e criar função para as ler
     //delegationFile.open(peopleFilename+".txt");
     //if(delegationFile.fail())
-        //throw FileError(peopleFilename+".txt");
+    //throw FileError(peopleFilename+".txt");
     //readPeopleFile(fileToLineVector(delegationFile));
     //delegationFile.close();
     //delegationFile.clear();
 
     //Read competitions file
-    delegationFile.open(competitionsFilename+".txt");
-    if(delegationFile.fail()) {
+    delegationFile.open(competitionsFilename + ".txt");
+    if (delegationFile.fail()) {
         throw FileError(competitionsFilename + ".txt");
     }
     readCompetitionsFile(fileToLineVector(delegationFile));
@@ -123,8 +122,8 @@ void Delegation::readDelegationFile(){
         //cout << sport->info()<<endl;
 }
 
-void Delegation::readPeopleFile(const vector<string> & lines) {
-    int numline=0;
+void Delegation::readPeopleFile(const vector<string> &lines) {
+    int numline = 0;
     string line;
     Date d;
     bool readFunc = false;
@@ -135,84 +134,84 @@ void Delegation::readPeopleFile(const vector<string> & lines) {
     string compStr;
     vector<string> competitions;
 
-    for(size_t i=0; i < lines.size(); i++){
+    for (size_t i = 0; i < lines.size(); i++) {
         numline++;
         line = lines[i];
 
-        if(line.empty()){ // Se alinha está vazia voltamos a colocar o numLines a 0 para ler a próxima pessoa
+        if (line.empty()) { // Se alinha está vazia voltamos a colocar o numLines a 0 para ler a próxima pessoa
             numline = 1;
             i++;
             line = lines[i];
         }
 
-        if(numline == 1){ // se for a primeira linha de uma pessoa vamos ver se é funcionário ou atleta
+        if (numline == 1) { // se for a primeira linha de uma pessoa vamos ver se é funcionário ou atleta
             readFunc = lines[i + 6].empty();
             competitions.resize(0);
-            a=new Athlete();
-            s=new Staff();
+            a = new Athlete();
+            s = new Staff();
             competitionsStream.clear();
         }
 
         //ler atleta ou funcionario
-        if(!readFunc){ // se tiver mais de 6 linha estamos perante um atleta
+        if (!readFunc) { // se tiver mais de 6 linha estamos perante um atleta
             //ler atleta
-            switch (numline)
-            {
+            switch (numline) {
                 case 1:
-                    if(checkStringInput(line) != 0)
+                    if (checkStringInput(line) != 0)
                         throw FileStructureError(peopleFilename);
                     a->setName(line);
                     break;
                 case 2:
-                    if(checkDateInput(line, d) != 0) //just needs to check the format and set variables(in class date there is a function to check the validity)
+                    if (checkDateInput(line, d) !=
+                        0) //just needs to check the format and set variables(in class date there is a function to check the validity)
                         throw FileStructureError(peopleFilename);
                     a->setBirth(d);
                     break;
                 case 3:
-                    if(checkAlphaNumericInput(line) != 0)
+                    if (checkAlphaNumericInput(line) != 0)
                         throw FileStructureError(peopleFilename);
                     a->setPassport(line);
                     break;
                 case 4:
-                    if(checkDateInput(line, d) != 0)
+                    if (checkDateInput(line, d) != 0)
                         throw FileStructureError(peopleFilename);
-                    if(d.isOlimpianDate()) {
+                    if (d.isOlimpianDate()) {
                         a->setArrival(d);
                     } else {
                         throw FileStructureError(peopleFilename);
                     }
                     break;
                 case 5:
-                    if(checkDateInput(line, d) != 0)
+                    if (checkDateInput(line, d) != 0)
                         throw FileStructureError(peopleFilename);
-                    if(d.isOlimpianDate()) {
+                    if (d.isOlimpianDate()) {
                         a->setDeparture(d);
                     } else {
                         throw FileStructureError(peopleFilename);
                     }
                     break;
                 case 6:
-                    if(checkStringInput(line) != 0)
+                    if (checkStringInput(line) != 0)
                         throw FileStructureError(peopleFilename);
                     a->setSport(line);
                     break;
                 case 7:
                     //ler competições - confirmar estrutura
                     competitionsStream.str(line);
-                    while (getline(competitionsStream, compStr, ' ')){
-                        if(checkAlphaNumericInput(line) != 0)
+                    while (getline(competitionsStream, compStr, ' ')) {
+                        if (checkAlphaNumericInput(line) != 0)
                             throw FileStructureError(peopleFilename);
                         competitions.push_back(compStr);
                     }
                     a->setCompetitions(competitions);
                     break;
                 case 8:
-                    if(checkFloatInput(line) != 0)
+                    if (checkFloatInput(line) != 0)
                         throw FileStructureError(peopleFilename);
                     a->setWeight(stof(line));
                     break;
                 case 9:
-                    if(checkFloatInput(line) != 0)
+                    if (checkFloatInput(line) != 0)
                         throw FileStructureError(peopleFilename);
                     a->setHeight(stof(line));
                     people.push_back(new Athlete(*a));
@@ -222,45 +221,44 @@ void Delegation::readPeopleFile(const vector<string> & lines) {
                     throw FileStructureError(peopleFilename);
             }
 
-        }
-        else{
-            switch (numline)
-            {
+        } else {
+            switch (numline) {
                 case 1:
-                    if(checkStringInput(line) != 0)
+                    if (checkStringInput(line) != 0)
                         throw FileStructureError(peopleFilename);
                     s->setName(line);
                     break;
                 case 2:
-                    if(checkDateInput(line, d) != 0) //just needs to check the format and set variables(in class date there is a function to check the validity)
+                    if (checkDateInput(line, d) !=
+                        0) //just needs to check the format and set variables(in class date there is a function to check the validity)
                         throw FileStructureError(peopleFilename);
                     s->setBirth(d);
                     break;
                 case 3:
-                    if(checkAlphaNumericInput(line) != 0)
+                    if (checkAlphaNumericInput(line) != 0)
                         throw FileStructureError(peopleFilename);
                     s->setPassport(line);
                     break;
                 case 4:
-                    if(checkDateInput(line, d) != 0)
+                    if (checkDateInput(line, d) != 0)
                         throw FileStructureError(peopleFilename);
-                    if(d.isOlimpianDate()) {
+                    if (d.isOlimpianDate()) {
                         s->setArrival(d);
                     } else {
                         throw FileStructureError(peopleFilename);
                     }
                     break;
                 case 5:
-                    if(checkDateInput(line, d) != 0)
+                    if (checkDateInput(line, d) != 0)
                         throw FileStructureError(peopleFilename);
-                    if(d.isOlimpianDate()) {
+                    if (d.isOlimpianDate()) {
                         s->setDeparture(d);
                     } else {
                         throw FileStructureError(peopleFilename);
                     }
                     break;
                 case 6:
-                    if(checkStringInput(line) != 0)
+                    if (checkStringInput(line) != 0)
                         throw FileStructureError(peopleFilename);
                     s->setFunction(line);
                     people.push_back(new Staff(*s));
@@ -272,7 +270,7 @@ void Delegation::readPeopleFile(const vector<string> & lines) {
     }
 }
 
-void Delegation::readCompetitionsFile(const vector<string> & lines) {
+void Delegation::readCompetitionsFile(const vector<string> &lines) {
     int numline = 0;
     string line;
     Date d;
@@ -280,7 +278,7 @@ void Delegation::readCompetitionsFile(const vector<string> & lines) {
     //objects to create a sport
     bool isTeamSport = false;
     TeamSport *teamSport = nullptr;
-    IndividualSport *individualSport =  nullptr;
+    IndividualSport *individualSport = nullptr;
     string name, participant, pCountry;
     Competition competition;
     vector<Competition> competitions;
@@ -291,20 +289,20 @@ void Delegation::readCompetitionsFile(const vector<string> & lines) {
     Trial trial;
     vector<string> trialPlayers;
     vector<Trial> trials;
-    for (size_t i = 0; i < lines.size()+1; i++) {
-        if(i!=lines.size())
+    for (size_t i = 0; i < lines.size() + 1; i++) {
+        if (i != lines.size())
             line = lines[i];
-        numline++;
 
+        numline++;
         if (numline == 1) {// se for a primeira linha de uma pessoa vamos ver se é uma nova modalidade, competição ou jogo
             if (line.empty()) {// Se alinha está vazia vamos ler a próxima competição
                 if (read == 'c' || read == 't') {
-                    if (read == 't'){
-                        for(auto &athlete :athletes){
-                           for(auto & comp : athlete->getCompetitions()){
-                               if(comp == competition.getName())
-                                   competition.addParticipant(athlete->getName());
-                           }
+                    if (read == 't') {
+                        for (auto &athlete :athletes) {
+                            for (auto &comp : athlete->getCompetitions()) {
+                                if (comp == competition.getName())
+                                    competition.addParticipant(athlete->getName());
+                            }
                         }
                         competition.setTrials(trials);
                     }
@@ -316,10 +314,11 @@ void Delegation::readCompetitionsFile(const vector<string> & lines) {
                 i++;
                 numline = 1;
                 line = lines[i];
-            } else if (line =="////////" || i==lines.size()){//novo desporto - guardar os dados das competições e jogos e limpar variáveis auxiliares; ou útlima linha do ficheiro
+            } else if (line == "////////" || i ==lines.size()) {//novo desporto - guardar os dados das competições e jogos e limpar variáveis auxiliares; ou útlima linha do ficheiro
+                if(i==lines.size())
                 if (read == 't' || read == 'c')
                     competitions.push_back(competition);
-                if (isTeamSport){
+                if (isTeamSport) {
                     teamSport->setCompetitions(competitions);
                     for (auto &team : teams) {
                         if (team->getSport() == teamSport->getName())
@@ -337,7 +336,7 @@ void Delegation::readCompetitionsFile(const vector<string> & lines) {
                     }
                     sports.push_back(new IndividualSport(*individualSport));
                 }
-                if(lines.size() == i) break;
+                if (lines.size() == i) break;
                 read = 's';
                 numline = 1;
                 i++;
@@ -498,35 +497,35 @@ void Delegation::setTotalCost(float totalcost) {
     this->totalCost = totalcost;
 }
 
-const vector<Sport*> & Delegation::getSports() const{
+const vector<Sport *> &Delegation::getSports() const {
     return sports;
 }
 
 void Delegation::calculateTotalCost() {
     float result = 0;
 
-    for(auto & i : people){
-        if(i->isAthlete()){
-            result += (float)daysBetween(i->getArrival(), i->getDeparture()) * dailyCostAthlete;
+    for (auto &i : people) {
+        if (i->isAthlete()) {
+            result += (float) daysBetween(i->getArrival(), i->getDeparture()) * dailyCostAthlete;
         } else {
-            result += (float)daysBetween(i->getArrival(), i->getDeparture()) * dailyCostStaff;
+            result += (float) daysBetween(i->getArrival(), i->getDeparture()) * dailyCostStaff;
         }
     }
 
     this->totalCost = result;
 }
 
-string Delegation::info() const{
+string Delegation::info() const {
     ostringstream os;
-    os <<  left <<setw(17) << "Country" << setw(4) << " "<<  country << setw(3) <<endl;
-    os <<  left <<setw(17) << "Staff's Daily Cost" << setw(4) << " "<< dailyCostStaff << setw(3) <<endl;
-    os <<  left <<setw(17) << "Athlete's Daily Cost" << setw(4) << " "<< dailyCostAthlete << setw(3) <<endl;
-    os <<  left <<setw(17) << "Total Cost" << setw(4) << " "<< totalCost << setw(3) <<endl;
+    os << left << setw(17) << "Country" << setw(4) << " " << country << setw(3) << endl;
+    os << left << setw(17) << "Staff's Daily Cost" << setw(4) << " " << dailyCostStaff << setw(3) << endl;
+    os << left << setw(17) << "Athlete's Daily Cost" << setw(4) << " " << dailyCostAthlete << setw(3) << endl;
+    os << left << setw(17) << "Total Cost" << setw(4) << " " << totalCost << setw(3) << endl;
     return os.str();
 }
 
 void Delegation::addStaffMember() {
-    Staff* novo = new Staff();
+    Staff *novo = new Staff();
     string tmp;
     Date tmp_date;
 
@@ -534,47 +533,39 @@ void Delegation::addStaffMember() {
     string input = "";
 
     cout << "Name: ";
-    getline(cin,tmp);
-    if (cin.eof()){
+    getline(cin, tmp);
+    if (cin.eof()) {
         cin.clear();
         return; //go back on ctrl+d
     }
     cin.clear();
-    while(checkStringInput(tmp)){
+    while (checkStringInput(tmp)) {
         cerr << "Invalid Name. Try again!" << endl;
         cout << "Name: ";
-        getline(cin,tmp);
-        if (cin.eof()){
+        getline(cin, tmp);
+        if (cin.eof()) {
             cin.clear();
             return; //go back on ctrl+d
         }
         cin.clear();
     }
-    if (findPerson(tmp) != -1){
+    if (findPerson(tmp) != -1) {
         throw PersonAlreadyExists(tmp);
-        /*//cerr << "Person already exists!" << endl;
-        cout << endl << "0 - BACK" << endl;
-        do {
-            test = checkinputchoice(input, 0, 0);
-            if (test != 0 )
-                cerr << "Invalid option! Press 0 to go back." << endl;
-        } while (test != 0 && test != 2);
-        return;*/
     }
     novo->setName(tmp);
 
     cout << "Date of Birth: ";
-    getline(cin,tmp);
-    if (cin.eof()){
+    getline(cin, tmp);
+    if (cin.eof()) {
         cin.clear();
         return; //go back on ctrl+d
     }
     cin.clear();
-    while(checkDateInput(tmp, tmp_date)){
+    while (checkDateInput(tmp, tmp_date)) {
         cout << "Invalid Date. Try again!" << endl;
         cout << "Date of Birth: ";
-        getline(cin,tmp);
-        if (cin.eof()){
+        getline(cin, tmp);
+        if (cin.eof()) {
             cin.clear();
             return; //go back on ctrl+d
         }
@@ -583,17 +574,17 @@ void Delegation::addStaffMember() {
     novo->setBirth(tmp_date);
 
     cout << "Passport: ";
-    getline(cin,tmp);
-    if (cin.eof()){
+    getline(cin, tmp);
+    if (cin.eof()) {
         cin.clear();
         return; //go back on ctrl+d
     }
     cin.clear();
-    while(checkAlphaNumericInput(tmp)){
+    while (checkAlphaNumericInput(tmp)) {
         cout << "Invalid Passport. Try again!" << endl;
         cout << "Passport: ";
-        getline(cin,tmp);
-        if (cin.eof()){
+        getline(cin, tmp);
+        if (cin.eof()) {
             cin.clear();
             return; //go back on ctrl+d
         }
@@ -602,17 +593,17 @@ void Delegation::addStaffMember() {
     novo->setPassport(tmp);
 
     cout << "Date of Arrival: ";
-    getline(cin,tmp);
-    if (cin.eof()){
+    getline(cin, tmp);
+    if (cin.eof()) {
         cin.clear();
         return; //go back on ctrl+d
     }
     cin.clear();
-    while(checkDateInput(tmp, tmp_date) || !(tmp_date.isOlimpianDate())){
+    while (checkDateInput(tmp, tmp_date) || !(tmp_date.isOlimpianDate())) {
         cout << "Invalid Date. Try again!" << endl;
         cout << "Date of Arrival: ";
-        getline(cin,tmp);
-        if (cin.eof()){
+        getline(cin, tmp);
+        if (cin.eof()) {
             cin.clear();
             return; //go back on ctrl+d
         }
@@ -621,17 +612,17 @@ void Delegation::addStaffMember() {
     novo->setArrival(tmp_date);
 
     cout << "Date of Departure: ";
-    getline(cin,tmp);
-    if (cin.eof()){
+    getline(cin, tmp);
+    if (cin.eof()) {
         cin.clear();
         return; //go back on ctrl+d
     }
     cin.clear();
-    while(checkDateInput(tmp, tmp_date) || !(tmp_date.isOlimpianDate())){
+    while (checkDateInput(tmp, tmp_date) || !(tmp_date.isOlimpianDate())) {
         cout << "Invalid Date. Try again!" << endl;
         cout << "Date of Departure: ";
-        getline(cin,tmp);
-        if (cin.eof()){
+        getline(cin, tmp);
+        if (cin.eof()) {
             cin.clear();
             return; //go back on ctrl+d
         }
@@ -640,17 +631,17 @@ void Delegation::addStaffMember() {
     novo->setDeparture(tmp_date);
 
     cout << "Function: ";
-    getline(cin,tmp);
-    if (cin.eof()){
+    getline(cin, tmp);
+    if (cin.eof()) {
         cin.clear();
         return; //go back on ctrl+d
     }
     cin.clear();
-    while(checkStringInput(tmp) == 1){
+    while (checkStringInput(tmp) == 1) {
         cout << "Invalid Function. Try again!" << endl;
         cout << "Function: ";
-        getline(cin,tmp);
-        if (cin.eof()){
+        getline(cin, tmp);
+        if (cin.eof()) {
             cin.clear();
             return; //go back on ctrl+d
         }
@@ -661,7 +652,7 @@ void Delegation::addStaffMember() {
     people.push_back(novo);
 }
 
-void Delegation::showPortugueseMembers(){
+void Delegation::showPortugueseMembers() {
     int test = 0;
     string input = "";
 
@@ -671,30 +662,27 @@ void Delegation::showPortugueseMembers(){
     cout << "_____________________________________________________" << endl << endl;
 
 
-    if (!people.empty()){
-        std::sort(people.begin(),people.end(),sortMembersAlphabetically);
-        vector<Person*>::const_iterator it;
-        for(it=people.begin();it != people.end(); it++){
-            cout << (*(*it));
+    if (!people.empty()) {
+        std::sort(people.begin(), people.end(), sortMembersAlphabetically);
+        vector<Person *>::const_iterator it;
+        for (it = people.begin(); it != people.end(); it++) {
+            (*it)->showInfoPerson();
             cout << endl;
         }
-    }
-    else {
-        cerr << "No members to show!" << endl;
-        sleep(4*1000);
-    }
+    } else
+       throw NoMembers();
 
     cout << endl << "0 - BACK" << endl;
     do {
         test = checkinputchoice(input, 0, 0);
-        if (test != 0 )
+        if (test != 0)
             cerr << "Invalid option! Press 0 to go back." << endl;
     } while (test != 0 && test != 2);
 }
 
 int Delegation::findPerson(const string name) {
-    for (int i = 0; i < people.size(); i++){
-        if(name == people.at(i)->getName()) return i;
+    for (int i = 0; i < people.size(); i++) {
+        if (name == people.at(i)->getName()) return i;
     }
     return -1;
 }
@@ -705,27 +693,27 @@ void Delegation::removeStaffMember() {
     string input = "", tmp;
 
     cout << "Name: ";
-    getline(cin,tmp);
-    if (cin.eof()){
+    getline(cin, tmp);
+    if (cin.eof()) {
         cin.clear();
         return; //go back on ctrl+d
     }
     cin.clear();
-    while(checkStringInput(tmp)){
+    while (checkStringInput(tmp)) {
         cout << "Invalid Name. Try again!" << endl;
         cout << "Name: ";
-        getline(cin,tmp);
-        if (cin.eof()){
+        getline(cin, tmp);
+        if (cin.eof()) {
             cin.clear();
             return; //go back on ctrl+d
         }
         cin.clear();
     }
     index = findPerson(tmp);
-    if (index == -1 || people.at(index)->isAthlete()){
+    if (index == -1 || people.at(index)->isAthlete()) {
         throw NonExistentPerson(tmp);
     } else {
-        vector<Person*>::iterator it = people.begin() + index;
+        vector<Person *>::iterator it = people.begin() + index;
         delete *it;
         people.erase(it);
         return;
@@ -738,24 +726,24 @@ void Delegation::changeStaffMember() {
     string input = "", tmp;
 
     cout << "Name: ";
-    getline(cin,tmp);
-    if (cin.eof()){
+    getline(cin, tmp);
+    if (cin.eof()) {
         cin.clear();
         return; //go back on ctrl+d
     }
     cin.clear();
-    while(checkStringInput(tmp)){
+    while (checkStringInput(tmp)) {
         cout << "Invalid Name. Try again!" << endl;
         cout << "Name: ";
-        getline(cin,tmp);
-        if (cin.eof()){
+        getline(cin, tmp);
+        if (cin.eof()) {
             cin.clear();
             return; //go back on ctrl+d
         }
         cin.clear();
     }
     index = findPerson(tmp);
-    if (index == -1 || people.at(index)->isAthlete()){
+    if (index == -1 || people.at(index)->isAthlete()) {
         throw NonExistentPerson(tmp);
     } else {
         system("cls");
@@ -776,25 +764,24 @@ void Delegation::changeStaffMember() {
             if (test != 0 && test != 2)
                 cerr << "Invalid option! Please try again." << endl;
         } while (test != 0 && test != 2);
-        if (test == 2)
-        { input = "0"; }
+        if (test == 2) { input = "0"; }
 
         Date tmp_date;
 
         switch (stoi(input)) {
             case 1:
                 cout << "New name: ";
-                getline(cin,tmp);
-                if (cin.eof()){
+                getline(cin, tmp);
+                if (cin.eof()) {
                     cin.clear();
                     return; //go back on ctrl+d
                 }
                 cin.clear();
-                while(checkStringInput(tmp)){
+                while (checkStringInput(tmp)) {
                     cout << "Invalid Name. Try again!" << endl;
                     cout << "New name: ";
-                    getline(cin,tmp);
-                    if (cin.eof()){
+                    getline(cin, tmp);
+                    if (cin.eof()) {
                         cin.clear();
                         return; //go back on ctrl+d
                     }
@@ -804,17 +791,17 @@ void Delegation::changeStaffMember() {
                 break;
             case 2:
                 cout << "Date of Birth: ";
-                getline(cin,tmp);
-                if (cin.eof()){
+                getline(cin, tmp);
+                if (cin.eof()) {
                     cin.clear();
                     return; //go back on ctrl+d
                 }
                 cin.clear();
-                while(checkDateInput(tmp, tmp_date)){
+                while (checkDateInput(tmp, tmp_date)) {
                     cout << "Invalid Date. Try again!" << endl;
                     cout << "Date of Birth: ";
-                    getline(cin,tmp);
-                    if (cin.eof()){
+                    getline(cin, tmp);
+                    if (cin.eof()) {
                         cin.clear();
                         return; //go back on ctrl+d
                     }
@@ -824,17 +811,17 @@ void Delegation::changeStaffMember() {
                 break;
             case 3:
                 cout << "Passport: ";
-                getline(cin,tmp);
-                if (cin.eof()){
+                getline(cin, tmp);
+                if (cin.eof()) {
                     cin.clear();
                     return; //go back on ctrl+d
                 }
                 cin.clear();
-                while(checkAlphaNumericInput(tmp)){
+                while (checkAlphaNumericInput(tmp)) {
                     cout << "Invalid Passport. Try again!" << endl;
                     cout << "Passport: ";
-                    getline(cin,tmp);
-                    if (cin.eof()){
+                    getline(cin, tmp);
+                    if (cin.eof()) {
                         cin.clear();
                         return; //go back on ctrl+d
                     }
@@ -844,17 +831,17 @@ void Delegation::changeStaffMember() {
                 break;
             case 4:
                 cout << "Date of Arrival: ";
-                getline(cin,tmp);
-                if (cin.eof()){
+                getline(cin, tmp);
+                if (cin.eof()) {
                     cin.clear();
                     return; //go back on ctrl+d
                 }
                 cin.clear();
-                while(checkDateInput(tmp, tmp_date) || !(tmp_date.isOlimpianDate())){
+                while (checkDateInput(tmp, tmp_date) || !(tmp_date.isOlimpianDate())) {
                     cout << "Invalid Date. Try again!" << endl;
                     cout << "Date of Arrival: ";
-                    getline(cin,tmp);
-                    if (cin.eof()){
+                    getline(cin, tmp);
+                    if (cin.eof()) {
                         cin.clear();
                         return; //go back on ctrl+d
                     }
@@ -864,17 +851,17 @@ void Delegation::changeStaffMember() {
                 break;
             case 5:
                 cout << "Date of Departure: ";
-                getline(cin,tmp);
-                if (cin.eof()){
+                getline(cin, tmp);
+                if (cin.eof()) {
                     cin.clear();
                     return; //go back on ctrl+d
                 }
                 cin.clear();
-                while(checkDateInput(tmp, tmp_date) || !(tmp_date.isOlimpianDate())){
+                while (checkDateInput(tmp, tmp_date) || !(tmp_date.isOlimpianDate())) {
                     cout << "Invalid Date. Try again!" << endl;
                     cout << "Date of Departure: ";
-                    getline(cin,tmp);
-                    if (cin.eof()){
+                    getline(cin, tmp);
+                    if (cin.eof()) {
                         cin.clear();
                         return; //go back on ctrl+d
                     }
@@ -884,25 +871,25 @@ void Delegation::changeStaffMember() {
                 break;
             case 6:
                 cout << "Function: ";
-                getline(cin,tmp);
-                if (cin.eof()){
+                getline(cin, tmp);
+                if (cin.eof()) {
                     cin.clear();
                     return; //go back on ctrl+d
                 }
                 cin.clear();
-                while(checkStringInput(tmp) == 1){
+                while (checkStringInput(tmp) == 1) {
                     cout << "Invalid Function. Try again!" << endl;
                     cout << "Function: ";
-                    getline(cin,tmp);
-                    if (cin.eof()){
+                    getline(cin, tmp);
+                    if (cin.eof()) {
                         cin.clear();
                         return; //go back on ctrl+d
                     }
                     cin.clear();
                 }
-                if(!people.at(index)->isAthlete()){
-                    Staff* s = dynamic_cast<Staff*> (people.at(index));
-                    if(s == NULL){
+                if (!people.at(index)->isAthlete()) {
+                    Staff *s = dynamic_cast<Staff *> (people.at(index));
+                    if (s == NULL) {
                         cout << "Couldn't change function!" << endl;
                     } else {
                         s->setFunction(tmp);
@@ -919,79 +906,86 @@ void Delegation::changeStaffMember() {
 
 //File Errors - Exceptions
 
-FileError::FileError(string file) : file(move(file)){}
+FileError::FileError(string file) : file(move(file)) {}
 
-ostream & operator << (ostream & os, const FileError & file){
-    os <<"Error opening file " << file.file << "!"<<endl;
+ostream &operator<<(ostream &os, const FileError &file) {
+    os << "Error opening file " << file.file << "!" << endl;
     return os;
 }
 
-FileStructureError::FileStructureError(string file) : file(move(file)){}
+FileStructureError::FileStructureError(string file) : file(move(file)) {}
 
-ostream & operator << (ostream & os, const FileStructureError & file){
-    os <<"The structure of file " << file.file << " is not the expected!"<<endl;
+ostream &operator<<(ostream &os, const FileStructureError &file) {
+    os << "The structure of file " << file.file << " is not the expected!" << endl;
     return os;
 }
 
 //sport doesn't exist
-NonExistentSport::NonExistentSport(string name){
+NonExistentSport::NonExistentSport(string name) {
     this->sport = name;
 }
 
-ostream & operator << (ostream & os,  const NonExistentSport & c){
+ostream &operator<<(ostream &os, const NonExistentSport &c) {
     os << c.sport << " doesn't exist!" << "!\n";
     return os;
 }
 
 //competition doesn't exist
-NonExistentCompetition::NonExistentCompetition(string name, string sport){
+NonExistentCompetition::NonExistentCompetition(string name, string sport) {
     this->competition = name;
     this->sport = sport;
 }
 
-ostream & operator <<(ostream & os, const NonExistentCompetition & c){
+ostream &operator<<(ostream &os, const NonExistentCompetition &c) {
     os << c.competition << " doesn't exist in " << c.sport << "!\n";
     return os;
 }
 
 //trial doesn't exist
-NonExistentTrial::NonExistentTrial(string name, string competition, string sport){
+NonExistentTrial::NonExistentTrial(string name, string competition, string sport) {
     this->name = name;
     this->competition = competition;
     this->sport = sport;
 }
 
-ostream & operator <<(ostream & os, NonExistentTrial & t){
-    os << t.name << " doesn't exist in "  << t.competition <<  ", " << t.sport << "!\n";
+ostream &operator<<(ostream &os, NonExistentTrial &t) {
+    os << t.name << " doesn't exist in " << t.competition << ", " << t.sport << "!\n";
     return os;
 }
 
 //participant doesn't exist
 
-NonExistentParticipant::NonExistentParticipant(string name, string where){
+NonExistentParticipant::NonExistentParticipant(string name, string where) {
     participant = name;
     this->where = where;
 }
 
-ostream & operator <<(ostream & os, NonExistentParticipant & p){
+ostream &operator<<(ostream &os, NonExistentParticipant &p) {
     os << p.participant << " doesn't compete in " << p.where << "!\n";
     return os;
 }
 
-NonExistentPerson::NonExistentPerson(string name){
+NonExistentPerson::NonExistentPerson(string name) {
     person = name;
 }
 
-ostream & operator<<(ostream & os, NonExistentPerson & p){
+ostream &operator<<(ostream &os, NonExistentPerson &p) {
     os << p.person << " doesn't exist!\n";
     return os;
 }
 
-PersonAlreadyExists::PersonAlreadyExists(string person){
+PersonAlreadyExists::PersonAlreadyExists(string person) {
     this->person = person;
 }
 
-ostream & operator<<(ostream & os, PersonAlreadyExists & p){
+ostream &operator<<(ostream &os, PersonAlreadyExists &p) {
     os << p.person << " already exists!\n";
+    return os;
+}
+
+NoMembers::NoMembers() {}
+
+ostream &operator<<(ostream &os, NoMembers &p) {
+    os << " No members to show!\n";
     return os;
 }

@@ -86,7 +86,7 @@ void participantsMenu(Delegation & delegation) {
         cout << "1 - Athletes" << endl;
         cout << "2 - Teams" << endl;
         cout << "3 - Staff" << endl;
-        cout << "4 - All Participants" << endl;
+        cout << "4 - All Members" << endl;
         cout << "0 - BACK (Main Menu)" << endl;
 
         do {
@@ -108,7 +108,11 @@ void participantsMenu(Delegation & delegation) {
                 staffMenu(delegation);
                 break;
             case 4:
-                delegation.showPortugueseMembers();
+                try{
+                    delegation.showPortugueseMembers();
+                }catch(NoMembers & e){
+                    cout << e << endl;
+                }
                 break;
             case 0:
                 break;
@@ -206,11 +210,12 @@ void staffMenu(Delegation & delegation) {
         cout << "1 - Add Staff member" << endl;
         cout << "2 - Remove Staff member" << endl;
         cout << "3 - Change Staff member" << endl;
-        cout << "4 - Show Staff members" << endl;
+        cout << "4 - Show Staff member" << endl;
+        cout << "5 - Show All Staff members" << endl;
         cout << "0 - BACK" << endl;
 
         do {
-            testinput = checkinputchoice(input, 0, 4);
+            testinput = checkinputchoice(input, 0, 5);
             if (testinput != 0 && testinput != 2)
                 cerr << "Invalid option! Please try again." << endl;
         } while (testinput != 0 && testinput != 2);
@@ -243,7 +248,10 @@ void staffMenu(Delegation & delegation) {
                 }
                 break;
             case 4:
-                //delegation.showStaffMember(); // ou um menu com opção para mostrar ou só um ou todos os membros
+                //delegation.showStaffMember();
+                break;
+            case 5:
+                //delegation.showStaffMembers();
                 break;
             case 0:
                 break;

@@ -139,11 +139,12 @@ public:
    */
    int findPerson(const string name);
 
-    /**
-    * Shows the information of all the members of the Portuguese Delegation in a human friendly way
-    *
-    */
+    /**@brief Shows the information of all the members of the Portuguese Delegation in a human friendly way*/
     void showPortugueseMembers();
+
+    /**@brief Shows the information of a staff member of the Portuguese Delegation in a human friendly way*/
+    //void showPortugueseMembers();
+
 };
 
 //Exceptions
@@ -178,7 +179,6 @@ public:
     friend ostream & operator <<(ostream & os, const NonExistentCompetition & c);
     explicit NonExistentCompetition(string name, string sport);
 };
-
 
 //Non Existent Trial
 class NonExistentTrial{
@@ -215,4 +215,10 @@ public:
     PersonAlreadyExists(string person);
 };
 
+/**@brief No Members (Staff or Athlete)*/
+class NoMembers{
+public:
+    friend ostream & operator <<(ostream & os, NoMembers & p);
+    NoMembers();
+};
 #endif //PROJECT_1_DELEGATION_H

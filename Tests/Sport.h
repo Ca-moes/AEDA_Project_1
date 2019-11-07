@@ -9,6 +9,7 @@ class Athlete;
 class Participant;
 
 class Sport {
+protected:
     vector<Competition> competitions;
 public:
     string name;
@@ -17,7 +18,7 @@ public:
     Sport(const string &name, const vector<Competition>  & competitions);
     const string & getName() const;
     void setName(string n);
-    virtual vector<Participant*> getParticipants() const=0;
+    virtual vector<Participant*> getParticipants() const{vector<Participant*> p; return p;};
     void setCompetitions(const vector<Competition> & competitions);
     const vector<Competition> & getCompetitions() const;
     void addCompetition(const Competition & c); //daqui para baixo provavelmente vão ser virtual por causa dos vetores de atletas e equipas
@@ -34,6 +35,7 @@ class TeamSport: public Sport{
     vector<Team*> teams;
     unsigned int numberOfElements;
 public:
+    ~TeamSport(){};
     TeamSport(){}
     TeamSport(const TeamSport & s);
     void setParticipants(const vector<Team> & teams);
@@ -46,6 +48,7 @@ public:
 class IndividualSport: public Sport{
     vector<Athlete*> athletes;
 public:
+    ~IndividualSport(){};
     IndividualSport(const IndividualSport & s);
     IndividualSport(){};
     void setParticipants(const vector<Athlete*> & athletes);
