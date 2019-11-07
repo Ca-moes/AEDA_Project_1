@@ -222,7 +222,7 @@ void staffMenu(Delegation & delegation) {
                 delegation.addStaffMember();
                 break;
             case 2:
-                //delegation.removeStaffMember();
+                delegation.removeStaffMember();
                 break;
             case 3:
                 //delegation.changeStaffMember();

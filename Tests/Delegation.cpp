@@ -268,7 +268,6 @@ void Delegation::readPeopleFile(const vector<string> & lines) {
                         throw FileStructureError(peopleFilename);
                     s->setFunction(line);
                     people.push_back(new Staff(*s));
-                    staff.push_back(new Staff(*s));
                     break;
                 default:
                     throw FileStructureError(peopleFilename);
@@ -555,8 +554,8 @@ void Delegation::addStaffMember() {
         }
         cin.clear();
     }
-    if (findStaffMember(tmp) != -1){
-        cout << "Staff Member already exists!" << endl;
+    if (findPerson(tmp) != -1){
+        cout << "Person already exists!" << endl;
         cout << endl << "0 - BACK" << endl;
         do {
             test = checkinputchoice(input, 0, 0);
@@ -663,7 +662,6 @@ void Delegation::addStaffMember() {
     novo->setFunction(tmp);
 
     people.push_back(novo);
-    staff.push_back(novo);
 }
 
 void Delegation::showPortugueseMembers() const{
@@ -696,11 +694,51 @@ void Delegation::showPortugueseMembers() const{
     } while (test != 0 && test != 2);
 }
 
-int Delegation::findStaffMember(const string name) {
-    for (int i = 0; i < staff.size(); i++){
-        if(name == staff.at(i)->getName()) return i;
+int Delegation::findPerson(const string name) {
+    for (int i = 0; i < people.size(); i++){
+        if(name == people.at(i)->getName()) return i;
     }
     return -1;
+}
+
+void Delegation::removeStaffMember() {
+    int test = 0;
+    int index;
+    string input = "", tmp;
+
+    cout << "Name: ";
+    getline(cin,tmp);
+    if (cin.eof()){
+        cin.clear();
+        return; //go back on ctrl+d
+    }
+    cin.clear();
+    while(checkStringInput(tmp)){
+        cout << "Invalid Name. Try again!" << endl;
+        cout << "Name: ";
+        getline(cin,tmp);
+        if (cin.eof()){
+            cin.clear();
+            return; //go back on ctrl+d
+        }
+        cin.clear();
+    }
+    index = findPerson(tmp);
+    if (index == -1 || people.at(index)->isAthlete()){
+        cout << "Staff Member does not exist!" << endl;
+        cout << endl << "0 - BACK" << endl;
+        do {
+            test = checkinputchoice(input, 0, 0);
+            if (test != 0 )
+                cerr << "Invalid option! Press 0 to go back." << endl;
+        } while (test != 0 && test != 2);
+        return;
+    } else {
+        vector<Person*>::iterator it = people.begin() + index;
+        delete *it;
+        people.erase(it);
+        return;
+    }
 }
 
 //File Errors - Exceptions

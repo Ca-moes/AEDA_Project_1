@@ -21,7 +21,6 @@ class Delegation {
     float totalCost;
     vector<Person*> people;
     vector<Athlete*> athletes;
-    vector<Staff*> staff;
     vector<Team*> teams;
     vector<Sport*> sports;
 public:
@@ -123,12 +122,18 @@ public:
     void addStaffMember();
 
     /**
-   * Find a Staff Member in the Staff vector
+    * Removes a staff member of the people vector
+    *
+    */
+    void removeStaffMember();
+
+    /**
+   * Find a Person in the people vector
    *
-   * @params name the name of the Staff Member
-   * @returns the index of the Staff Member, -1 if it does not exist
+   * @params name the name of the Person
+   * @returns the index of the Person, -1 if it does not exist
    */
-   int findStaffMember(const string name);
+   int findPerson(const string name);
 
     /**
     * Shows the information of all the members of the Portuguese Delegation in a human friendly way
