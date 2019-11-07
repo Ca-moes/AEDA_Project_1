@@ -61,6 +61,20 @@ string Person::info(){
     return os.str();
 }
 
+bool Person::operator <(const Person & p){
+
+    return(name > p.getName());
+}
+
+ostream & operator<<(ostream & os, const Person & p){
+    os <<  left <<setw(17) << "Name" << setw(4) << " "<<  p.getName() << setw(3) <<endl;
+    os <<  left <<setw(17) << "Birthday" << setw(4) << " "<< p.getBirth() << setw(3) <<endl;
+    os <<  left <<setw(17) << "Passport" << setw(4) << " "<< p.getPassport() << setw(3) <<endl;
+    os <<  left <<setw(17) << "Flight Arrival" << setw(4) << " "<<  p.getArrival() << setw(3) <<endl;
+    os <<  left <<setw(17) << "Flight Departure" << setw(4) << " "<<p.getDeparture() << setw(3) <<endl;
+    return os;
+}
+
 //Staff
 
 const string &Staff::getFunction() const {

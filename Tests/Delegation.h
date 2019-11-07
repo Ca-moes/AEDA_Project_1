@@ -95,19 +95,31 @@ public:
    */
     void setTotalCost(float totalCost);
 
+    const vector<Sport*> & getSports() const;
     /**
    * Calculates the Delegation's total cost
    * Sets the Delegation's total cost
    */
     void calculateTotalCost();
 
-
     /**
     * Get the information about the Delegation in a formatted way
     *
     * @returns the Delegation's information
     */
-    string info();
+    string info() const;
+
+    /**
+    * Adds a staff member to the people vector
+    *
+    */
+    void addStaffMember();
+
+    /**
+    * Shows the information of all the members of the Portuguese Delegation in a human friendly way
+    *
+    */
+    void showPortugueseMembers() const;
 };
 
 //Exceptions
@@ -127,43 +139,39 @@ public:
 };
 
 //Non Existent Sport
-template <class Participant>
 class NonExistentSport{
     string sport;
 public:
-    friend ostream & operator << <Participant>(ostream & os, const NonExistentSport<Participant> & c);
+    friend ostream & operator <<(ostream & os, const NonExistentSport & c);
     explicit NonExistentSport(string name);
 };
 
 //Non Existent Competition exception
-template <class Participant>
 class NonExistentCompetition{
     string competition;
     string sport;
 public:
-    friend ostream & operator << <Participant>(ostream & os, const NonExistentCompetition<Participant> & c);
+    friend ostream & operator <<(ostream & os, const NonExistentCompetition & c);
     explicit NonExistentCompetition(string name, string sport);
 };
 
 
 //Non Existent Trial
-template <class Participant>
 class NonExistentTrial{
     string name;
     string competition;
     string sport;
 public:
-    friend ostream & operator << <Participant> (ostream & os, NonExistentTrial & t);
+    friend ostream & operator <<(ostream & os, NonExistentTrial & t);
     NonExistentTrial(string name, string competition, string sport);
 };
 
 //Non Existent Participant (Team or person)
-template <class Participant>
 class NonExistentParticipant{
     string participant;
     string where;
 public:
-    friend ostream & operator << <Participant> (ostream & os, NonExistentParticipant & p);
+    friend ostream & operator <<(ostream & os, NonExistentParticipant & p);
     NonExistentParticipant(string name, string where);
 };
 

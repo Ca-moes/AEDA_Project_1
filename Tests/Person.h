@@ -50,6 +50,8 @@ public:
     virtual string info();
 
     virtual bool isAthlete(){return false;};
+
+    bool operator <(const Person & p);
 private:
     string name;
     Date birth;
@@ -57,6 +59,8 @@ private:
     Date arrival;
     Date departure;
 };
+
+ostream & operator<<(ostream & os, const Person & p);
 
 class Participant {
 protected:

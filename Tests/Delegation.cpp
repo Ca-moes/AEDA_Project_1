@@ -8,6 +8,7 @@
 #include <regex>
 #include <sstream>
 #include <utility>
+#include <algorithm>
 
 Delegation::Delegation(){
     try{
@@ -89,6 +90,9 @@ void Delegation::readDelegationFile(){
     readPeopleFile(fileToLineVector(delegationFile));
     delegationFile.close();
     delegationFile.clear();
+
+    calculateTotalCost();
+
     //for testing purposes
     //print delegation info
     //cout << info();
@@ -122,8 +126,8 @@ void Delegation::readPeopleFile(const vector<string> & lines) {
     string line;
     Date d;
     bool readFunc = false;
-    Athlete *a;
-    Staff *s;
+    Athlete *a = nullptr;
+    Staff *s = nullptr;
     //Variables to read Competitions:
     istringstream competitionsStream;
     string compStr;
@@ -163,8 +167,8 @@ void Delegation::readPeopleFile(const vector<string> & lines) {
                     a->setBirth(d);
                     break;
                 case 3:
-                    //if(checkStringInput(line) != 0) // create a function to check passport's formats
-                        //throw FileStructureError(peopleFilename);
+                    if(checkAlphaNumericInput(line) != 0)
+                        throw FileStructureError(peopleFilename);
                     a->setPassport(line);
                     break;
                 case 4:
@@ -193,8 +197,11 @@ void Delegation::readPeopleFile(const vector<string> & lines) {
                 case 7:
                     //ler competições - confirmar estrutura
                     competitionsStream.str(line);
-                    while (getline(competitionsStream, compStr, ' '))
+                    while (getline(competitionsStream, compStr, ' ')){
+                        if(checkAlphaNumericInput(line) != 0)
+                            throw FileStructureError(peopleFilename);
                         competitions.push_back(compStr);
+                    }
                     a->setCompetitions(competitions);
                     break;
                 case 8:
@@ -228,8 +235,8 @@ void Delegation::readPeopleFile(const vector<string> & lines) {
                     s->setBirth(d);
                     break;
                 case 3:
-                    //if(checkStringInput(line) != 0) // create a function to check passport's formats
-                    //throw FileStructureError(peopleFilename);
+                    if(checkAlphaNumericInput(line) != 0)
+                        throw FileStructureError(peopleFilename);
                     s->setPassport(line);
                     break;
                 case 4:
@@ -270,8 +277,8 @@ void Delegation::readCompetitionsFile(const vector<string> & lines) {
     char read = 's'; // auxiliar para saber se vamos ler um sport, uma competition ou um trial (s,c ou t)
     //objects to create a sport
     bool isTeamSport = false;
-    TeamSport *teamSport;
-    IndividualSport *individualSport;
+    TeamSport *teamSport = nullptr;
+    IndividualSport *individualSport =  nullptr;
     string name, participant, pCountry;
     Competition competition;
     vector<Competition> competitions;
@@ -456,6 +463,7 @@ void Delegation::readCompetitionsFile(const vector<string> & lines) {
         }
     }
 }
+
 const string &Delegation::getCountry() const {
     return country;
 }
@@ -488,6 +496,9 @@ void Delegation::setTotalCost(float totalcost) {
     this->totalCost = totalcost;
 }
 
+const vector<Sport*> & Delegation::getSports() const{
+    return sports;
+}
 
 void Delegation::calculateTotalCost() {
     float result = 0;
@@ -503,7 +514,7 @@ void Delegation::calculateTotalCost() {
     this->totalCost = result;
 }
 
-string Delegation::info(){
+string Delegation::info() const{
     ostringstream os;
     os <<  left <<setw(17) << "Country" << setw(4) << " "<<  country << setw(3) <<endl;
     os <<  left <<setw(17) << "Staff's Daily Cost" << setw(4) << " "<< dailyCostStaff << setw(3) <<endl;
@@ -511,6 +522,77 @@ string Delegation::info(){
     os <<  left <<setw(17) << "Total Cost" << setw(4) << " "<< totalCost << setw(3) <<endl;
     return os.str();
 }
+
+void Delegation::addStaffMember() {
+    Staff* novo = new Staff();
+    string tmp;
+    Date tmp_date;
+
+    cout << "Name: ";
+    getline(cin,tmp);
+    while(checkStringInput(tmp)){
+        cout << "Invalid Name. Try again!" << endl;
+        cout << "Name: ";
+        getline(cin,tmp);
+    }
+    novo->setName(tmp);
+
+    cout << "Date of Birth: ";
+    cin >> tmp;
+    while(checkDateInput(tmp, tmp_date)){
+        cout << "Invalid Date. Try again!" << endl;
+        cout << "Date of Birth: ";
+        cin >> tmp;
+    }
+    novo->setBirth(tmp_date);
+
+    cout << "Passport: ";
+    cin >> tmp;
+    while(checkAlphaNumericInput(tmp)){
+        cout << "Invalid Passport. Try again!" << endl;
+        cout << "Passport: ";
+        cin >> tmp;
+    }
+    novo->setPassport(tmp);
+
+    cout << "Date of Arrival: ";
+    cin >> tmp;
+    while(checkDateInput(tmp, tmp_date) || !(tmp_date.isOlimpianDate())){
+        cout << "Invalid Date. Try again!" << endl;
+        cout << "Date of Arrival: ";
+        cin >> tmp;
+    }
+    novo->setArrival(tmp_date);
+
+    cout << "Date of Departure: ";
+    cin >> tmp;
+    while(checkDateInput(tmp, tmp_date) || !(tmp_date.isOlimpianDate())){
+        cout << "Invalid Date. Try again!" << endl;
+        cout << "Date of Departure: ";
+        cin >> tmp;
+    }
+    novo->setDeparture(tmp_date);
+
+    cout << "Function: ";
+    getline(cin,tmp);
+    while(checkStringInput(tmp) == 1){
+        cout << "Invalid Function. Try again!" << endl;
+        cout << "Function: ";
+        getline(cin,tmp);
+    }
+    novo->setFunction(tmp);
+
+    people.push_back(novo);
+}
+
+void Delegation::showPortugueseMembers() const{
+    //sort(people.begin(),people.end(),sortMembersAlphabetically);
+    vector<Person*>::const_iterator it;
+    for(it=people.begin();it != people.end(); it++){
+        cout << (*(*it));
+    }
+}
+
 //File Errors - Exceptions
 
 FileError::FileError(string file) : file(move(file)){}
@@ -528,54 +610,45 @@ ostream & operator << (ostream & os, const FileStructureError & file){
 }
 
 //sport doesn't exist
-
-template <class Participant>
-NonExistentSport<Participant>::NonExistentSport(string name){
-    this->name = name;
+NonExistentSport::NonExistentSport(string name){
+    this->sport = name;
 }
 
-template <class Participant>
-ostream & operator << (ostream & os,  const NonExistentSport<Participant> & c){
-    os << c.competition << " doesn't exist in " << c.sport << "!\n";
+ostream & operator << (ostream & os,  const NonExistentSport & c){
+    os << c.sport << " doesn't exist!" << "!\n";
     return os;
 }
 
 //competition doesn't exist
-template <class Participant>
-NonExistentCompetition<Participant>::NonExistentCompetition(string name, string sport){
-    this->name = name;
+NonExistentCompetition::NonExistentCompetition(string name, string sport){
+    this->competition = name;
     this->sport = sport;
 }
 
-template <class Participant>
-ostream & operator <<(ostream & os, const NonExistentCompetition<Participant> & c){
+ostream & operator <<(ostream & os, const NonExistentCompetition & c){
     os << c.competition << " doesn't exist in " << c.sport << "!\n";
     return os;
 }
 
 //trial doesn't exist
-template <class Participant>
-NonExistentTrial<Participant>::NonExistentTrial(string name, string competition, string sport){
+NonExistentTrial::NonExistentTrial(string name, string competition, string sport){
     this->name = name;
     this->competition = competition;
     this->sport = sport;
 }
 
-template <class Participant>
-ostream & operator << (ostream & os, const NonExistentTrial<Participant> & t){
-    os << t << " doesn't exist in "  << t.competition <<  ", " << t.sport << "!\n";
+ostream & operator <<(ostream & os, NonExistentTrial & t){
+    os << t.name << " doesn't exist in "  << t.competition <<  ", " << t.sport << "!\n";
     return os;
 }
 
 //participant doesn't exist
-template <class Participant>
-NonExistentParticipant<Participant>::NonExistentParticipant(string name, string where){
+NonExistentParticipant::NonExistentParticipant(string name, string where){
     participant = name;
     this->where = where;
 }
 
-template <class Participant>
-ostream & operator <<(ostream & os, const NonExistentParticipant<Participant> & p){
-    os << p << " doesn't compete in " << p.where << "!\n";
+ostream & operator <<(ostream & os, NonExistentParticipant & p){
+    os << p.participant << " doesn't compete in " << p.where << "!\n";
     return os;
 }

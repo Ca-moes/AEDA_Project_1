@@ -8,6 +8,7 @@
 #include <string>
 #include <regex>
 #include "Date.h"
+#include "Person.h"
 
 using namespace std;
 
@@ -24,6 +25,13 @@ int checkInvalidType(istream & in);
 * @returns 0 if string is valid and 1 otherwise
 */
 int checkStringInput(string & str);
+
+/**
+* Check if a string is alphanumeric : non empty and with no symbols
+*
+* @returns 0 if string is valid and 1 otherwise
+*/
+int checkAlphaNumericInput(string & str);
 
 /**
 * Check if a string can be converted to float
@@ -69,4 +77,5 @@ vector<string> fileToLineVector(istream & in);
 
 int daysBetween(const Date begin, const Date end);
 
+bool sortMembersAlphabetically(Person * p1,Person * p2);
 #endif //PROJECT_1_INPUTCHECK_H
