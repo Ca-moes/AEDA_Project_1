@@ -51,8 +51,7 @@ public:
 
     virtual bool isAthlete(){return false;};
 
-    bool operator<(Person & p);
-    bool operator=(Person & p);
+    bool operator<(const Person & p) const;
 private:
     string name;
     Date birth;

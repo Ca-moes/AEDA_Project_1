@@ -143,7 +143,7 @@ public:
     * Shows the information of all the members of the Portuguese Delegation in a human friendly way
     *
     */
-    void showPortugueseMembers() const;
+    void showPortugueseMembers();
 };
 
 //Exceptions

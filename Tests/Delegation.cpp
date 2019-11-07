@@ -661,10 +661,7 @@ void Delegation::addStaffMember() {
     people.push_back(novo);
 }
 
-bool sortMembersAlphabetically(Person * p1, Person * p2){
-    return ((*p1)<(*p2));
-}
-void Delegation::showPortugueseMembers() const{
+void Delegation::showPortugueseMembers(){
     int test = 0;
     string input = "";
 
@@ -674,8 +671,8 @@ void Delegation::showPortugueseMembers() const{
     cout << "_____________________________________________________" << endl << endl;
 
 
-    if (!people.empty()) {
-        //sort(people.begin(),people.end(),sortMembersAlphabetically);
+    if (!people.empty()){
+        std::sort(people.begin(),people.end(),sortMembersAlphabetically);
         vector<Person*>::const_iterator it;
         for(it=people.begin();it != people.end(); it++){
             cout << (*(*it));
