@@ -4,12 +4,12 @@ Futebol
 Fase1
 25/07/2020
 26/07/2020
-Portugal-National,Spain-National,Russia-National
+Portugal-Portugal,Spain-Spain,Russia-Russia
 
 Fase2
 27/07/2020
 29/07/2020
-Spain-National,Russia-National,Japan-National
+Spain-Spain,Russia-Russia,Japan-Japan
 ////////
 Badminton
 2

@@ -1,3 +1,22 @@
+Futebol
+Portugal
+Diana Freitas
+--------
+Badminton
+PortPM
+Joao Lopes, Adalbertino Carvalho
+PortPF
+
+--------
+Vela
+V3
+
+V4
+Jacinta Albertina, Pateta
+
+&&&&
+Ao detetar &&&& parar a leitura de ficheiros,
+assim é possível adicionar comentários no final
 competitions.txt :
 -Modalidade (string)
 -tamanho da equipa (1..)
@@ -8,3 +27,8 @@ competitions.txt :
 -medalhas
 //////// (8 / demarca inicio de outra modalidade a seguir)
 //       (2 / demarca jogos da competição a seguir)
+
+Teams.txt
+nome
+modalidade
+atletas (separados por virgulas)
