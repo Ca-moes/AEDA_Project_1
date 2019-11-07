@@ -268,6 +268,7 @@ void Delegation::readPeopleFile(const vector<string> & lines) {
                         throw FileStructureError(peopleFilename);
                     s->setFunction(line);
                     people.push_back(new Staff(*s));
+                    staff.push_back(new Staff(*s));
                     break;
                 default:
                     throw FileStructureError(peopleFilename);
@@ -534,61 +535,135 @@ void Delegation::addStaffMember() {
     string tmp;
     Date tmp_date;
 
+    int test = 0;
+    string input = "";
+
     cout << "Name: ";
     getline(cin,tmp);
+    if (cin.eof()){
+        cin.clear();
+        return; //go back on ctrl+d
+    }
+    cin.clear();
     while(checkStringInput(tmp)){
         cout << "Invalid Name. Try again!" << endl;
         cout << "Name: ";
         getline(cin,tmp);
+        if (cin.eof()){
+            cin.clear();
+            return; //go back on ctrl+d
+        }
+        cin.clear();
+    }
+    if (findStaffMember(tmp) != -1){
+        cout << "Staff Member already exists!" << endl;
+        cout << endl << "0 - BACK" << endl;
+        do {
+            test = checkinputchoice(input, 0, 0);
+            if (test != 0 )
+                cerr << "Invalid option! Press 0 to go back." << endl;
+        } while (test != 0 && test != 2);
+        return;
     }
     novo->setName(tmp);
 
     cout << "Date of Birth: ";
-    cin >> tmp;
+    getline(cin,tmp);
+    if (cin.eof()){
+        cin.clear();
+        return; //go back on ctrl+d
+    }
+    cin.clear();
     while(checkDateInput(tmp, tmp_date)){
         cout << "Invalid Date. Try again!" << endl;
         cout << "Date of Birth: ";
-        cin >> tmp;
+        getline(cin,tmp);
+        if (cin.eof()){
+            cin.clear();
+            return; //go back on ctrl+d
+        }
+        cin.clear();
     }
     novo->setBirth(tmp_date);
 
     cout << "Passport: ";
-    cin >> tmp;
+    getline(cin,tmp);
+    if (cin.eof()){
+        cin.clear();
+        return; //go back on ctrl+d
+    }
+    cin.clear();
     while(checkAlphaNumericInput(tmp)){
         cout << "Invalid Passport. Try again!" << endl;
         cout << "Passport: ";
-        cin >> tmp;
+        getline(cin,tmp);
+        if (cin.eof()){
+            cin.clear();
+            return; //go back on ctrl+d
+        }
+        cin.clear();
     }
     novo->setPassport(tmp);
 
     cout << "Date of Arrival: ";
-    cin >> tmp;
+    getline(cin,tmp);
+    if (cin.eof()){
+        cin.clear();
+        return; //go back on ctrl+d
+    }
+    cin.clear();
     while(checkDateInput(tmp, tmp_date) || !(tmp_date.isOlimpianDate())){
         cout << "Invalid Date. Try again!" << endl;
         cout << "Date of Arrival: ";
-        cin >> tmp;
+        getline(cin,tmp);
+        if (cin.eof()){
+            cin.clear();
+            return; //go back on ctrl+d
+        }
+        cin.clear();
     }
     novo->setArrival(tmp_date);
 
     cout << "Date of Departure: ";
-    cin >> tmp;
+    getline(cin,tmp);
+    if (cin.eof()){
+        cin.clear();
+        return; //go back on ctrl+d
+    }
+    cin.clear();
     while(checkDateInput(tmp, tmp_date) || !(tmp_date.isOlimpianDate())){
         cout << "Invalid Date. Try again!" << endl;
         cout << "Date of Departure: ";
-        cin >> tmp;
+        getline(cin,tmp);
+        if (cin.eof()){
+            cin.clear();
+            return; //go back on ctrl+d
+        }
+        cin.clear();
     }
     novo->setDeparture(tmp_date);
 
     cout << "Function: ";
     getline(cin,tmp);
+    if (cin.eof()){
+        cin.clear();
+        return; //go back on ctrl+d
+    }
+    cin.clear();
     while(checkStringInput(tmp) == 1){
         cout << "Invalid Function. Try again!" << endl;
         cout << "Function: ";
         getline(cin,tmp);
+        if (cin.eof()){
+            cin.clear();
+            return; //go back on ctrl+d
+        }
+        cin.clear();
     }
     novo->setFunction(tmp);
 
     people.push_back(novo);
+    staff.push_back(novo);
 }
 
 void Delegation::showPortugueseMembers() const{
@@ -619,6 +694,13 @@ void Delegation::showPortugueseMembers() const{
         if (test != 0 )
             cerr << "Invalid option! Press 0 to go back." << endl;
     } while (test != 0 && test != 2);
+}
+
+int Delegation::findStaffMember(const string name) {
+    for (int i = 0; i < staff.size(); i++){
+        if(name == staff.at(i)->getName()) return i;
+    }
+    return -1;
 }
 
 //File Errors - Exceptions
