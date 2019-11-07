@@ -741,6 +741,198 @@ void Delegation::removeStaffMember() {
     }
 }
 
+void Delegation::changeStaffMember() {
+    int test = 0;
+    int index;
+    string input = "", tmp;
+
+    cout << "Name: ";
+    getline(cin,tmp);
+    if (cin.eof()){
+        cin.clear();
+        return; //go back on ctrl+d
+    }
+    cin.clear();
+    while(checkStringInput(tmp)){
+        cout << "Invalid Name. Try again!" << endl;
+        cout << "Name: ";
+        getline(cin,tmp);
+        if (cin.eof()){
+            cin.clear();
+            return; //go back on ctrl+d
+        }
+        cin.clear();
+    }
+    index = findPerson(tmp);
+    if (index == -1 || people.at(index)->isAthlete()){
+        cout << "Staff Member does not exist!" << endl;
+        cout << endl << "0 - BACK" << endl;
+        do {
+            test = checkinputchoice(input, 0, 0);
+            if (test != 0 )
+                cerr << "Invalid option! Press 0 to go back." << endl;
+        } while (test != 0 && test != 2);
+        return;
+    } else {
+        system("cls");
+        cout << "_____________________________________________________" << endl << endl;
+        cout << "\t\t   What do you want to change?" << endl;
+        cout << "_____________________________________________________" << endl << endl;
+
+        cout << "1 - Name" << endl;
+        cout << "2 - Date of Birth" << endl;
+        cout << "3 - Passport" << endl;
+        cout << "4 - Date of Arrival" << endl;
+        cout << "5 - Date of Departure" << endl;
+        cout << "6 - Function" << endl;
+        cout << "0 - BACK" << endl;
+
+        do {
+            test = checkinputchoice(input, 0, 6);
+            if (test != 0 && test != 2)
+                cerr << "Invalid option! Please try again." << endl;
+        } while (test != 0 && test != 2);
+        if (test == 2)
+        { input = "0"; }
+
+        Date tmp_date;
+
+        switch (stoi(input)) {
+            case 1:
+                cout << "New name: ";
+                getline(cin,tmp);
+                if (cin.eof()){
+                    cin.clear();
+                    return; //go back on ctrl+d
+                }
+                cin.clear();
+                while(checkStringInput(tmp)){
+                    cout << "Invalid Name. Try again!" << endl;
+                    cout << "New name: ";
+                    getline(cin,tmp);
+                    if (cin.eof()){
+                        cin.clear();
+                        return; //go back on ctrl+d
+                    }
+                    cin.clear();
+                }
+                people.at(index)->setName(tmp);
+                break;
+            case 2:
+                cout << "Date of Birth: ";
+                getline(cin,tmp);
+                if (cin.eof()){
+                    cin.clear();
+                    return; //go back on ctrl+d
+                }
+                cin.clear();
+                while(checkDateInput(tmp, tmp_date)){
+                    cout << "Invalid Date. Try again!" << endl;
+                    cout << "Date of Birth: ";
+                    getline(cin,tmp);
+                    if (cin.eof()){
+                        cin.clear();
+                        return; //go back on ctrl+d
+                    }
+                    cin.clear();
+                }
+                people.at(index)->setBirth(tmp_date);
+                break;
+            case 3:
+                cout << "Passport: ";
+                getline(cin,tmp);
+                if (cin.eof()){
+                    cin.clear();
+                    return; //go back on ctrl+d
+                }
+                cin.clear();
+                while(checkAlphaNumericInput(tmp)){
+                    cout << "Invalid Passport. Try again!" << endl;
+                    cout << "Passport: ";
+                    getline(cin,tmp);
+                    if (cin.eof()){
+                        cin.clear();
+                        return; //go back on ctrl+d
+                    }
+                    cin.clear();
+                }
+                people.at(index)->setPassport(tmp);
+                break;
+            case 4:
+                cout << "Date of Arrival: ";
+                getline(cin,tmp);
+                if (cin.eof()){
+                    cin.clear();
+                    return; //go back on ctrl+d
+                }
+                cin.clear();
+                while(checkDateInput(tmp, tmp_date) || !(tmp_date.isOlimpianDate())){
+                    cout << "Invalid Date. Try again!" << endl;
+                    cout << "Date of Arrival: ";
+                    getline(cin,tmp);
+                    if (cin.eof()){
+                        cin.clear();
+                        return; //go back on ctrl+d
+                    }
+                    cin.clear();
+                }
+                people.at(index)->setArrival(tmp_date);
+                break;
+            case 5:
+                cout << "Date of Departure: ";
+                getline(cin,tmp);
+                if (cin.eof()){
+                    cin.clear();
+                    return; //go back on ctrl+d
+                }
+                cin.clear();
+                while(checkDateInput(tmp, tmp_date) || !(tmp_date.isOlimpianDate())){
+                    cout << "Invalid Date. Try again!" << endl;
+                    cout << "Date of Departure: ";
+                    getline(cin,tmp);
+                    if (cin.eof()){
+                        cin.clear();
+                        return; //go back on ctrl+d
+                    }
+                    cin.clear();
+                }
+                people.at(index)->setDeparture(tmp_date);
+                break;
+            case 6:
+                cout << "Function: ";
+                getline(cin,tmp);
+                if (cin.eof()){
+                    cin.clear();
+                    return; //go back on ctrl+d
+                }
+                cin.clear();
+                while(checkStringInput(tmp) == 1){
+                    cout << "Invalid Function. Try again!" << endl;
+                    cout << "Function: ";
+                    getline(cin,tmp);
+                    if (cin.eof()){
+                        cin.clear();
+                        return; //go back on ctrl+d
+                    }
+                    cin.clear();
+                }
+                if(!people.at(index)->isAthlete()){
+                    Staff* s = dynamic_cast<Staff*> (people.at(index));
+                    if(s == NULL){
+                        cout << "Couldn't change function!" << endl;
+                    } else {
+                        s->setFunction(tmp);
+                    }
+                }
+                break;
+            case 0:
+                break;
+            default:
+                break;
+        }
+    }
+}
+
 //File Errors - Exceptions
 
 FileError::FileError(string file) : file(move(file)){}

@@ -94,7 +94,6 @@ public:
     void setHeight(float height);
     string info();
     bool isAthlete(){return true;};
-    //double getDailyCost();
 };
 
 class Team: public Participant{

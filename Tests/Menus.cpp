@@ -225,7 +225,7 @@ void staffMenu(Delegation & delegation) {
                 delegation.removeStaffMember();
                 break;
             case 3:
-                //delegation.changeStaffMember();
+                delegation.changeStaffMember();
                 break;
             case 4:
                 //delegation.showStaffMember(); // ou um menu com opção para mostrar ou só um ou todos os membros

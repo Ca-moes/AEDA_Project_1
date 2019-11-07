@@ -128,6 +128,12 @@ public:
     void removeStaffMember();
 
     /**
+    * Changes a data of a staff member
+    *
+    */
+    void changeStaffMember();
+
+    /**
    * Find a Person in the people vector
    *
    * @params name the name of the Person
