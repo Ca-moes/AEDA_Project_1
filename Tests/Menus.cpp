@@ -108,7 +108,7 @@ void participantsMenu(Delegation & delegation) {
                 staffMenu(delegation);
                 break;
             case 4:
-                //delegation.showPortugueseMembers();
+                delegation.showPortugueseMembers();
                 break;
             case 0:
                 break;
