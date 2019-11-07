@@ -83,7 +83,6 @@ void participantsMenu(Delegation & delegation) {
         cout << "\t\t   Members Options " << endl;
         cout << "_____________________________________________________" << endl << endl;
 
-        //show client's menu
         cout << "1 - Athletes" << endl;
         cout << "2 - Teams" << endl;
         cout << "3 - Staff" << endl;
@@ -109,7 +108,7 @@ void participantsMenu(Delegation & delegation) {
                 staffMenu(delegation);
                 break;
             case 4:
-                //showPortugueseMembers();
+                //delegation.showPortugueseMembers();
                 break;
             case 0:
                 break;
@@ -126,33 +125,24 @@ void sportsMenu(Delegation & delegation) {
         cout << "\t\t   Sports Options " << endl;
         cout << "_____________________________________________________" << endl << endl;
 
-        //show client's menu
-        cout << "1 - Athletes" << endl;
-        cout << "2 - Teams" << endl;
-        cout << "3 - Staff" << endl;
-        cout << "4 - All Participants" << endl;
+        for(size_t i=0; i < delegation.getSports().size(); i++){
+            cout << i+1 << " - " << delegation.getSports()[i]->getName() << endl;
+        }
         cout << "0 - BACK" << endl;
 
         do {
-            testinput = checkinputchoice(input, 0, 6);
+            testinput = checkinputchoice(input, 0, delegation.getSports().size());
             if (testinput != 0 && testinput != 2)
                 cerr << "Invalid option! Please try again." << endl;
         } while (testinput != 0 && testinput != 2);
         if (testinput == 2)
         { input = "0"; }
 
+        if(stoi(input) != 0)
+            input = "1";
         switch (stoi(input)) {
             case 1:
-                //athletesMenu(delegation);
-                break;
-            case 2:
-                //teamsMenu(delegation);
-                break;
-            case 3:
-                staffMenu(delegation);
-                break;
-            case 4:
-                //showParticipants();
+                //sportsCompetitionsMenu(delegation,delegation.getSports()[stoi(input)-1].getName());
                 break;
             case 0:
                 break;
@@ -169,7 +159,6 @@ void resultsMenu(Delegation & delegation) {
         cout << "\t\t   Sports Options " << endl;
         cout << "_____________________________________________________" << endl << endl;
 
-        //show client's menu
         cout << "1 - Athletes" << endl;
         cout << "2 - Teams" << endl;
         cout << "3 - Staff" << endl;
@@ -214,7 +203,6 @@ void staffMenu(Delegation & delegation) {
         cout << "\t\t   Staff's Options " << endl;
         cout << "_____________________________________________________" << endl << endl;
 
-        //show client's menu
         cout << "1 - Add Staff member" << endl;
         cout << "2 - Remove Staff member" << endl;
         cout << "3 - Change Staff member" << endl;
@@ -234,13 +222,13 @@ void staffMenu(Delegation & delegation) {
                 delegation.addStaffMember();
                 break;
             case 2:
-                //removeStaffMember();
+                //delegation.removeStaffMember();
                 break;
             case 3:
-                //changeStaffMember(delegation);
+                //delegation.changeStaffMember();
                 break;
             case 4:
-                //showStaffMember(); // ou um menu com opção para mostrar ou só um ou todos os membros
+                //delegation.showStaffMember(); // ou um menu com opção para mostrar ou só um ou todos os membros
                 break;
             case 0:
                 break;
@@ -257,7 +245,6 @@ void athletesMenu(Delegation & delegation) {
         cout << "\t\t   Athletes Options " << endl;
         cout << "_____________________________________________________" << endl << endl;
 
-        //show client's menu
         cout << "1 - Add Athlete" << endl;
         cout << "2 - Change Athlete" << endl;
         cout << "3 - Remove Athlete" << endl;
@@ -301,15 +288,14 @@ void teamsMenu(Delegation & delegation) {
     {
         system("cls");
         cout << "_____________________________________________________" << endl << endl;
-        cout << "\t\t   Athletes Options " << endl;
+        cout << "\t\t   Teams Options " << endl;
         cout << "_____________________________________________________" << endl << endl;
 
-        //show client's menu
-        cout << "1 - Add Athlete" << endl;
-        cout << "2 - Change Athlete" << endl;
-        cout << "3 - Remove Athlete" << endl;
-        cout << "4 - View Athlete Info (by PASSPORT)" << endl;
-        cout << "5 - View All Athletes Info" << endl;
+        cout << "1 - Add Team" << endl;
+        cout << "2 - Change Team" << endl;
+        cout << "3 - Remove Team" << endl;
+        cout << "4 - View Team Info (by PASSPORT)" << endl;
+        cout << "5 - View All Teams Info" << endl;
         cout << "0 - BACK" << endl;
 
         do {
@@ -322,19 +308,59 @@ void teamsMenu(Delegation & delegation) {
 
         switch (stoi(input)) {
             case 1:
-                //delegation.addAthlete();
+                //delegation.addTeam();
                 break;
             case 2:
-                //changeClientMenu(delegation);
+                //changeTeamMenu(delegation);
                 break;
             case 3:
-                //delegation.removeAthlete();
+                //delegation.removeTeam();
                 break;
             case 4:
-                //delegation.showAthlete();
+                //delegation.showTeam();
                 break;
             case 5:
-                //agency.showAllAthletes();
+                //agency.showAllTeams();
+                break;
+            case 0:
+                break;
+        }
+    } while (stoi(input) != 0);
+}
+
+//Sports submenus
+void sportsCompetitionsMenu(Delegation & delegation, const string & sport){
+    int testinput = 0;
+    string input;
+    do
+    {
+        system("cls");
+        cout << "_____________________________________________________" << endl << endl;
+        cout << "\t\t   Sports Options - " << sport << endl;
+        cout << "_____________________________________________________" << endl << endl;
+
+        cout << "Choose an option by typing a number and pressing Enter." << endl << endl;
+        //show the main menu
+        cout << "1 - End Participation" << endl;
+        cout << "2 - Competitions" << endl;
+        cout << "0 - EXIT" << endl;
+
+        do {
+            testinput = checkinputchoice(input, 0, 2);
+            if (testinput != 0 && testinput != 2)
+                cerr << "Invalid option! Please try again." << endl;
+        } while (testinput != 0 && testinput != 2);
+        if (testinput == 2)
+        { input = "0"; }
+
+        if(stoi(input) != 0)
+            input = "1";
+        switch (stoi(input)) {
+            case 1:
+                //removeSport(delegation,sport);
+                break;
+            case 2:
+                //competitionsMenu(delegation,sport);
                 break;
             case 0:
                 break;

@@ -95,26 +95,31 @@ public:
    */
     void setTotalCost(float totalCost);
 
+    const vector<Sport*> & getSports() const;
     /**
    * Calculates the Delegation's total cost
    * Sets the Delegation's total cost
    */
     void calculateTotalCost();
 
-
     /**
     * Get the information about the Delegation in a formatted way
     *
     * @returns the Delegation's information
     */
-    string info();
+    string info() const;
 
     /**
     * Adds a staff member to the people vector
     *
     */
     void addStaffMember();
-    void showPortugueseMembers();
+
+    /**
+    * Shows the information of all the members of the Portuguese Delegation in a human friendly way
+    *
+    */
+    void showPortugueseMembers() const;
 };
 
 //Exceptions

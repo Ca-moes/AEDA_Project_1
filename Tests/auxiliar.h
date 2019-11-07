@@ -8,6 +8,7 @@
 #include <string>
 #include <regex>
 #include "Date.h"
+#include "Person.h"
 
 using namespace std;
 
@@ -76,4 +77,5 @@ vector<string> fileToLineVector(istream & in);
 
 int daysBetween(const Date begin, const Date end);
 
+bool sortMembersAlphabetically(Person * p1,Person * p2);
 #endif //PROJECT_1_INPUTCHECK_H

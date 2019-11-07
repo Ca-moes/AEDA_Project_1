@@ -8,6 +8,7 @@
 #include <regex>
 #include <sstream>
 #include <utility>
+#include <algorithm>
 
 Delegation::Delegation(){
     try{
@@ -125,8 +126,8 @@ void Delegation::readPeopleFile(const vector<string> & lines) {
     string line;
     Date d;
     bool readFunc = false;
-    Athlete *a;
-    Staff *s;
+    Athlete *a = nullptr;
+    Staff *s = nullptr;
     //Variables to read Competitions:
     istringstream competitionsStream;
     string compStr;
@@ -276,8 +277,8 @@ void Delegation::readCompetitionsFile(const vector<string> & lines) {
     char read = 's'; // auxiliar para saber se vamos ler um sport, uma competition ou um trial (s,c ou t)
     //objects to create a sport
     bool isTeamSport = false;
-    TeamSport *teamSport;
-    IndividualSport *individualSport;
+    TeamSport *teamSport = nullptr;
+    IndividualSport *individualSport =  nullptr;
     string name, participant, pCountry;
     Competition competition;
     vector<Competition> competitions;
@@ -495,6 +496,10 @@ void Delegation::setTotalCost(float totalcost) {
     this->totalCost = totalcost;
 }
 
+const vector<Sport*> & Delegation::getSports() const{
+    return sports;
+}
+
 void Delegation::calculateTotalCost() {
     float result = 0;
 
@@ -509,15 +514,7 @@ void Delegation::calculateTotalCost() {
     this->totalCost = result;
 }
 
-void Delegation::showPortugueseMembers(){
-    //orderMembers();
-    vector<Person *>::iterator it;
-    for(it=people.begin(); it != people.end(); it++){
-
-    }
-}
-
-string Delegation::info(){
+string Delegation::info() const{
     ostringstream os;
     os <<  left <<setw(17) << "Country" << setw(4) << " "<<  country << setw(3) <<endl;
     os <<  left <<setw(17) << "Staff's Daily Cost" << setw(4) << " "<< dailyCostStaff << setw(3) <<endl;
@@ -587,6 +584,15 @@ void Delegation::addStaffMember() {
 
     people.push_back(novo);
 }
+
+void Delegation::showPortugueseMembers() const{
+    //sort(people.begin(),people.end(),sortMembersAlphabetically);
+    vector<Person*>::const_iterator it;
+    for(it=people.begin();it != people.end(); it++){
+        cout << (*(*it));
+    }
+}
+
 //File Errors - Exceptions
 
 FileError::FileError(string file) : file(move(file)){}
@@ -604,7 +610,6 @@ ostream & operator << (ostream & os, const FileStructureError & file){
 }
 
 //sport doesn't exist
-
 NonExistentSport::NonExistentSport(string name){
     this->sport = name;
 }
