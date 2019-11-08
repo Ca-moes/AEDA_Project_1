@@ -78,6 +78,10 @@ void Person::showInfoPerson() const{
     cout << (*this);
 }
 
+void Person::showInfo() const{
+    showInfoPerson();
+}
+
 bool operator==(const Person & p1, const Person &p2){
     return p1.getName() == p2.getName();
 }
@@ -186,6 +190,15 @@ void Athlete::showInfoPerson() const{
     cout << left << setw(17) << "Sport" << setw(4) << " "<< getSport() << setw(3) <<endl;
 }
 
+void Athlete::showInfo() const{
+    showInfoPerson();
+    cout <<  left <<setw(17) << "Competitions" <<setw(4) << " ";
+    for(const auto & competition:competitions)
+        cout << competition<<" ";
+    cout << endl;
+    cout <<  left <<setw(17) << "Weight" <<setw(4) << " " << to_string(weight) <<endl;
+    cout <<  left <<setw(17) << "Height" <<  setw(4) << " " << to_string(height) <<endl;
+}
 //Team
 
 Team::Team(const string &name, const string &sport) : name(name) { Participant::sport = sport;}

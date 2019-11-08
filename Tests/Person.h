@@ -49,6 +49,8 @@ public:
 
     virtual string info();
 
+    virtual void showInfo() const;
+
     virtual void showInfoPerson() const;
 
     virtual bool isAthlete(){return false;};
@@ -101,6 +103,7 @@ public:
     string info();
     bool isAthlete(){return true;};
     void showInfoPerson() const;
+    void showInfo() const;
 };
 
 class Team: public Participant{

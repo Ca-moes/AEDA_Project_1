@@ -149,6 +149,19 @@ public:
     /** Shows the information of all the staff members of the Portuguese Delegation in a human friendly way*/
     void showStaffMembers();
 
+    /** Shows the information of an athlete of the Portuguese Delegation in a human friendly way*/
+    void showAthlete() const;
+
+    /** Shows the information of all the athletes of the Portuguese Delegation in a human friendly way*/
+    void showAllAthletes();
+
+    /** Shows the information of a team of the Portuguese Delegation in a human friendly way*/
+    void showTeam() const;
+
+    /** Shows the information of all teams of the Portuguese Delegation in a human friendly way*/
+    void showAllTeams();
+
+
     /** End the participation of the Portuguese Delegation in a specific sport and saves the "history"
      * @param sport the name of the sport to remove
      */
@@ -213,6 +226,14 @@ class NonExistentPerson{
 public:
     friend ostream & operator <<(ostream & os, NonExistentPerson & p);
     NonExistentPerson(string name);
+};
+
+/**@brief Non Existent Team*/
+class NonExistentTeam{
+    string team;
+public:
+    friend ostream & operator <<(ostream & os, NonExistentTeam & p);
+    NonExistentTeam(string name);
 };
 
 /**@brief Person already exists (Staff or Athlete)*/

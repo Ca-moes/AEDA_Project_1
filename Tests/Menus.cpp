@@ -289,7 +289,7 @@ void athletesMenu(Delegation & delegation) {
         cout << "1 - Add Athlete" << endl;
         cout << "2 - Change Athlete" << endl;
         cout << "3 - Remove Athlete" << endl;
-        cout << "4 - View Athlete Info (by PASSPORT)" << endl;
+        cout << "4 - View Athlete Info" << endl;
         cout << "5 - View All Athletes Info" << endl;
         cout << "0 - BACK" << endl;
 
@@ -312,10 +312,10 @@ void athletesMenu(Delegation & delegation) {
                 //delegation.removeAthlete();
                 break;
             case 4:
-                //delegation.showAthlete();
+                delegation.showAthlete();
                 break;
             case 5:
-                //agency.showAllAthletes();
+                delegation.showAllAthletes();
                 break;
             case 0:
                 break;
@@ -335,7 +335,7 @@ void teamsMenu(Delegation & delegation) {
         cout << "1 - Add Team" << endl;
         cout << "2 - Change Team" << endl;
         cout << "3 - Remove Team" << endl;
-        cout << "4 - View Team Info (by PASSPORT)" << endl;
+        cout << "4 - View Team Info" << endl;
         cout << "5 - View All Teams Info" << endl;
         cout << "0 - BACK" << endl;
 
@@ -358,10 +358,23 @@ void teamsMenu(Delegation & delegation) {
                 //delegation.removeTeam();
                 break;
             case 4:
-                //delegation.showTeam();
+                try{
+                    delegation.showTeam();
+                }
+                catch(NonExistentTeam & t){
+                    cout<< t << endl;
+                }
+                catch(NoMembers & e){
+                    cout<< e << endl;
+                }
                 break;
             case 5:
-                //agency.showAllTeams();
+                try{
+                    delegation.showAllTeams();
+                }
+                catch(NoMembers & e){
+                    cout<< e << endl;
+                }
                 break;
             case 0:
                 break;
