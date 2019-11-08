@@ -146,7 +146,12 @@ void sportsMenu(Delegation & delegation) {
             input = "1";
         switch (stoi(input)) {
             case 1:
-                sportsCompetitionsMenu(delegation,delegation.getSports()[stoi(input)-1]->getName());
+                try{
+                    sportsCompetitionsMenu(delegation,delegation.getSports()[stoi(input)-1]->getName());
+                }
+                catch(NonExistentSport & s){
+                    cout << s;
+                }
                 break;
             case 0:
                 break;
@@ -393,7 +398,12 @@ void sportsCompetitionsMenu(Delegation & delegation, const string & sport){
             input = "1";
         switch (stoi(input)) {
             case 1:
-                //removeSport(delegation,sport);
+                try{
+                    delegation.removeSport(sport);
+                }
+                catch(NonExistentSport & s){
+                    throw;
+                }
                 break;
             case 2:
                 //competitionsMenu(delegation,sport);

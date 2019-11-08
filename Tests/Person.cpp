@@ -78,6 +78,10 @@ void Person::showInfoPerson() const{
     cout << (*this);
 }
 
+bool operator==(const Person & p1, const Person &p2){
+    return p1.getName() == p2.getName();
+}
+
 //Staff
 
 const string &Staff::getFunction() const {

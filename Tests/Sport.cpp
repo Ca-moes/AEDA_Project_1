@@ -52,6 +52,10 @@ void Sport::showParticipants() const{
 
 }
 
+bool operator== (const Sport & s1,const Sport & s2){
+    return s1.name == s2.name;
+}
+
 string Sport::info() const{
     ostringstream os;
     os <<  left <<setw(17) << "Name" << setw(4) << " "<<  getName() << setw(3) <<endl;

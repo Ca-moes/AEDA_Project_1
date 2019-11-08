@@ -54,6 +54,8 @@ public:
     virtual bool isAthlete(){return false;};
 
     bool operator<(const Person & p) const;
+
+    friend bool operator==(const Person & p1, const Person &p2);
 private:
     string name;
     Date birth;

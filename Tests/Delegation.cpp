@@ -119,7 +119,7 @@ void Delegation::readDelegationFile() {
 
     //for testing purposes - print sports
     //for(auto & sport : sports)
-        //cout << sport->info()<<endl;
+    //cout << sport->info()<<endl;
 }
 
 void Delegation::readPeopleFile(const vector<string> &lines) {
@@ -294,7 +294,8 @@ void Delegation::readCompetitionsFile(const vector<string> &lines) {
             line = lines[i];
 
         numline++;
-        if (numline == 1) {// se for a primeira linha de uma pessoa vamos ver se é uma nova modalidade, competição ou jogo
+        if (numline ==
+            1) {// se for a primeira linha de uma pessoa vamos ver se é uma nova modalidade, competição ou jogo
             if (line.empty()) {// Se alinha está vazia vamos ler a próxima competição
                 if (read == 'c' || read == 't') {
                     if (read == 't') {
@@ -314,10 +315,11 @@ void Delegation::readCompetitionsFile(const vector<string> &lines) {
                 i++;
                 numline = 1;
                 line = lines[i];
-            } else if (line == "////////" || i ==lines.size()) {//novo desporto - guardar os dados das competições e jogos e limpar variáveis auxiliares; ou útlima linha do ficheiro
-                if(i==lines.size())
-                if (read == 't' || read == 'c')
-                    competitions.push_back(competition);
+            } else if (line == "////////" || i ==
+                                             lines.size()) {//novo desporto - guardar os dados das competições e jogos e limpar variáveis auxiliares; ou útlima linha do ficheiro
+                if (i == lines.size())
+                    if (read == 't' || read == 'c')
+                        competitions.push_back(competition);
                 if (isTeamSport) {
                     teamSport->setCompetitions(competitions);
                     for (auto &team : teams) {
@@ -670,7 +672,7 @@ void Delegation::showPortugueseMembers() {
             cout << endl;
         }
     } else
-       throw NoMembers();
+        throw NoMembers();
 
     cout << endl << "0 - BACK" << endl;
     do {
@@ -687,6 +689,7 @@ int Delegation::findPerson(const string name) const {
     return -1;
 }
 
+//Staff Functions
 void Delegation::removeStaffMember() {
     int test = 0;
     int index;
@@ -904,7 +907,7 @@ void Delegation::changeStaffMember() {
     }
 }
 
-void Delegation::showStaffMember() const{
+void Delegation::showStaffMember() const {
     int test = 0;
     string input = "";
 
@@ -939,7 +942,7 @@ void Delegation::showStaffMember() const{
         index = findPerson(tmp);
         if (index == -1 || people.at(index)->isAthlete())
             throw NonExistentPerson(tmp);
-        else{
+        else {
             (*(people.begin() + index))->showInfoPerson();
         }
     } else
@@ -953,7 +956,7 @@ void Delegation::showStaffMember() const{
     } while (test != 0 && test != 2);
 }
 
-void Delegation::showStaffMembers(){
+void Delegation::showStaffMembers() {
     int test = 0;
     string input = "";
 
@@ -964,10 +967,10 @@ void Delegation::showStaffMembers(){
 
 
     if (!people.empty()) {
-        sort(people.begin(),people.end(),sortMembersAlphabetically);
-        vector<Person*>::const_iterator it;
-        for(it=people.begin(); it!= people.end(); it++){
-            if(!(*it)->isAthlete()){
+        sort(people.begin(), people.end(), sortMembersAlphabetically);
+        vector<Person *>::const_iterator it;
+        for (it = people.begin(); it != people.end(); it++) {
+            if (!(*it)->isAthlete()) {
                 (*it)->showInfoPerson();
                 cout << endl;
             }
@@ -983,6 +986,73 @@ void Delegation::showStaffMembers(){
     } while (test != 0 && test != 2);
 }
 
+void Delegation::removeSport(const string &sport) {
+    vector<Sport *>::iterator s;
+    int test = 0, index = 0;
+    string input = "";
+
+
+    cout << "This option will also remove all athletes/teams who actually play " << sport << "!" << endl;
+    cout << "Are you sure you want to proceed?" << endl;
+
+    cout << "1 - Yes" << endl;
+    cout << "2 - No" << endl;
+
+    do {
+        test = checkinputchoice(input, 1, 2);
+        if (test != 0)
+            cerr << "Invalid option! Please try again." << endl;
+    } while (test != 0);
+
+    if (stoi(input) == 1) {
+        for (s = sports.begin(); s != sports.end(); s++) {
+            if ((*s)->getName() == sport) {
+                //remove every team who plays the sport
+                if ((*s)->isTeamSport()) {
+                    vector<Team *>::iterator t;
+                    for (t = teams.begin(); t != teams.end(); t++) {
+                        if ((*t)->getSport() == sport) {
+                            //elimina os membros da equipa
+                            Team *n = new Team(**t);
+                            oldTeams.push_back(*n);
+                            vector<Athlete>::iterator a;
+                            vector<Athlete> teamMembers = (*t)->getAthletes();
+                            for (a = teamMembers.begin(); a != teamMembers.end(); a++) {
+                                oldAthletes.push_back(*a);
+                                a = teamMembers.erase(a);
+                                a--;
+                            }
+                            t = teams.erase(t);
+                            t--;
+                        }
+                    }
+                }
+                sports.erase(s);
+                //remove every athlete who plays
+                vector<Athlete *>::iterator a;
+                for (a = athletes.begin(); a != athletes.end(); a++) {
+                    if ((*a)->getSport() == sport) {
+                        if (find(oldAthletes.begin(), oldAthletes.end(), **a) == oldAthletes.end())
+                            oldAthletes.push_back(**a);
+                        athletes.erase(a);
+                        a--;
+                    }
+                }
+                vector<Person *>::iterator p;
+                for (p = people.begin(); p != people.end(); p++) {
+                    if ((*p)->isAthlete()) {
+                        if (find(oldAthletes.begin(), oldAthletes.end(), **p) == oldAthletes.end())
+                            oldAthletes.push_back(**p);
+                        people.erase(p);
+                        p--;
+                    }
+                }
+                break;
+            }
+        }
+        throw NonExistentSport(sport);
+    }
+}
 //File Errors - Exceptions
 
 FileError::FileError(string file) : file(move(file)) {}
@@ -1005,7 +1075,7 @@ NonExistentSport::NonExistentSport(string name) {
 }
 
 ostream &operator<<(ostream &os, const NonExistentSport &c) {
-    os << c.sport << " doesn't exist!" << "!\n";
+    os << "The Delegation does not take part in " << c.sport << " competitions anymore!" << "!\n";
     return os;
 }
 

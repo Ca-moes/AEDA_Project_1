@@ -9,6 +9,7 @@
 #include "auxiliar.h"
 #include "fstream"
 #include <regex>
+#include <list>
 
 class Delegation {
     string peopleFilename; /**< Nome do ficheiro People.txt*/
@@ -21,6 +22,9 @@ class Delegation {
     vector<Athlete*> athletes;
     vector<Team*> teams;
     vector<Sport*> sports;
+    list<Sport*> oldSports;
+    list<Person> oldAthletes;
+    list<Team> oldTeams;
 public:
     /** Delegation Default Constructor*/
     Delegation();
@@ -145,6 +149,10 @@ public:
     /** Shows the information of all the staff members of the Portuguese Delegation in a human friendly way*/
     void showStaffMembers();
 
+    /** End the participation of the Portuguese Delegation in a specific sport and saves the "history"
+     * @param sport the name of the sport to remove
+     */
+    void removeSport(const string &sport);
 };
 
 //Exceptions

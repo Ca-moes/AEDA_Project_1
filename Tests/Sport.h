@@ -29,6 +29,8 @@ public:
     void updateParticipant(const string & p);
     void showParticipants() const;
     virtual string info() const;
+    virtual bool isTeamSport(){return false;};
+    friend bool operator== (const Sport & s1,const Sport & s2 );
 };
 
 class TeamSport: public Sport{
@@ -43,6 +45,7 @@ public:
     void setNumberofElements(unsigned int n);
     void addTeam(Team* t);
     vector<Team*> getTeams() const;
+    bool isTeamSport(){return true;};
 };
 
 class IndividualSport: public Sport{
@@ -55,6 +58,7 @@ public:
     vector<Participant*> getParticipants() const;
     void addAthlete(Athlete* a);
     vector<Athlete*> getAthletes() const;
+    bool isTeamSport(){return false;};
 };
 
 
