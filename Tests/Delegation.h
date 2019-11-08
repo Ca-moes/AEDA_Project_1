@@ -125,10 +125,7 @@ public:
     */
     void removeStaffMember();
 
-    /**
-    * Changes a data of a staff member
-    *
-    */
+    /**Changes a data of a staff member*/
     void changeStaffMember();
 
     /**
@@ -137,13 +134,16 @@ public:
    * @params name the name of the Person
    * @returns the index of the Person, -1 if it does not exist
    */
-   int findPerson(const string name);
+   int findPerson(const string name) const;
 
-    /**@brief Shows the information of all the members of the Portuguese Delegation in a human friendly way*/
+    /**Shows the information of all the members of the Portuguese Delegation in a human friendly way*/
     void showPortugueseMembers();
 
-    /**@brief Shows the information of a staff member of the Portuguese Delegation in a human friendly way*/
-    //void showPortugueseMembers();
+    /** Shows the information of a staff member of the Portuguese Delegation in a human friendly way*/
+    void showStaffMember() const;
+
+    /** Shows the information of all the staff members of the Portuguese Delegation in a human friendly way*/
+    void showStaffMembers();
 
 };
 

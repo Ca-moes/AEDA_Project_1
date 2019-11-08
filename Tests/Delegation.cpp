@@ -680,7 +680,7 @@ void Delegation::showPortugueseMembers() {
     } while (test != 0 && test != 2);
 }
 
-int Delegation::findPerson(const string name) {
+int Delegation::findPerson(const string name) const {
     for (int i = 0; i < people.size(); i++) {
         if (name == people.at(i)->getName()) return i;
     }
@@ -902,6 +902,85 @@ void Delegation::changeStaffMember() {
                 break;
         }
     }
+}
+
+void Delegation::showStaffMember() const{
+    int test = 0;
+    string input = "";
+
+    system("cls");
+    cout << "_____________________________________________________" << endl << endl;
+    cout << "\t\t   Information about a Staff Member" << endl;
+    cout << "_____________________________________________________" << endl << endl;
+
+
+    if (!people.empty()) {
+        int test = 0;
+        int index;
+        string input = "", tmp;
+
+        cout << "Name: ";
+        getline(cin, tmp);
+        if (cin.eof()) {
+            cin.clear();
+            return; //go back on ctrl+d
+        }
+        cin.clear();
+        while (checkStringInput(tmp)) {
+            cout << "Invalid Name. Try again!" << endl;
+            cout << "Name: ";
+            getline(cin, tmp);
+            if (cin.eof()) {
+                cin.clear();
+                return; //go back on ctrl+d
+            }
+            cin.clear();
+        }
+        index = findPerson(tmp);
+        if (index == -1 || people.at(index)->isAthlete())
+            throw NonExistentPerson(tmp);
+        else{
+            (*(people.begin() + index))->showInfoPerson();
+        }
+    } else
+        throw NoMembers();
+
+    cout << endl << "0 - BACK" << endl;
+    do {
+        test = checkinputchoice(input, 0, 0);
+        if (test != 0)
+            cerr << "Invalid option! Press 0 to go back." << endl;
+    } while (test != 0 && test != 2);
+}
+
+void Delegation::showStaffMembers(){
+    int test = 0;
+    string input = "";
+
+    system("cls");
+    cout << "_____________________________________________________" << endl << endl;
+    cout << "\t\t   Information about a Staff Member" << endl;
+    cout << "_____________________________________________________" << endl << endl;
+
+
+    if (!people.empty()) {
+        sort(people.begin(),people.end(),sortMembersAlphabetically);
+        vector<Person*>::const_iterator it;
+        for(it=people.begin(); it!= people.end(); it++){
+            if(!(*it)->isAthlete()){
+                (*it)->showInfoPerson();
+                cout << endl;
+            }
+        }
+    } else
+        throw NoMembers();
+
+    cout << endl << "0 - BACK" << endl;
+    do {
+        test = checkinputchoice(input, 0, 0);
+        if (test != 0)
+            cerr << "Invalid option! Press 0 to go back." << endl;
+    } while (test != 0 && test != 2);
 }
 
 //File Errors - Exceptions

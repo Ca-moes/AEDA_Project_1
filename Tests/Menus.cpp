@@ -248,10 +248,23 @@ void staffMenu(Delegation & delegation) {
                 }
                 break;
             case 4:
-                //delegation.showStaffMember();
+                try{
+                    delegation.showStaffMember();
+                }
+                catch(NonExistentPerson & e){
+                    cout << e << endl;
+                }
+                catch(NoMembers & n){
+                    cout << n << endl;
+                }
                 break;
             case 5:
-                //delegation.showStaffMembers();
+                try{
+                    delegation.showStaffMembers();
+                }
+                catch(NonExistentPerson & e){
+                    cout << e << endl;
+                }
                 break;
             case 0:
                 break;
