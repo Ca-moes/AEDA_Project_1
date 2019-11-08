@@ -1041,10 +1041,10 @@ void Delegation::removeSport(const string &sport) {
                 vector<Person *>::iterator p;
                 for (p = people.begin(); p != people.end(); p++) {
                     if ((*p)->isAthlete()) {
-                        if (find(oldAthletes.begin(), oldAthletes.end(), **p) == oldAthletes.end())
-                            oldAthletes.push_back(**p);
-                        people.erase(p);
-                        p--;
+                        if (find(oldAthletes.begin(), oldAthletes.end(), **p) != oldAthletes.end()){
+                            people.erase(p);
+                            p--;
+                        }
                     }
                 }
                 break;
