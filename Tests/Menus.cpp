@@ -4,6 +4,7 @@
 
 #include "Menus.h"
 #include <regex>
+#include <unistd.h>
 
 using namespace std;
 
@@ -234,33 +235,37 @@ void staffMenu(Delegation & delegation) {
                 }
                 catch(PersonAlreadyExists & e){
                     cout << e << endl;
+                    usleep(4000000);
                 }
                 break;
             case 2:
                 try{
                     delegation.removeStaffMember();
                 }
-                catch(NonExistentPerson & e){
+                catch(NonExistentStaff & e){
                     cout << e << endl;
+                    usleep(4000000);
                 }
                 break;
             case 3:
                 try{
                     delegation.changeStaffMember();
                 }
-                catch(NonExistentPerson & e){
+                catch(NonExistentStaff & e){
                     cout << e << endl;
+                    usleep(4000000);
                 }
                 break;
             case 4:
                 try{
                     delegation.showStaffMember();
                 }
-                catch(NonExistentPerson & e){
+                catch(NonExistentStaff & e){
                     cout << e << endl;
                 }
                 catch(NoMembers & n){
                     cout << n << endl;
+                    usleep(4000000);
                 }
                 break;
             case 5:
@@ -269,6 +274,7 @@ void staffMenu(Delegation & delegation) {
                 }
                 catch(NonExistentPerson & e){
                     cout << e << endl;
+                    usleep(4000000);
                 }
                 break;
             case 0:
@@ -312,10 +318,25 @@ void athletesMenu(Delegation & delegation) {
                 //delegation.removeAthlete();
                 break;
             case 4:
-                delegation.showAthlete();
+                try{
+                    delegation.showAthlete();
+                }
+                catch(NonExistentPerson & e){
+                    cout << e << endl;
+                }
+                catch(NoMembers & n){
+                    cout << n << endl;
+                    usleep(4000000);
+                }
                 break;
             case 5:
-                delegation.showAllAthletes();
+                try{
+                    delegation.showAllAthletes();
+                }
+                catch(NoMembers & n){
+                    cout << n << endl;
+                    usleep(4000000);
+                }
                 break;
             case 0:
                 break;
@@ -363,9 +384,11 @@ void teamsMenu(Delegation & delegation) {
                 }
                 catch(NonExistentTeam & t){
                     cout<< t << endl;
+                    usleep(4000000);
                 }
                 catch(NoMembers & e){
                     cout<< e << endl;
+                    usleep(4000000);
                 }
                 break;
             case 5:

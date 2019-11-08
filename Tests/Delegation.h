@@ -228,6 +228,22 @@ public:
     NonExistentPerson(string name);
 };
 
+/**@brief Non Existent Staff*/
+class NonExistentStaff{
+    string person;
+public:
+    friend ostream & operator <<(ostream & os, NonExistentStaff & p);
+    NonExistentStaff(string name);
+};
+
+/**@brief Non Existent Athlete*/
+class NonExistentAthlete{
+    string person;
+public:
+    friend ostream & operator <<(ostream & os, NonExistentAthlete & p);
+    NonExistentAthlete(string name);
+};
+
 /**@brief Non Existent Team*/
 class NonExistentTeam{
     string team;

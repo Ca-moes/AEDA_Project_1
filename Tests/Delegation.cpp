@@ -714,7 +714,7 @@ void Delegation::removeStaffMember() {
     }
     index = findPerson(tmp);
     if (index == -1 || people.at(index)->isAthlete()) {
-        throw NonExistentPerson(tmp);
+        throw NonExistentStaff(tmp);
     } else {
         vector<Person *>::iterator it = people.begin() + index;
         delete *it;
@@ -747,7 +747,7 @@ void Delegation::changeStaffMember() {
     }
     index = findPerson(tmp);
     if (index == -1 || people.at(index)->isAthlete()) {
-        throw NonExistentPerson(tmp);
+        throw NonExistentStaff(tmp);
     } else {
         system("cls");
         cout << "_____________________________________________________" << endl << endl;
@@ -941,7 +941,7 @@ void Delegation::showStaffMember() const {
         }
         index = findPerson(tmp);
         if (index == -1 || people.at(index)->isAthlete())
-            throw NonExistentPerson(tmp);
+            throw NonExistentStaff(tmp);
         else {
             (*(people.begin() + index))->showInfoPerson();
         }
@@ -1020,7 +1020,7 @@ void Delegation::showAthlete() const {
         }
         index = findPerson(tmp);
         if (index == -1 || !people.at(index)->isAthlete())
-            throw NonExistentPerson(tmp);
+            throw NonExistentAthlete(tmp);
         else {
             (*(people.begin() + index))->showInfo();
         }
@@ -1276,6 +1276,24 @@ ostream &operator<<(ostream &os, NonExistentPerson &p) {
     return os;
 }
 
+
+NonExistentAthlete::NonExistentAthlete(string name) {
+    person = name;
+}
+
+ostream &operator<<(ostream &os, NonExistentAthlete &p) {
+    os << p.person << " is not an athlete!\n";
+    return os;
+}
+
+NonExistentStaff::NonExistentStaff(string name) {
+    person = name;
+}
+
+ostream &operator<<(ostream &os, NonExistentStaff &p) {
+    os << p.person << " is not a member of the staff!\n";
+    return os;
+}
 NonExistentTeam::NonExistentTeam(string name) {
     team = name;
 }
