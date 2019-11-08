@@ -126,7 +126,7 @@ void sportsMenu(Delegation & delegation) {
     {
         system("cls");
         cout << "_____________________________________________________" << endl << endl;
-        cout << "\t\t   Sports Options " << endl;
+        cout << "\t\t\t\t  Sports Options " << endl;
         cout << "_____________________________________________________" << endl << endl;
 
         for(size_t i=0; i < delegation.getSports().size(); i++){
@@ -146,7 +146,7 @@ void sportsMenu(Delegation & delegation) {
             input = "1";
         switch (stoi(input)) {
             case 1:
-                //sportsCompetitionsMenu(delegation,delegation.getSports()[stoi(input)-1].getName());
+                sportsCompetitionsMenu(delegation,delegation.getSports()[stoi(input)-1]->getName());
                 break;
             case 0:
                 break;
@@ -372,7 +372,7 @@ void sportsCompetitionsMenu(Delegation & delegation, const string & sport){
     {
         system("cls");
         cout << "_____________________________________________________" << endl << endl;
-        cout << "\t\t   Sports Options - " << sport << endl;
+        cout << "\t\t\t\t\t\t" << sport << endl;
         cout << "_____________________________________________________" << endl << endl;
 
         cout << "Choose an option by typing a number and pressing Enter." << endl << endl;
