@@ -8,6 +8,7 @@
 
 using namespace std;
 
+
 int checkinputchoice(string& test, int lowerlimit, int upperlimit) {
     do {
         getline(cin, test);
@@ -34,7 +35,7 @@ void mainMenu(Delegation &delegation){
     string input = "";
     do
     {
-        system("cls");
+        if (system("CLS")) system("clear");
         cout << "_____________________________________________________________________________" << endl << endl;
         cout << "\t\t" << delegation.getCountry() << "'s Olympic Delegation - Tokyo 2020" << endl;
         cout << "_____________________________________________________________________________" << endl << endl;
@@ -64,12 +65,10 @@ void mainMenu(Delegation &delegation){
             case 3:
                 resultsMenu(delegation);
                 break;
-            case 0:
-                //delegation.writePeopleFile();
-                //delegation.writeTeamFile();
-                //delegation.writeCompetitionsFile();
+            default:
                 break;
         }
+
     } while (stoi(input) != 0);
 }
 
@@ -79,7 +78,7 @@ void participantsMenu(Delegation & delegation) {
     string input;
     do
     {
-        system("cls");
+        if (system("CLS")) system("clear");
         cout << "_____________________________________________________" << endl << endl;
         cout << "\t\t   Members Options " << endl;
         cout << "_____________________________________________________" << endl << endl;
@@ -117,6 +116,8 @@ void participantsMenu(Delegation & delegation) {
                 break;
             case 0:
                 break;
+            default:
+                break;
         }
     } while (stoi(input) != 0);
 }
@@ -125,7 +126,7 @@ void sportsMenu(Delegation & delegation) {
     string input;
     do
     {
-        system("cls");
+        if (system("CLS")) system("clear");
         cout << "_____________________________________________________" << endl << endl;
         cout << "\t\t\t\t  Sports Options " << endl;
         cout << "_____________________________________________________" << endl << endl;
@@ -156,6 +157,8 @@ void sportsMenu(Delegation & delegation) {
                 break;
             case 0:
                 break;
+            default:
+                break;
         }
     } while (stoi(input) != 0);
 }
@@ -164,7 +167,7 @@ void resultsMenu(Delegation & delegation) {
     string input;
     do
     {
-        system("cls");
+        if (system("CLS")) system("clear");
         cout << "_____________________________________________________" << endl << endl;
         cout << "\t\t   Sports Options " << endl;
         cout << "_____________________________________________________" << endl << endl;
@@ -208,7 +211,7 @@ void staffMenu(Delegation & delegation) {
     string input;
     do
     {
-        system("cls");
+        if (system("CLS")) system("clear");
         cout << "_____________________________________________________" << endl << endl;
         cout << "\t\t   Staff's Options " << endl;
         cout << "_____________________________________________________" << endl << endl;
@@ -287,7 +290,7 @@ void athletesMenu(Delegation & delegation) {
     string input;
     do
     {
-        system("cls");
+        if (system("CLS")) system("clear");
         cout << "_____________________________________________________" << endl << endl;
         cout << "\t\t   Athletes Options " << endl;
         cout << "_____________________________________________________" << endl << endl;
@@ -348,7 +351,7 @@ void teamsMenu(Delegation & delegation) {
     string input;
     do
     {
-        system("cls");
+        if (system("CLS")) system("clear");
         cout << "_____________________________________________________" << endl << endl;
         cout << "\t\t   Teams Options " << endl;
         cout << "_____________________________________________________" << endl << endl;
@@ -411,7 +414,7 @@ void sportsCompetitionsMenu(Delegation & delegation, const string & sport){
     string input;
     do
     {
-        system("cls");
+        if (system("CLS")) system("clear");
         cout << "_____________________________________________________" << endl << endl;
         cout << "\t\t\t\t\t\t" << sport << endl;
         cout << "_____________________________________________________" << endl << endl;
