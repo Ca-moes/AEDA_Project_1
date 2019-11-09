@@ -75,8 +75,6 @@ protected:
 public:
     Participant(){}
     virtual ~Participant(){}
-    Participant(const string & sport);
-    Participant(const string & sport,const vector<string> & comp);
     virtual const string &getName() const=0;
     virtual void setName(const string &name)=0;
     void setCompetitions(const vector<string> & competitions);
