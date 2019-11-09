@@ -28,6 +28,7 @@ Delegation::Delegation() {
     mainMenu(*this);
 }
 
+//Reading files functions
 void Delegation::readDelegationFile() {
     int numline = 0;
     string line, file;
@@ -467,6 +468,11 @@ void Delegation::readCompetitionsFile(const vector<string> &lines) {
     }
 }
 
+void Delegation::readTeamsFile(const vector<string> & lines){
+
+}
+
+//Acessors and mutators
 const string &Delegation::getCountry() const {
     return country;
 }
@@ -526,6 +532,42 @@ string Delegation::info() const {
     return os.str();
 }
 
+void Delegation::showPortugueseMembers() {
+    int test = 0;
+    string input = "";
+
+    system("cls");
+    cout << "_____________________________________________________" << endl << endl;
+    cout << "\t\t   Portuguese Delegation Members" << endl;
+    cout << "_____________________________________________________" << endl << endl;
+
+
+    if (!people.empty()) {
+        std::sort(people.begin(), people.end(), sortMembersAlphabetically);
+        vector<Person *>::const_iterator it;
+        for (it = people.begin(); it != people.end(); it++) {
+            (*it)->showInfoPerson();
+            cout << endl;
+        }
+    } else
+        throw NoMembers();
+
+    cout << endl << "0 - BACK" << endl;
+    do {
+        test = checkinputchoice(input, 0, 0);
+        if (test != 0)
+            cerr << "Invalid option! Press 0 to go back." << endl;
+    } while (test != 0 && test != 2);
+}
+
+int Delegation::findPerson(const string name) const {
+    for (int i = 0; i < people.size(); i++) {
+        if (name == people.at(i)->getName()) return i;
+    }
+    return -1;
+}
+
+//Staff Functions
 void Delegation::addStaffMember() {
     Staff *novo = new Staff();
     string tmp;
@@ -654,42 +696,6 @@ void Delegation::addStaffMember() {
     people.push_back(novo);
 }
 
-void Delegation::showPortugueseMembers() {
-    int test = 0;
-    string input = "";
-
-    system("cls");
-    cout << "_____________________________________________________" << endl << endl;
-    cout << "\t\t   Portuguese Delegation Members" << endl;
-    cout << "_____________________________________________________" << endl << endl;
-
-
-    if (!people.empty()) {
-        std::sort(people.begin(), people.end(), sortMembersAlphabetically);
-        vector<Person *>::const_iterator it;
-        for (it = people.begin(); it != people.end(); it++) {
-            (*it)->showInfoPerson();
-            cout << endl;
-        }
-    } else
-        throw NoMembers();
-
-    cout << endl << "0 - BACK" << endl;
-    do {
-        test = checkinputchoice(input, 0, 0);
-        if (test != 0)
-            cerr << "Invalid option! Press 0 to go back." << endl;
-    } while (test != 0 && test != 2);
-}
-
-int Delegation::findPerson(const string name) const {
-    for (int i = 0; i < people.size(); i++) {
-        if (name == people.at(i)->getName()) return i;
-    }
-    return -1;
-}
-
-//Staff Functions
 void Delegation::removeStaffMember() {
     int test = 0;
     int index;
@@ -930,7 +936,7 @@ void Delegation::showStaffMember() const {
         }
         cin.clear();
         while (checkStringInput(tmp)) {
-            cout << "Invalid Name. Try again!" << endl;
+            cerr << "Invalid Name. Try again!" << endl;
             cout << "Name: ";
             getline(cin, tmp);
             if (cin.eof()) {
@@ -986,6 +992,7 @@ void Delegation::showStaffMembers() {
     } while (test != 0 && test != 2);
 }
 
+//Athletes Functions
 void Delegation::showAthlete() const {
     int test = 0;
     string input = "";
@@ -1063,6 +1070,7 @@ void Delegation::showAllAthletes() {
     } while (test != 0 && test != 2);
 }
 
+//Teams Functions
 void Delegation::showTeam() const {
     int test = 0;
     string input = "";
@@ -1139,6 +1147,7 @@ void Delegation::showAllTeams() {
     } while (test != 0 && test != 2);
 }
 
+//Sports Functions
 void Delegation::removeSport(const string &sport) {
     vector<Sport *>::iterator s;
     int test = 0, index = 0;
@@ -1206,8 +1215,8 @@ void Delegation::removeSport(const string &sport) {
         throw NonExistentSport(sport);
     }
 }
-//File Errors - Exceptions
 
+//File Errors - Exceptions
 FileError::FileError(string file) : file(move(file)) {}
 
 ostream &operator<<(ostream &os, const FileError &file) {

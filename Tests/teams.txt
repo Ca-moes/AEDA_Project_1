@@ -5,15 +5,13 @@ Diana Freitas
 Badminton
 PortPM
 Joao Lopes, Adalbertino Carvalho
-PortPF
-
 --------
 Vela
 V3
+Rute Xavier, Manuel Cunha
 
 V4
 Jacinta Albertina, Pateta
-
 &&&&
 Ao detetar &&&& parar a leitura de ficheiros,
 assim é possível adicionar comentários no final
