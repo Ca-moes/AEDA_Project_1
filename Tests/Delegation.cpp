@@ -28,6 +28,13 @@ Delegation::Delegation() {
     mainMenu(*this);
 }
 
+Delegation::~Delegation(){
+    //Ir a cada um dos nomes de ficheiros em delegation.txt
+    // ficheiro a ficheiro escrever para lá os conteudos guadados nos objectos
+    // Para fase inicial dar o nome "<nome_ficheiro>_write.txt" aos ficheiros para não dar overwrite"
+    
+}
+
 void Delegation::readDelegationFile() {
     int numline = 0;
     string line, file;

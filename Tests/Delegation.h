@@ -29,6 +29,9 @@ public:
     /** Delegation Default Constructor*/
     Delegation();
 
+    /** Delegation Destructor (Write to .txt) */
+    ~Delegation();
+
     /**Reads the Delegation's File and structures it in the program*/
     void readDelegationFile();
 
