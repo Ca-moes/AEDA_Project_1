@@ -14,7 +14,6 @@ class Competition {
     string name;
     Date begin;
     Date end;
-    //temos que dizer para cada competição o país vencedor e como só temos dados dos atletas portugueses temos que ler os países em cada competição
     vector<Trial> trials;
     vector<Medal> medals;
 public:

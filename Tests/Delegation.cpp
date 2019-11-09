@@ -127,10 +127,6 @@ void Delegation::readDelegationFile() {
     }
     readCompetitionsFile(fileToLineVector(delegationFile));
     delegationFile.clear();
-
-    //for testing purposes - print sports
-    //for(auto & sport : sports)
-    //cout << sport->info()<<endl;
 }
 
 void Delegation::readPeopleFile(const vector<string> &lines) {
@@ -328,10 +324,8 @@ void Delegation::readCompetitionsFile(const vector<string> &lines) {
     for (size_t i = 0; i < lines.size() + 1; i++) {
         if (i != lines.size())
             line = lines[i];
-
         numline++;
-        if (numline ==
-            1) {// se for a primeira linha de uma pessoa vamos ver se é uma nova modalidade, competição ou jogo
+        if (numline == 1) {// se for a primeira linha de uma pessoa vamos ver se é uma nova modalidade, competição ou jogo
             if (line.empty()) {// Se alinha está vazia vamos ler a próxima competição
                 if (read == 'c' || read == 't') {
                     if (read == 't') {
@@ -351,17 +345,16 @@ void Delegation::readCompetitionsFile(const vector<string> &lines) {
                 i++;
                 numline = 1;
                 line = lines[i];
-            } else if (line == "////////" || i ==
-                                             lines.size()) {//novo desporto - guardar os dados das competições e jogos e limpar variáveis auxiliares; ou útlima linha do ficheiro
+            } else if (line == "////////" || i == lines.size()) {//novo desporto - guardar os dados das competições e jogos e limpar variáveis auxiliares; ou útlima linha do ficheiro
                 if (i == lines.size())
                     if (read == 't' || read == 'c')
                         competitions.push_back(competition);
-                if (isTeamSport) {
+                if (isTeamSport){
                     teamSport->setCompetitions(competitions);
-//                    for (auto &team : teams) {
-//                        if (team->getSport() == teamSport->getName())
-//                            teamSport->addTeam(team);
-//                    }
+                    for (auto &team : teams) {
+                        if (team->getSport() == teamSport->getName())
+                            teamSport->addTeam(team);
+                    }
                     sports.push_back(new TeamSport(*teamSport));
                     competitions.resize(0);
                     trials.resize(0);
@@ -525,6 +518,7 @@ void Delegation::readTeamsFile(const vector<string> &lines) {
     string memberStr;
     vector<Athlete> members;
     vector<Athlete *>::iterator it;
+    Athlete a;
     string sport;
 
     for (size_t i = 0; i < lines.size(); i++) {
@@ -536,6 +530,7 @@ void Delegation::readTeamsFile(const vector<string> &lines) {
         }
 
         if (line.empty()) { // Se alinha está vazia voltamos a colocar o numLines a 0 para ler a próxima equipa
+            teams.push_back(new Team(*t));
             numline = 1;
             i++;
             line = lines[i];
@@ -580,11 +575,14 @@ void Delegation::readTeamsFile(const vector<string> &lines) {
                     //ler competições - confirmar estrutura
                     membersStream.str(line);
                     while (getline(membersStream, memberStr, ',')) {
+                        memberStr = regex_replace(memberStr, regex("^ +| +$|( ) +"), "$1");
                         if (checkStringInput(memberStr) != 0)
-                            throw FileStructureError("erro");
+                            throw FileStructureError(teamsFilename);
                         for (it = athletes.begin(); it != athletes.end(); it++) {
-                            if ((*it)->getName() == memberStr)
-                                members.push_back(**it);
+                            if ((*it)->getName() == memberStr){
+                                a = Athlete(**it);
+                                members.push_back(a);
+                            }
                         }
                     }
                     t->setAthletes(members);

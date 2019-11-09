@@ -77,11 +77,14 @@ void TeamSport::setNumberofElements(unsigned int n){
     numberOfElements = n;
 }
 
-TeamSport::TeamSport(const TeamSport & s) : Sport(s.getName(), s.getCompetitions()) {
+TeamSport::TeamSport(const TeamSport & s) : Sport(s.getName(), s.getCompetitions()){
     vector<Team *>::iterator it;
-    for(it = s.getTeams().begin(); it!= s.getTeams().end(); it++){
-        Team * t = new Team(*(*it));
-        teams.push_back(t);
+    if(!s.getTeams().empty()) {
+        vector<Team *> t = s.getTeams();
+        for (it = t.begin(); it != t.end(); it++) {
+            Team *t = new Team(*(*it));
+            teams.push_back(t);
+        }
     }
 }
 
