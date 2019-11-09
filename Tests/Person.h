@@ -83,6 +83,7 @@ public:
     const vector<string> & getCompetitions() const;
     const string & getSport() const;
     void setSport(const string & sport);
+    virtual void showInfo() const = 0;
 };
 
 class Athlete : public Person, public Participant{
@@ -120,6 +121,7 @@ public:
     void setName(const string &name);
     const vector<Athlete> & getAthletes() const;
     void setAthletes(const vector<Athlete> & a);
+    void showInfo() const;
 };
 
 class Staff: public Person{
