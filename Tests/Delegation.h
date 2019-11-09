@@ -184,10 +184,19 @@ public:
      */
     void removeSport(const string &sport);
 
+    /** Shows the information of a specific competition in a specific sport - throws exception if the sport doesn't exist
+     * @param sport the name of the sport to remove
+     */
     void showCompetition(const string & sport);
 
+    /** Shows the information of all the competitions in a specific sport - throws exception if no sport exists
+     * @param sport the name of the sport to remove
+     */
     void showAllCompetitions(const string & sport);
 
+    /** Shows the information of all the trials in a specific sport - throws exception if no trials exists
+     * @param sport the name of the sport to remove
+     */
     void showAllTrials(const string & sport);
 };
 
