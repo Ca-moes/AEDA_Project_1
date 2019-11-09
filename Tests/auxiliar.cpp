@@ -107,6 +107,6 @@ int daysBetween(const Date begin, const Date end) {
     }
 }
 
-bool sortMembersAlphabetically(Person * p1, Person * p2){
-    return ((*p1)<(*p2));
+bool sortMembersAlphabetically(const Person * p1, const Person * p2){
+    return (*p1) < (*p2);
 }

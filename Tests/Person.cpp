@@ -61,9 +61,8 @@ string Person::info(){
     return os.str();
 }
 
-bool Person::operator <(const Person & p){
-
-    return(name > p.getName());
+bool Person::operator<(const Person & p) const{
+    return(name < p.getName());
 }
 
 ostream & operator<<(ostream & os, const Person & p){
@@ -73,6 +72,18 @@ ostream & operator<<(ostream & os, const Person & p){
     os <<  left <<setw(17) << "Flight Arrival" << setw(4) << " "<<  p.getArrival() << setw(3) <<endl;
     os <<  left <<setw(17) << "Flight Departure" << setw(4) << " "<<p.getDeparture() << setw(3) <<endl;
     return os;
+}
+
+void Person::showInfoPerson() const{
+    cout << (*this);
+}
+
+void Person::showInfo() const{
+    showInfoPerson();
+}
+
+bool operator==(const Person & p1, const Person &p2){
+    return p1.getName() == p2.getName();
 }
 
 //Staff
@@ -101,11 +112,13 @@ string Staff::info(){
     return os.str();
 }
 
+void Staff::showInfoPerson() const{
+    Person::showInfoPerson();
+    cout << left << setw(17) << "Function" << setw(4) << " "<< function << setw(3) <<endl;
+}
+
 //Participant
 
-Participant::Participant(const string & sport, const vector<string> & comp) : sport(sport), competitions(comp){}
-
-Participant::Participant(const string & sport):sport(sport){}
 const string & Participant::getSport() const {
     return sport;
 }
@@ -125,13 +138,14 @@ const vector<string> & Participant::getCompetitions() const{
 //Athlete
 
 Athlete::Athlete(const string &name, const Date &birth, const string & passport, const Date &arrival, const Date &departure, const string & sport, float weight,
-                 float height) : Person(name, birth, passport, arrival, departure), Participant(sport), weight(weight), height(height){}
+                 float height) : Person(name, birth, passport, arrival, departure), weight(weight), height(height){ Participant::sport=sport;}
 
 
 Athlete::Athlete(const Athlete & a): Person(a.getName(), a.getBirth(), a.getPassport(), a.getArrival(), a.getDeparture()){
+    competitions = a.getCompetitions();
+    sport=a.getSport();
     weight = a.getWeight();
     height = a.getHeight();
-    competitions = a.getCompetitions();
 }
 
 float Athlete::getWeight() const {
@@ -168,13 +182,26 @@ string Athlete::info(){
     os << endl;
     os <<  left <<setw(17) << "Weight" <<setw(4) << " " << to_string(weight) <<endl;
     os <<  left <<setw(17) << "Height" <<  setw(4) << " " << to_string(height) <<endl;
-    //os <<  left <<setw(17) << "Ranking" <<  setw(4) << " " << to_string(getRanking()) <<endl;
     return os.str();
 }
 
+void Athlete::showInfoPerson() const{
+    Person::showInfoPerson();
+    cout << left << setw(17) << "Sport" << setw(4) << " "<< getSport() << setw(3) <<endl;
+}
+
+void Athlete::showInfo() const{
+    showInfoPerson();
+    cout <<  left <<setw(17) << "Competitions" <<setw(4) << " ";
+    for(const auto & competition:competitions)
+        cout << competition<<" ";
+    cout << endl;
+    cout <<  left <<setw(17) << "Weight" <<setw(4) << " " << to_string(weight) <<endl;
+    cout <<  left <<setw(17) << "Height" <<  setw(4) << " " << to_string(height) <<endl;
+}
 //Team
 
-Team::Team(const string &name, const string &sport) : Participant(sport), name(name) {}
+Team::Team(const string &name, const string &sport) : name(name) { Participant::sport = sport;}
 
 const string &Team::getName() const {
     return name;
@@ -184,7 +211,9 @@ void Team::setName(const string &name) {
     this->name = name;
 }
 
-Team::Team(const Team & t) : Participant(t.getSport(),t.getCompetitions()){
+Team::Team(const Team & t){
+    sport = t.getSport();
+    competitions = t.getCompetitions();
     name = t.getName();
     for(size_t i = 0; i< t.getAthletes().size();i++)
         athletes.push_back(t.getAthletes()[i]);

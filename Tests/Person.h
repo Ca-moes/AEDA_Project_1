@@ -49,9 +49,15 @@ public:
 
     virtual string info();
 
+    virtual void showInfo() const;
+
+    virtual void showInfoPerson() const;
+
     virtual bool isAthlete(){return false;};
 
-    bool operator <(const Person & p);
+    bool operator<(const Person & p) const;
+
+    friend bool operator==(const Person & p1, const Person &p2);
 private:
     string name;
     Date birth;
@@ -68,6 +74,7 @@ protected:
     vector<string> competitions;
 public:
     Participant(){}
+    virtual ~Participant(){}
     Participant(const string & sport);
     Participant(const string & sport,const vector<string> & comp);
     virtual const string &getName() const=0;
@@ -83,6 +90,7 @@ class Athlete : public Person, public Participant{
     float height;
 public:
     Athlete(){};
+    ~Athlete(){}
     Athlete(const string &name, const Date &birth, const string & passport, const Date &arrival, const Date &departure, const string & sport, float weight,
             float height);
     Athlete(const Athlete & a); //copy constructor;
@@ -94,6 +102,8 @@ public:
     void setHeight(float height);
     string info();
     bool isAthlete(){return true;};
+    void showInfoPerson() const;
+    void showInfo() const;
 };
 
 class Team: public Participant{
@@ -103,6 +113,7 @@ private:
     //historial
 public:
     Team (){};
+    ~Team(){}
     Team (const Team & t);
     Team(const string &name, const string & sport);
     const string &getName() const;
@@ -121,6 +132,7 @@ public:
     void setFunction(const string &function);
     string info();
     bool isAthlete(){return false;};
+    void showInfoPerson() const;
     //virtual double getDailyCost()=0;  //depende do tipo de funcionário
 };
 

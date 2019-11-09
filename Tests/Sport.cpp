@@ -52,6 +52,10 @@ void Sport::showParticipants() const{
 
 }
 
+bool operator== (const Sport & s1,const Sport & s2){
+    return s1.name == s2.name;
+}
+
 string Sport::info() const{
     ostringstream os;
     os <<  left <<setw(17) << "Name" << setw(4) << " "<<  getName() << setw(3) <<endl;
@@ -85,7 +89,7 @@ void TeamSport::setParticipants(const vector<Team> & tems){
     this->teams = teams;
 }
 
-const vector<Participant*> & TeamSport::getParticipants() const{
+vector<Participant*> TeamSport::getParticipants() const{
     vector<Participant*> p;
     vector<Team*>::const_iterator it;
     for(it = teams.begin() ; it != teams.end() ; it++)
@@ -108,13 +112,16 @@ void IndividualSport::setParticipants(const vector<Athlete *> & athletes){
 
 IndividualSport::IndividualSport(const IndividualSport & s) : Sport(s.getName(), s.getCompetitions()) {
     vector<Athlete *>::iterator it;
-    for(it = s.getAthletes().begin(); it != s.getAthletes().end(); it++){
-        Athlete * a = new Athlete(*(*it));
-        athletes.push_back(a);
+    if(!s.getAthletes().empty()){
+        vector<Athlete *> v = s.getAthletes();
+        for(it = v.begin(); it != v.end(); it++){
+            Athlete * a = new Athlete(*(*it));
+            athletes.push_back(a);
+        }
     }
 }
 
-const vector<Participant*> & IndividualSport::getParticipants() const{
+vector<Participant*> IndividualSport::getParticipants() const{
     vector<Participant*> p;
     vector<Athlete*>::const_iterator it;
     for(it = athletes.begin() ; it != athletes.end() ; it++)

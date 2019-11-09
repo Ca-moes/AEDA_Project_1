@@ -4,6 +4,7 @@
 
 #include "Menus.h"
 #include <regex>
+#include <unistd.h>
 
 using namespace std;
 
@@ -86,7 +87,7 @@ void participantsMenu(Delegation & delegation) {
         cout << "1 - Athletes" << endl;
         cout << "2 - Teams" << endl;
         cout << "3 - Staff" << endl;
-        cout << "4 - All Participants" << endl;
+        cout << "4 - All Members" << endl;
         cout << "0 - BACK (Main Menu)" << endl;
 
         do {
@@ -108,7 +109,11 @@ void participantsMenu(Delegation & delegation) {
                 staffMenu(delegation);
                 break;
             case 4:
-                delegation.showPortugueseMembers();
+                try{
+                    delegation.showPortugueseMembers();
+                }catch(NoMembers & e){
+                    cout << e << endl;
+                }
                 break;
             case 0:
                 break;
@@ -122,7 +127,7 @@ void sportsMenu(Delegation & delegation) {
     {
         system("cls");
         cout << "_____________________________________________________" << endl << endl;
-        cout << "\t\t   Sports Options " << endl;
+        cout << "\t\t\t\t  Sports Options " << endl;
         cout << "_____________________________________________________" << endl << endl;
 
         for(size_t i=0; i < delegation.getSports().size(); i++){
@@ -142,7 +147,12 @@ void sportsMenu(Delegation & delegation) {
             input = "1";
         switch (stoi(input)) {
             case 1:
-                //sportsCompetitionsMenu(delegation,delegation.getSports()[stoi(input)-1].getName());
+                try{
+                    sportsCompetitionsMenu(delegation,delegation.getSports()[stoi(input)-1]->getName());
+                }
+                catch(NonExistentSport & s){
+                    cout << s;
+                }
                 break;
             case 0:
                 break;
@@ -206,11 +216,12 @@ void staffMenu(Delegation & delegation) {
         cout << "1 - Add Staff member" << endl;
         cout << "2 - Remove Staff member" << endl;
         cout << "3 - Change Staff member" << endl;
-        cout << "4 - Show Staff members" << endl;
+        cout << "4 - Show Staff member" << endl;
+        cout << "5 - Show All Staff members" << endl;
         cout << "0 - BACK" << endl;
 
         do {
-            testinput = checkinputchoice(input, 0, 4);
+            testinput = checkinputchoice(input, 0, 5);
             if (testinput != 0 && testinput != 2)
                 cerr << "Invalid option! Please try again." << endl;
         } while (testinput != 0 && testinput != 2);
@@ -219,16 +230,52 @@ void staffMenu(Delegation & delegation) {
 
         switch (stoi(input)) {
             case 1:
-                delegation.addStaffMember();
+                try{
+                    delegation.addStaffMember();
+                }
+                catch(PersonAlreadyExists & e){
+                    cout << e << endl;
+                    usleep(4000000);
+                }
                 break;
             case 2:
-                delegation.removeStaffMember();
+                try{
+                    delegation.removeStaffMember();
+                }
+                catch(NonExistentStaff & e){
+                    cout << e << endl;
+                    usleep(4000000);
+                }
                 break;
             case 3:
-                delegation.changeStaffMember();
+                try{
+                    delegation.changeStaffMember();
+                }
+                catch(NonExistentStaff & e){
+                    cout << e << endl;
+                    usleep(4000000);
+                }
                 break;
             case 4:
-                //delegation.showStaffMember(); // ou um menu com opção para mostrar ou só um ou todos os membros
+                try{
+                    delegation.showStaffMember();
+                }
+                catch(NonExistentStaff & e){
+                    cout << e << endl;
+                }
+                catch(NoMembers & n){
+                    cout << n << endl;
+                    usleep(4000000);
+                }
+                break;
+            case 5:
+                try{
+                    delegation.showStaffMembers();
+                }
+                catch(NonExistentPerson & e){
+                    cout << e << endl;
+                    usleep(4000000);
+                }
                 break;
             case 0:
                 break;
@@ -248,7 +295,7 @@ void athletesMenu(Delegation & delegation) {
         cout << "1 - Add Athlete" << endl;
         cout << "2 - Change Athlete" << endl;
         cout << "3 - Remove Athlete" << endl;
-        cout << "4 - View Athlete Info (by PASSPORT)" << endl;
+        cout << "4 - View Athlete Info" << endl;
         cout << "5 - View All Athletes Info" << endl;
         cout << "0 - BACK" << endl;
 
@@ -271,10 +318,25 @@ void athletesMenu(Delegation & delegation) {
                 //delegation.removeAthlete();
                 break;
             case 4:
-                //delegation.showAthlete();
+                try{
+                    delegation.showAthlete();
+                }
+                catch(NonExistentPerson & e){
+                    cout << e << endl;
+                }
+                catch(NoMembers & n){
+                    cout << n << endl;
+                    usleep(4000000);
+                }
                 break;
             case 5:
-                //agency.showAllAthletes();
+                try{
+                    delegation.showAllAthletes();
+                }
+                catch(NoMembers & n){
+                    cout << n << endl;
+                    usleep(4000000);
+                }
                 break;
             case 0:
                 break;
@@ -294,7 +356,7 @@ void teamsMenu(Delegation & delegation) {
         cout << "1 - Add Team" << endl;
         cout << "2 - Change Team" << endl;
         cout << "3 - Remove Team" << endl;
-        cout << "4 - View Team Info (by PASSPORT)" << endl;
+        cout << "4 - View Team Info" << endl;
         cout << "5 - View All Teams Info" << endl;
         cout << "0 - BACK" << endl;
 
@@ -317,10 +379,25 @@ void teamsMenu(Delegation & delegation) {
                 //delegation.removeTeam();
                 break;
             case 4:
-                //delegation.showTeam();
+                try{
+                    delegation.showTeam();
+                }
+                catch(NonExistentTeam & t){
+                    cout<< t << endl;
+                    usleep(4000000);
+                }
+                catch(NoMembers & e){
+                    cout<< e << endl;
+                    usleep(4000000);
+                }
                 break;
             case 5:
-                //agency.showAllTeams();
+                try{
+                    delegation.showAllTeams();
+                }
+                catch(NoMembers & e){
+                    cout<< e << endl;
+                }
                 break;
             case 0:
                 break;
@@ -336,7 +413,7 @@ void sportsCompetitionsMenu(Delegation & delegation, const string & sport){
     {
         system("cls");
         cout << "_____________________________________________________" << endl << endl;
-        cout << "\t\t   Sports Options - " << sport << endl;
+        cout << "\t\t\t\t\t\t" << sport << endl;
         cout << "_____________________________________________________" << endl << endl;
 
         cout << "Choose an option by typing a number and pressing Enter." << endl << endl;
@@ -357,7 +434,12 @@ void sportsCompetitionsMenu(Delegation & delegation, const string & sport){
             input = "1";
         switch (stoi(input)) {
             case 1:
-                //removeSport(delegation,sport);
+                try{
+                    delegation.removeSport(sport);
+                }
+                catch(NonExistentSport & s){
+                    throw;
+                }
                 break;
             case 2:
                 //competitionsMenu(delegation,sport);

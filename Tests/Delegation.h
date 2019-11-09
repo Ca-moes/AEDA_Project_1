@@ -2,8 +2,6 @@
 // Created by Diana Freitas on 20/10/2019.
 //
 
-
-
 #ifndef PROJECT_1_DELEGATION_H
 #define PROJECT_1_DELEGATION_H
 
@@ -11,6 +9,7 @@
 #include "auxiliar.h"
 #include "fstream"
 #include <regex>
+#include <list>
 
 class Delegation {
     string peopleFilename; /**< Nome do ficheiro People.txt*/
@@ -23,6 +22,9 @@ class Delegation {
     vector<Athlete*> athletes;
     vector<Team*> teams;
     vector<Sport*> sports;
+    list<Sport*> oldSports;
+    list<Person> oldAthletes;
+    list<Team> oldTeams;
 public:
     /** Delegation Default Constructor*/
     Delegation();
@@ -127,10 +129,7 @@ public:
     */
     void removeStaffMember();
 
-    /**
-    * Changes a data of a staff member
-    *
-    */
+    /**Changes a data of a staff member*/
     void changeStaffMember();
 
     /**
@@ -139,13 +138,34 @@ public:
    * @params name the name of the Person
    * @returns the index of the Person, -1 if it does not exist
    */
-   int findPerson(const string name);
+   int findPerson(const string name) const;
 
-    /**
-    * Shows the information of all the members of the Portuguese Delegation in a human friendly way
-    *
-    */
-    void showPortugueseMembers() const;
+    /**Shows the information of all the members of the Portuguese Delegation in a human friendly way*/
+    void showPortugueseMembers();
+
+    /** Shows the information of a staff member of the Portuguese Delegation in a human friendly way*/
+    void showStaffMember() const;
+
+    /** Shows the information of all the staff members of the Portuguese Delegation in a human friendly way*/
+    void showStaffMembers();
+
+    /** Shows the information of an athlete of the Portuguese Delegation in a human friendly way*/
+    void showAthlete() const;
+
+    /** Shows the information of all the athletes of the Portuguese Delegation in a human friendly way*/
+    void showAllAthletes();
+
+    /** Shows the information of a team of the Portuguese Delegation in a human friendly way*/
+    void showTeam() const;
+
+    /** Shows the information of all teams of the Portuguese Delegation in a human friendly way*/
+    void showAllTeams();
+
+
+    /** End the participation of the Portuguese Delegation in a specific sport and saves the "history"
+     * @param sport the name of the sport to remove
+     */
+    void removeSport(const string &sport);
 };
 
 //Exceptions
@@ -181,7 +201,6 @@ public:
     explicit NonExistentCompetition(string name, string sport);
 };
 
-
 //Non Existent Trial
 class NonExistentTrial{
     string name;
@@ -201,4 +220,50 @@ public:
     NonExistentParticipant(string name, string where);
 };
 
+/**@brief Non Existent Person (Staff or Athlete)*/
+class NonExistentPerson{
+    string person;
+public:
+    friend ostream & operator <<(ostream & os, NonExistentPerson & p);
+    NonExistentPerson(string name);
+};
+
+/**@brief Non Existent Staff*/
+class NonExistentStaff{
+    string person;
+public:
+    friend ostream & operator <<(ostream & os, NonExistentStaff & p);
+    NonExistentStaff(string name);
+};
+
+/**@brief Non Existent Athlete*/
+class NonExistentAthlete{
+    string person;
+public:
+    friend ostream & operator <<(ostream & os, NonExistentAthlete & p);
+    NonExistentAthlete(string name);
+};
+
+/**@brief Non Existent Team*/
+class NonExistentTeam{
+    string team;
+public:
+    friend ostream & operator <<(ostream & os, NonExistentTeam & p);
+    NonExistentTeam(string name);
+};
+
+/**@brief Person already exists (Staff or Athlete)*/
+class PersonAlreadyExists{
+    string person; /**@brief the name or de passport*/
+public:
+    friend ostream & operator <<(ostream & os, PersonAlreadyExists & p);
+    PersonAlreadyExists(string person);
+};
+
+/**@brief No Members (Staff or Athlete)*/
+class NoMembers{
+public:
+    friend ostream & operator <<(ostream & os, NoMembers & p);
+    NoMembers();
+};
 #endif //PROJECT_1_DELEGATION_H

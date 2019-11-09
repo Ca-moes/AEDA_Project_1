@@ -60,6 +60,19 @@ FinalSet
 PortPF,GerPF
 GerPF
 ////////
+Atletismo
+1
+
+100mts
+29/07/2020
+03/08/2020
+Spain-Juan,Portugal-Maurilio Maria,Japan-Ximimi
+
+200mts
+04/08/2020
+04/08/2020
+Spain-Juan,Japan-Sali,Portugal-Maurilio Maria
+////////
 Vela
 2
 
@@ -77,16 +90,3 @@ SailFinal
 05/08/2020
 07/08/2020
 Spain-V1,Japan-V5,Portugal-V4
-////////
-Atletismo
-1
-
-100mts
-29/07/2020
-03/08/2020
-Spain-Juan,Portugal-Maurilio Maria,Japan-Ximimi
-
-200mts
-04/08/2020
-04/08/2020
-Spain-Juan,Japan-Sali,Portugal-Maurilio Maria
