@@ -183,10 +183,18 @@ public:
      * @param sport the name of the sport to remove
      */
     void removeSport(const string &sport);
+
+    void showCompetition(const string & sport);
+
+    void showAllCompetitions(const string & sport);
+
+    void showAllTrials(const string & sport);
 };
 
 //Exceptions
-//Opening Files Exceptions
+/**
+ *  An exception thrown when there is an error locating or opening a file
+ */
 class FileError{
     string file;
 public:
@@ -194,6 +202,9 @@ public:
     explicit FileError(string file);
 };
 
+/**
+ *  An exception thrown when the structure of a file is not the expected
+ */
 class FileStructureError{
     string file;
 public:
@@ -201,7 +212,9 @@ public:
     explicit FileStructureError(string file);
 };
 
-//Non Existent Sport
+/**
+ *  An exception thrown when the Delegation doesn't take part in a sport
+ */
 class NonExistentSport{
     string sport;
 public:
@@ -209,7 +222,19 @@ public:
     explicit NonExistentSport(string name);
 };
 
-//Non Existent Competition exception
+/**
+ *  An exception thrown when the Delegation doesn't take part in any sport
+ */
+class NoSports{
+    string sport;
+public:
+    friend ostream & operator <<(ostream & os, const NoSports & c);
+    explicit NoSports();
+};
+
+/**
+ *  An exception thrown when there is not any competition with a specific name in a specific sport
+ */
 class NonExistentCompetition{
     string competition;
     string sport;
@@ -218,7 +243,9 @@ public:
     explicit NonExistentCompetition(string name, string sport);
 };
 
-//Non Existent Trial
+/**
+ *  An exception thrown when there isn't any trial with a specific name in a specific competition of a particular sport
+ */
 class NonExistentTrial{
     string name;
     string competition;
@@ -228,7 +255,9 @@ public:
     NonExistentTrial(string name, string competition, string sport);
 };
 
-//Non Existent Participant (Team or person)
+/**
+ *  An exception thrown when there isn't any participant(team or athlete) with a specific name in the Delegation
+ */
 class NonExistentParticipant{
     string participant;
     string where;
@@ -237,7 +266,9 @@ public:
     NonExistentParticipant(string name, string where);
 };
 
-/**@brief Non Existent Person (Staff or Athlete)*/
+/**
+ *  An exception thrown when there isn't any person(staff or athlete) with a specific name in the Delegation
+ */
 class NonExistentPerson{
     string person;
 public:
@@ -245,7 +276,9 @@ public:
     NonExistentPerson(string name);
 };
 
-/**@brief Non Existent Staff*/
+/**
+ *  An exception thrown when there isn't any member with a specific name in the Delegation's staff
+ */
 class NonExistentStaff{
     string person;
 public:
@@ -253,7 +286,9 @@ public:
     NonExistentStaff(string name);
 };
 
-/**@brief Non Existent Athlete*/
+/**
+ *  An exception thrown when there isn't any athlete with a specific name in the Delegation's athletes
+ */
 class NonExistentAthlete{
     string person;
 public:
@@ -261,7 +296,9 @@ public:
     NonExistentAthlete(string name);
 };
 
-/**@brief Non Existent Team*/
+/**
+ *  An exception thrown when there isn't any team with a specific name in the Delegation's teams
+ */
 class NonExistentTeam{
     string team;
 public:
@@ -269,7 +306,9 @@ public:
     NonExistentTeam(string name);
 };
 
-/**@brief Person already exists (Staff or Athlete)*/
+/**
+ *  An exception thrown when a person with a specific name already belongs to the Delegation
+ */
 class PersonAlreadyExists{
     string person; /**@brief the name or de passport*/
 public:
@@ -277,10 +316,30 @@ public:
     PersonAlreadyExists(string person);
 };
 
-/**@brief No Members (Staff or Athlete)*/
+/**
+ *  An exception thrown when the Delegation doesn't have any member(staff/athlete)
+ */
 class NoMembers{
 public:
     friend ostream & operator <<(ostream & os, NoMembers & p);
     NoMembers();
+};
+
+/**
+ *  An exception thrown when the Delegation doesn't have any competition to show in a specific sport
+ */
+class NoCompetitions{
+public:
+    friend ostream & operator <<(ostream & os, NoMembers & p);
+    NoCompetitions();
+};
+
+/**
+ *  An exception thrown when a competition within a sport doesn't have any trials
+ */
+class NoTrials{
+public:
+    friend ostream & operator <<(ostream & os, NoTrials & p);
+    NoTrials();
 };
 #endif //PROJECT_1_DELEGATION_H

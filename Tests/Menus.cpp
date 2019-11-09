@@ -441,7 +441,7 @@ void sportOptionsMenu(Delegation & delegation, const string & sport){
                 catch(NonExistentSport & s){
                     throw;
                 }
-                catch(NoSport & s){
+                catch(NoSports & s){
                     throw;
                 }
                 break;
@@ -488,13 +488,13 @@ void competitionsMenu(Delegation & delegation, const string & sport){
                 catch(NonExistentCompetition & c){
                     throw;
                 }
-                catch(NonCompetitions & c){
+                catch(NoCompetitions & c){
                     throw;
                 }
                 break;
             case 2:
                 try{
-                    delegation.showCompetitions(sport);
+                    delegation.showAllCompetitions(sport);
                 }
                 catch(NoCompetitions & c){
                     throw;
@@ -502,7 +502,7 @@ void competitionsMenu(Delegation & delegation, const string & sport){
                 break;
             case 3:
                 try{
-                    delegation.showTrials(sport);
+                    delegation.showAllTrials(sport);
                 }
                 catch(NoTrials & c){
                     throw;

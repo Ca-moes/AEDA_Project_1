@@ -1325,6 +1325,14 @@ void Delegation::removeSport(const string &sport) {
     }
 }
 
+void Delegation::showCompetition(const string & sport){}
+
+void Delegation::showAllCompetitions(const string & sport){}
+
+void Delegation::showAllTrials(const string & sport){
+
+}
+
 //File Errors - Exceptions
 FileError::FileError(string file) : file(move(file)) {}
 
@@ -1434,5 +1442,26 @@ NoMembers::NoMembers() {}
 
 ostream &operator<<(ostream &os, NoMembers &p) {
     os << " No members to show!\n";
+    return os;
+}
+
+NoSports::NoSports(){}
+
+ostream &operator<<(ostream &os, NoSports &p) {
+    os << " No sports to show!\n";
+    return os;
+}
+
+NoCompetitions::NoCompetitions(){}
+
+ostream &operator<<(ostream &os, NoCompetitions &p) {
+    os << " No sports to show!\n";
+    return os;
+}
+
+NoTrials::NoTrials(){}
+
+ostream &operator<<(ostream &os, NoTrials &p) {
+    os << " No sports to show!\n";
     return os;
 }
