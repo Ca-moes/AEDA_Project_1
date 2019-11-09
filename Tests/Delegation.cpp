@@ -303,7 +303,7 @@ void Delegation::writePeopleFile(){
         }
         myfile.close();
     }
-    else cout << "Unable to open file";
+    else cerr << "Unable to open file";
 }
 
 void Delegation::readCompetitionsFile(const vector<string> &lines) {
@@ -330,8 +330,7 @@ void Delegation::readCompetitionsFile(const vector<string> &lines) {
             line = lines[i];
 
         numline++;
-        if (numline ==
-            1) {// se for a primeira linha de uma pessoa vamos ver se é uma nova modalidade, competição ou jogo
+        if (numline == 1) {// se for a primeira linha de uma pessoa vamos ver se é uma nova modalidade, competição ou jogo
             if (line.empty()) {// Se alinha está vazia vamos ler a próxima competição
                 if (read == 'c' || read == 't') {
                     if (read == 't') {
@@ -351,17 +350,16 @@ void Delegation::readCompetitionsFile(const vector<string> &lines) {
                 i++;
                 numline = 1;
                 line = lines[i];
-            } else if (line == "////////" || i ==
-                                             lines.size()) {//novo desporto - guardar os dados das competições e jogos e limpar variáveis auxiliares; ou útlima linha do ficheiro
+            } else if (line == "////////" || i == lines.size()) {//novo desporto - guardar os dados das competições e jogos e limpar variáveis auxiliares; ou útlima linha do ficheiro
                 if (i == lines.size())
                     if (read == 't' || read == 'c')
                         competitions.push_back(competition);
                 if (isTeamSport) {
                     teamSport->setCompetitions(competitions);
-//                    for (auto &team : teams) {
-//                        if (team->getSport() == teamSport->getName())
-//                            teamSport->addTeam(team);
-//                    }
+/*                    for (auto &team : teams) {
+                        if (team->getSport() == teamSport->getName())
+                            teamSport->addTeam(team);
+                    }*/
                     sports.push_back(new TeamSport(*teamSport));
                     competitions.resize(0);
                     trials.resize(0);
@@ -507,8 +505,13 @@ void Delegation::writeCompetitionsFile(){
     ofstream myfile ("competitions_write.txt");
     if (myfile.is_open())
     {
-        myfile << "This is a line.\n";
-        myfile << "This is another line.\n";
+        for (int i = 0; i < sports.size(); ++i) {
+            myfile << sports.at(i)->getName() << endl;
+            if (sports.at(i)->isTeamSport()){
+                TeamSport* ts = dynamic_cast<TeamSport*> (sports.at(i));
+                myfile << ts->getNumberofElements() << endl;
+            }
+        }
         myfile.close();
     }
     else cout << "Unable to open file";

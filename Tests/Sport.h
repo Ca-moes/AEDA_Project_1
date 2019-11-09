@@ -43,6 +43,7 @@ public:
     void setParticipants(const vector<Team> & teams);
     vector<Participant*> getParticipants() const;
     void setNumberofElements(unsigned int n);
+    unsigned int getNumberofElements();
     void addTeam(Team* t);
     vector<Team*> getTeams() const;
     bool isTeamSport(){return true;};
