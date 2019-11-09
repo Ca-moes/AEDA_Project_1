@@ -281,11 +281,22 @@ void Delegation::writePeopleFile(){
     ofstream myfile ("people_write.txt");
     if (myfile.is_open())
     {
-        for (auto & i : people) {
-            myfile << i << endl;
+        for (unsigned int i = 0; i<people.size(); ++i) {
+            myfile << people.at(i)->getName() << endl << people.at(i)->getBirth() << endl << people.at(i)->getPassport() << endl << people.at(i)->getArrival() << endl << people.at(i)->getDeparture() << endl;
+            if(people.at(i)->isAthlete()){
+                Athlete* a = dynamic_cast<Athlete *> (people.at(i));
+                myfile << a->getSport() << endl;
+                for (const auto & j : a->getCompetitions())
+                    myfile << j << " ";
+                myfile << endl << a->getWeight() << endl << a->getHeight();
+            }
+            else{
+                Staff* a = dynamic_cast<Staff *> (people.at(i));
+                myfile << a->getFunction();
+            }
+            if (i != people.size()-1)
+                myfile << endl << endl;
         }
-        myfile << "This is a line.\n";
-        myfile << "This is another line.\n";
         myfile.close();
     }
     else cout << "Unable to open file";

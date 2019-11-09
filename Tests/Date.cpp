@@ -3,6 +3,8 @@
 //
 
 #include "Date.h"
+#include <iomanip>
+#include <iostream>
 
 Date::Date() {
     year=0, month=0, day =0;
@@ -81,7 +83,7 @@ bool Date::isOlimpianDate() {
 }
 
 ostream& operator<<(ostream& os, const Date & d){
-    os << d.getDay() << "/" << d.getMonth() << "/" << d.getYear();
+    os << setfill('0') << setw(2) << d.getDay() << "/" << setfill('0') << setw(2) << d.getMonth() << "/" << d.getYear();
     return os;
 }
 
