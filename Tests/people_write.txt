@@ -1,10 +1,93 @@
-0x1340520
-0x134bba8
-0x134c188
-0x134c3e0
-0x134c568
-0x134c820
-0x134ca78
-0x134daa8
-This is a line.
-This is another line.
+Diana Freitas
+24/07/1999
+CB009101
+26/07/2020
+04/08/2020
+Futebol
+Fase1 Fase2 
+55
+164
+
+Rute Xavier
+01/10/1995
+CB023167
+24/07/2020
+08/08/2020
+Vela
+SailClassification1 
+53.6
+182
+
+Carlos Dias
+09/09/1993
+CB009404
+26/07/2020
+07/08/2020
+Limpeza
+
+Jacinta Albertina
+30/01/1998
+CB009178
+24/07/2020
+06/08/2020
+Vela
+SailClassification2 SailFinal 
+60
+167
+
+Senhor Julio
+10/03/1980
+CB007804
+25/07/2020
+07/08/2020
+Cozinheiro
+
+Pateta
+09/01/1990
+CB039179
+24/07/2020
+06/08/2020
+Vela
+SailClassification2 SailFinal 
+78
+179
+
+Maurilio Maria
+30/01/1998
+CB089178
+25/07/2020
+08/08/2020
+Atletismo
+100mts 200mts 
+57
+163
+
+Manuel Cunha
+05/01/1990
+CB009167
+25/07/2020
+07/08/2020
+Vela
+SailClassification1 
+67
+180
+
+Joao Lopes
+23/07/1978
+CB162732
+29/07/2020
+02/08/2020
+Badminton
+ParesMasculinos 
+120
+150
+
+Adalbertino Carvalho
+06/09/1982
+CB846485
+29/07/2020
+04/08/2020
+Badminton
+ParesMasculinos 
+115
+153
