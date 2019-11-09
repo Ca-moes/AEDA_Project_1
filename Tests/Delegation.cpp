@@ -32,7 +32,8 @@ Delegation::~Delegation(){
     //Ir a cada um dos nomes de ficheiros em delegation.txt
     // ficheiro a ficheiro escrever para lá os conteudos guadados nos objectos
     // Para fase inicial dar o nome "<nome_ficheiro>_write.txt" aos ficheiros para não dar overwrite"
-    
+    writePeopleFile();
+    writeCompetitionsFile();
 }
 
 void Delegation::readDelegationFile() {
@@ -41,7 +42,8 @@ void Delegation::readDelegationFile() {
     ifstream delegationFile;
     cout << "Delegation .txt File: ";
     // Falta checar inputs;
-    cin >> file;
+    // cin >> file;
+    file = "delegation";
     file += ".txt";
     delegationFile.open(file);
     if (delegationFile.fail())
@@ -277,6 +279,20 @@ void Delegation::readPeopleFile(const vector<string> &lines) {
     }
 }
 
+void Delegation::writePeopleFile(){
+    ofstream myfile ("people_write.txt");
+    if (myfile.is_open())
+    {
+        for (auto & i : people) {
+            myfile << i << endl;
+        }
+        myfile << "This is a line.\n";
+        myfile << "This is another line.\n";
+        myfile.close();
+    }
+    else cout << "Unable to open file";
+}
+
 void Delegation::readCompetitionsFile(const vector<string> &lines) {
     int numline = 0;
     string line;
@@ -472,6 +488,17 @@ void Delegation::readCompetitionsFile(const vector<string> &lines) {
             }
         }
     }
+}
+
+void Delegation::writeCompetitionsFile(){
+    ofstream myfile ("competitions_write.txt");
+    if (myfile.is_open())
+    {
+        myfile << "This is a line.\n";
+        myfile << "This is another line.\n";
+        myfile.close();
+    }
+    else cout << "Unable to open file";
 }
 
 const string &Delegation::getCountry() const {

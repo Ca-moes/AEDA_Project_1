@@ -41,11 +41,19 @@ public:
      */
     void readPeopleFile(const vector<string> &lines);
 
+    /** Used in Destructor, writes data back to .txt file
+     * */
+    void writePeopleFile();
+
     /**Reads the File with the information about the Delegation's Athletes and Staff and structures it in the program
     *
     * @param lines a vector with the lines from People's file
     */
     void readCompetitionsFile(const vector<string> &lines);
+
+    /** Used in Destructor, writes data back to .txt file
+     * */
+    void writeCompetitionsFile();
 
     /**
      * Get the Delegation's Country
