@@ -28,6 +28,14 @@ Delegation::Delegation() {
     mainMenu(*this);
 }
 
+Delegation::~Delegation(){
+    //Ir a cada um dos nomes de ficheiros em delegation.txt
+    // ficheiro a ficheiro escrever para lá os conteudos guadados nos objectos
+    // Para fase inicial dar o nome "<nome_ficheiro>_write.txt" aos ficheiros para não dar overwrite"
+    writePeopleFile();
+    writeCompetitionsFile();
+}
+
 //Reading files functions
 void Delegation::readDelegationFile() {
     int numline = 0;
@@ -35,7 +43,8 @@ void Delegation::readDelegationFile() {
     ifstream delegationFile;
     cout << "Delegation .txt File: ";
     // Falta checar inputs;
-    cin >> file;
+    // cin >> file;
+    file = "delegation";
     file += ".txt";
     delegationFile.open(file);
     if (delegationFile.fail())
@@ -272,6 +281,20 @@ void Delegation::readPeopleFile(const vector<string> &lines) {
     }
 }
 
+void Delegation::writePeopleFile(){
+    ofstream myfile ("people_write.txt");
+    if (myfile.is_open())
+    {
+        for (auto & i : people) {
+            myfile << i << endl;
+        }
+        myfile << "This is a line.\n";
+        myfile << "This is another line.\n";
+        myfile.close();
+    }
+    else cout << "Unable to open file";
+}
+
 void Delegation::readCompetitionsFile(const vector<string> &lines) {
     int numline = 0;
     string line;
@@ -467,6 +490,17 @@ void Delegation::readCompetitionsFile(const vector<string> &lines) {
             }
         }
     }
+}
+
+void Delegation::writeCompetitionsFile(){
+    ofstream myfile ("competitions_write.txt");
+    if (myfile.is_open())
+    {
+        myfile << "This is a line.\n";
+        myfile << "This is another line.\n";
+        myfile.close();
+    }
+    else cout << "Unable to open file";
 }
 
 void Delegation::readTeamsFile(const vector<string> &lines) {
@@ -1294,16 +1328,14 @@ void Delegation::removeSport(const string &sport) {
 }
 
 //File Errors - Exceptions
-FileError::FileError(string
-                     file) : file(move(file)) {}
+FileError::FileError(string file) : file(move(file)) {}
 
 ostream &operator<<(ostream &os, const FileError &file) {
     os << "Error opening file " << file.file << "!" << endl;
     return os;
 }
 
-FileStructureError::FileStructureError(string
-                                       file) : file(move(file)) {}
+FileStructureError::FileStructureError(string file) : file(move(file)) {}
 
 ostream &operator<<(ostream &os, const FileStructureError &file) {
     os << "The structure of file " << file.file << " is not the expected!" << endl;
@@ -1311,8 +1343,7 @@ ostream &operator<<(ostream &os, const FileStructureError &file) {
 }
 
 //sport doesn't exist
-NonExistentSport::NonExistentSport(string
-                                   name) {
+NonExistentSport::NonExistentSport(string name) {
     this->sport = name;
 }
 
@@ -1322,9 +1353,7 @@ ostream &operator<<(ostream &os, const NonExistentSport &c) {
 }
 
 //competition doesn't exist
-NonExistentCompetition::NonExistentCompetition(string
-                                               name, string
-                                               sport) {
+NonExistentCompetition::NonExistentCompetition(string name, string sport) {
     this->competition = name;
     this->sport = sport;
 }
@@ -1335,10 +1364,7 @@ ostream &operator<<(ostream &os, const NonExistentCompetition &c) {
 }
 
 //trial doesn't exist
-NonExistentTrial::NonExistentTrial(string
-                                   name, string
-                                   competition, string
-                                   sport) {
+NonExistentTrial::NonExistentTrial(string name, string competition, string sport) {
     this->name = name;
     this->competition = competition;
     this->sport = sport;
@@ -1351,9 +1377,7 @@ ostream &operator<<(ostream &os, NonExistentTrial &t) {
 
 //participant doesn't exist
 
-NonExistentParticipant::NonExistentParticipant(string
-                                               name, string
-                                               where) {
+NonExistentParticipant::NonExistentParticipant(string name, string where) {
     participant = name;
     this->where = where;
 }
@@ -1363,8 +1387,7 @@ ostream &operator<<(ostream &os, NonExistentParticipant &p) {
     return os;
 }
 
-NonExistentPerson::NonExistentPerson(string
-                                     name) {
+NonExistentPerson::NonExistentPerson(string name) {
     person = name;
 }
 
@@ -1374,8 +1397,7 @@ ostream &operator<<(ostream &os, NonExistentPerson &p) {
 }
 
 
-NonExistentAthlete::NonExistentAthlete(string
-                                       name) {
+NonExistentAthlete::NonExistentAthlete(string name) {
     person = name;
 }
 
@@ -1384,8 +1406,7 @@ ostream &operator<<(ostream &os, NonExistentAthlete &p) {
     return os;
 }
 
-NonExistentStaff::NonExistentStaff(string
-                                   name) {
+NonExistentStaff::NonExistentStaff(string name) {
     person = name;
 }
 
@@ -1393,9 +1414,7 @@ ostream &operator<<(ostream &os, NonExistentStaff &p) {
     os << p.person << " is not a member of the staff!\n";
     return os;
 }
-
-NonExistentTeam::NonExistentTeam(string
-                                 name) {
+NonExistentTeam::NonExistentTeam(string name) {
     team = name;
 }
 
@@ -1404,8 +1423,7 @@ ostream &operator<<(ostream &os, NonExistentTeam &p) {
     return os;
 }
 
-PersonAlreadyExists::PersonAlreadyExists(string
-                                         person) {
+PersonAlreadyExists::PersonAlreadyExists(string person) {
     this->person = person;
 }
 

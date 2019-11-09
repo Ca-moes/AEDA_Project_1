@@ -30,6 +30,9 @@ public:
     /** Delegation Default Constructor*/
     Delegation();
 
+    /** Delegation Destructor (Write to .txt) */
+    ~Delegation();
+
     /**Reads the Delegation's File and structures it in the program*/
     void readDelegationFile();
 
@@ -39,11 +42,19 @@ public:
      */
     void readPeopleFile(const vector<string> &lines);
 
+    /** Used in Destructor, writes data back to .txt file
+     * */
+    void writePeopleFile();
+
     /**Reads the File with the information about the Delegation's Athletes and Staff and structures it in the program
     *
     * @param lines a vector with the lines from Competitions's file
     */
     void readCompetitionsFile(const vector<string> &lines);
+
+    /** Used in Destructor, writes data back to .txt file
+     * */
+    void writeCompetitionsFile();
 
     /**Reads the File with the information about the Delegation's Teams and structures it in the program
     *
