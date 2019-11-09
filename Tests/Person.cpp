@@ -222,3 +222,7 @@ Team::Team(const Team & t){
 const vector<Athlete> & Team::getAthletes() const{
     return athletes;
 }
+
+void Team::setAthletes(const vector<Athlete> & a){
+    athletes=a;
+}

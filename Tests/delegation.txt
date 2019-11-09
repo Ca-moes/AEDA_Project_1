@@ -3,4 +3,5 @@ Portugal
 59.50
 500
 people
+teams
 competitions

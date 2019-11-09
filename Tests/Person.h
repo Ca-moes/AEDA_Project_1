@@ -119,6 +119,7 @@ public:
     const string &getName() const;
     void setName(const string &name);
     const vector<Athlete> & getAthletes() const;
+    void setAthletes(const vector<Athlete> & a);
 };
 
 class Staff: public Person{

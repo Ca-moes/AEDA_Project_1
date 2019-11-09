@@ -14,6 +14,7 @@
 class Delegation {
     string peopleFilename; /**< Nome do ficheiro People.txt*/
     string competitionsFilename; /**< Nome do ficheiro de competições*/
+    string teamsFilename;
     string country;
     float dailyCostStaff;
     float dailyCostAthlete;
