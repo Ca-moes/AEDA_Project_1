@@ -28,6 +28,7 @@ Delegation::Delegation() {
     mainMenu(*this);
 }
 
+//Reading files functions
 void Delegation::readDelegationFile() {
     int numline = 0;
     string line, file;
@@ -73,6 +74,11 @@ void Delegation::readDelegationFile() {
                     throw FileStructureError(file);
                 break;
             case 6:
+                teamsFilename = regex_replace(line, regex("^ +| +$|( ) +"), "$1");
+                if (checkStringInput(line) != 0)
+                    throw FileStructureError(file);
+                break;
+            case 7:
                 competitionsFilename = regex_replace(line, regex("^ +| +$|( ) +"), "$1");
                 if (checkStringInput(line) != 0)
                     throw FileStructureError(file);
@@ -93,21 +99,17 @@ void Delegation::readDelegationFile() {
 
     calculateTotalCost();
 
-    //for testing purposes
-    //print delegation info
-    //cout << info();
-    //print people
+    //Read teams file
 
-    //for(size_t i = 0; i< people.size(); i++)
-    //cout << (people[i])->info() << endl;
+    delegationFile.open(teamsFilename + ".txt");
+    if (delegationFile.fail())
+        throw FileError(teamsFilename + ".txt");
+    readTeamsFile(fileToLineVector(delegationFile));
+    delegationFile.close();
+    delegationFile.clear();
 
-    //Read teams file - necessário ler mais uma linha no ficheiro da delegação(adicionar no ficheiro), completar ficheiro das equipas e criar função para as ler
-    //delegationFile.open(peopleFilename+".txt");
-    //if(delegationFile.fail())
-    //throw FileError(peopleFilename+".txt");
-    //readPeopleFile(fileToLineVector(delegationFile));
-    //delegationFile.close();
-    //delegationFile.clear();
+    //for (size_t i = 0; i < teams.size(); i++)
+        //(teams[i])->showInfo();
 
     //Read competitions file
     delegationFile.open(competitionsFilename + ".txt");
@@ -322,10 +324,10 @@ void Delegation::readCompetitionsFile(const vector<string> &lines) {
                         competitions.push_back(competition);
                 if (isTeamSport) {
                     teamSport->setCompetitions(competitions);
-                    for (auto &team : teams) {
-                        if (team->getSport() == teamSport->getName())
-                            teamSport->addTeam(team);
-                    }
+//                    for (auto &team : teams) {
+//                        if (team->getSport() == teamSport->getName())
+//                            teamSport->addTeam(team);
+//                    }
                     sports.push_back(new TeamSport(*teamSport));
                     competitions.resize(0);
                     trials.resize(0);
@@ -393,7 +395,7 @@ void Delegation::readCompetitionsFile(const vector<string> &lines) {
                     if (d.isOlimpianDate())
                         competition.setBegin(d);
                     else
-                        throw FileStructureError(peopleFilename);
+                        throw FileStructureError(competitionsFilename);
                     break;
                 case 3:
                     if (checkDateInput(line, d) != 0)
@@ -467,6 +469,87 @@ void Delegation::readCompetitionsFile(const vector<string> &lines) {
     }
 }
 
+void Delegation::readTeamsFile(const vector<string> &lines) {
+    int numline = 0;
+    string line;
+    Date d;
+    bool readNewTeam = false;
+    Team *t = nullptr;
+    //Variables to read Athletes:
+    istringstream membersStream;
+    string memberStr;
+    vector<Athlete> members;
+    vector<Athlete *>::iterator it;
+    string sport;
+
+    for (size_t i = 0; i < lines.size(); i++) {
+        numline++;
+        line = lines[i];
+        if (line == "&&&&") {
+            teams.push_back(new Team(*t));
+            break;
+        }
+
+        if (line.empty()) { // Se alinha está vazia voltamos a colocar o numLines a 0 para ler a próxima equipa
+            numline = 1;
+            i++;
+            line = lines[i];
+            readNewTeam = true;
+            membersStream.clear();
+            members.resize(0);
+        } else if (line == "--------") {
+            teams.push_back(new Team(*t));
+            numline = 1;
+            i++;
+            line = lines[i];
+            membersStream.clear();
+            members.resize(0);
+            readNewTeam = false;
+        }
+
+        if (numline == 1) {
+            t = new Team();
+        }
+
+        //ler equipa do desporto atual ou equipas de desporto novo
+        if (!readNewTeam) { // ler desporto novo
+            switch (numline) {
+                case 1:
+                    if (checkStringInput(line) != 0)
+                        throw FileStructureError(teamsFilename);
+                    sport = line;
+                    readNewTeam = true;
+                    numline=0;
+                    break;
+            }
+        } else {
+            // ler equipa nova
+            switch (numline) {
+                case 1:
+                    if (checkAlphaNumericInput(line) != 0) //check team name input - can have numbers
+                        throw FileStructureError(teamsFilename);
+                    t->setName(line);
+                    t->setSport(sport);
+                    break;
+                case 2:
+                    //ler competições - confirmar estrutura
+                    membersStream.str(line);
+                    while (getline(membersStream, memberStr, ',')) {
+                        if (checkStringInput(memberStr) != 0)
+                            throw FileStructureError("erro");
+                        for (it = athletes.begin(); it != athletes.end(); it++) {
+                            if ((*it)->getName() == memberStr)
+                                members.push_back(**it);
+                        }
+                    }
+                    t->setAthletes(members);
+                    break;
+            }
+        }
+    }
+}
+
+//Acessors and mutators
 const string &Delegation::getCountry() const {
     return country;
 }
@@ -526,6 +609,42 @@ string Delegation::info() const {
     return os.str();
 }
 
+void Delegation::showPortugueseMembers() {
+    int test = 0;
+    string input = "";
+
+    system("cls");
+    cout << "_____________________________________________________" << endl << endl;
+    cout << "\t\t   Portuguese Delegation Members" << endl;
+    cout << "_____________________________________________________" << endl << endl;
+
+
+    if (!people.empty()) {
+        std::sort(people.begin(), people.end(), sortMembersAlphabetically);
+        vector<Person *>::const_iterator it;
+        for (it = people.begin(); it != people.end(); it++) {
+            (*it)->showInfoPerson();
+            cout << endl;
+        }
+    } else
+        throw NoMembers();
+
+    cout << endl << "0 - BACK" << endl;
+    do {
+        test = checkinputchoice(input, 0, 0);
+        if (test != 0)
+            cerr << "Invalid option! Press 0 to go back." << endl;
+    } while (test != 0 && test != 2);
+}
+
+int Delegation::findPerson(const string name) const {
+    for (int i = 0; i < people.size(); i++) {
+        if (name == people.at(i)->getName()) return i;
+    }
+    return -1;
+}
+
+//Staff Functions
 void Delegation::addStaffMember() {
     Staff *novo = new Staff();
     string tmp;
@@ -654,42 +773,6 @@ void Delegation::addStaffMember() {
     people.push_back(novo);
 }
 
-void Delegation::showPortugueseMembers() {
-    int test = 0;
-    string input = "";
-
-    system("cls");
-    cout << "_____________________________________________________" << endl << endl;
-    cout << "\t\t   Portuguese Delegation Members" << endl;
-    cout << "_____________________________________________________" << endl << endl;
-
-
-    if (!people.empty()) {
-        std::sort(people.begin(), people.end(), sortMembersAlphabetically);
-        vector<Person *>::const_iterator it;
-        for (it = people.begin(); it != people.end(); it++) {
-            (*it)->showInfoPerson();
-            cout << endl;
-        }
-    } else
-        throw NoMembers();
-
-    cout << endl << "0 - BACK" << endl;
-    do {
-        test = checkinputchoice(input, 0, 0);
-        if (test != 0)
-            cerr << "Invalid option! Press 0 to go back." << endl;
-    } while (test != 0 && test != 2);
-}
-
-int Delegation::findPerson(const string name) const {
-    for (int i = 0; i < people.size(); i++) {
-        if (name == people.at(i)->getName()) return i;
-    }
-    return -1;
-}
-
-//Staff Functions
 void Delegation::removeStaffMember() {
     int test = 0;
     int index;
@@ -930,7 +1013,7 @@ void Delegation::showStaffMember() const {
         }
         cin.clear();
         while (checkStringInput(tmp)) {
-            cout << "Invalid Name. Try again!" << endl;
+            cerr << "Invalid Name. Try again!" << endl;
             cout << "Name: ";
             getline(cin, tmp);
             if (cin.eof()) {
@@ -986,6 +1069,7 @@ void Delegation::showStaffMembers() {
     } while (test != 0 && test != 2);
 }
 
+//Athletes Functions
 void Delegation::showAthlete() const {
     int test = 0;
     string input = "";
@@ -1063,6 +1147,7 @@ void Delegation::showAllAthletes() {
     } while (test != 0 && test != 2);
 }
 
+//Teams Functions
 void Delegation::showTeam() const {
     int test = 0;
     string input = "";
@@ -1139,6 +1224,7 @@ void Delegation::showAllTeams() {
     } while (test != 0 && test != 2);
 }
 
+//Sports Functions
 void Delegation::removeSport(const string &sport) {
     vector<Sport *>::iterator s;
     int test = 0, index = 0;
@@ -1206,16 +1292,18 @@ void Delegation::removeSport(const string &sport) {
         throw NonExistentSport(sport);
     }
 }
-//File Errors - Exceptions
 
-FileError::FileError(string file) : file(move(file)) {}
+//File Errors - Exceptions
+FileError::FileError(string
+                     file) : file(move(file)) {}
 
 ostream &operator<<(ostream &os, const FileError &file) {
     os << "Error opening file " << file.file << "!" << endl;
     return os;
 }
 
-FileStructureError::FileStructureError(string file) : file(move(file)) {}
+FileStructureError::FileStructureError(string
+                                       file) : file(move(file)) {}
 
 ostream &operator<<(ostream &os, const FileStructureError &file) {
     os << "The structure of file " << file.file << " is not the expected!" << endl;
@@ -1223,7 +1311,8 @@ ostream &operator<<(ostream &os, const FileStructureError &file) {
 }
 
 //sport doesn't exist
-NonExistentSport::NonExistentSport(string name) {
+NonExistentSport::NonExistentSport(string
+                                   name) {
     this->sport = name;
 }
 
@@ -1233,7 +1322,9 @@ ostream &operator<<(ostream &os, const NonExistentSport &c) {
 }
 
 //competition doesn't exist
-NonExistentCompetition::NonExistentCompetition(string name, string sport) {
+NonExistentCompetition::NonExistentCompetition(string
+                                               name, string
+                                               sport) {
     this->competition = name;
     this->sport = sport;
 }
@@ -1244,7 +1335,10 @@ ostream &operator<<(ostream &os, const NonExistentCompetition &c) {
 }
 
 //trial doesn't exist
-NonExistentTrial::NonExistentTrial(string name, string competition, string sport) {
+NonExistentTrial::NonExistentTrial(string
+                                   name, string
+                                   competition, string
+                                   sport) {
     this->name = name;
     this->competition = competition;
     this->sport = sport;
@@ -1257,7 +1351,9 @@ ostream &operator<<(ostream &os, NonExistentTrial &t) {
 
 //participant doesn't exist
 
-NonExistentParticipant::NonExistentParticipant(string name, string where) {
+NonExistentParticipant::NonExistentParticipant(string
+                                               name, string
+                                               where) {
     participant = name;
     this->where = where;
 }
@@ -1267,7 +1363,8 @@ ostream &operator<<(ostream &os, NonExistentParticipant &p) {
     return os;
 }
 
-NonExistentPerson::NonExistentPerson(string name) {
+NonExistentPerson::NonExistentPerson(string
+                                     name) {
     person = name;
 }
 
@@ -1277,7 +1374,8 @@ ostream &operator<<(ostream &os, NonExistentPerson &p) {
 }
 
 
-NonExistentAthlete::NonExistentAthlete(string name) {
+NonExistentAthlete::NonExistentAthlete(string
+                                       name) {
     person = name;
 }
 
@@ -1286,7 +1384,8 @@ ostream &operator<<(ostream &os, NonExistentAthlete &p) {
     return os;
 }
 
-NonExistentStaff::NonExistentStaff(string name) {
+NonExistentStaff::NonExistentStaff(string
+                                   name) {
     person = name;
 }
 
@@ -1294,16 +1393,19 @@ ostream &operator<<(ostream &os, NonExistentStaff &p) {
     os << p.person << " is not a member of the staff!\n";
     return os;
 }
-NonExistentTeam::NonExistentTeam(string name) {
+
+NonExistentTeam::NonExistentTeam(string
+                                 name) {
     team = name;
 }
 
 ostream &operator<<(ostream &os, NonExistentTeam &p) {
-    os << p.team<< " doesn't exist!\n";
+    os << p.team << " doesn't exist!\n";
     return os;
 }
 
-PersonAlreadyExists::PersonAlreadyExists(string person) {
+PersonAlreadyExists::PersonAlreadyExists(string
+                                         person) {
     this->person = person;
 }
 

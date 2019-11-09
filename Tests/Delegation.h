@@ -14,6 +14,7 @@
 class Delegation {
     string peopleFilename; /**< Nome do ficheiro People.txt*/
     string competitionsFilename; /**< Nome do ficheiro de competições*/
+    string teamsFilename;
     string country;
     float dailyCostStaff;
     float dailyCostAthlete;
@@ -40,9 +41,15 @@ public:
 
     /**Reads the File with the information about the Delegation's Athletes and Staff and structures it in the program
     *
-    * @param lines a vector with the lines from People's file
+    * @param lines a vector with the lines from Competitions's file
     */
     void readCompetitionsFile(const vector<string> &lines);
+
+    /**Reads the File with the information about the Delegation's Teams and structures it in the program
+    *
+    * @param lines a vector with the lines from Teams's file
+    */
+    void readTeamsFile(const vector<string> & lines);
 
     /**
      * Get the Delegation's Country
@@ -160,7 +167,6 @@ public:
 
     /** Shows the information of all teams of the Portuguese Delegation in a human friendly way*/
     void showAllTeams();
-
 
     /** End the participation of the Portuguese Delegation in a specific sport and saves the "history"
      * @param sport the name of the sport to remove

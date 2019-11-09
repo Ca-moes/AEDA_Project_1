@@ -215,10 +215,25 @@ Team::Team(const Team & t){
     sport = t.getSport();
     competitions = t.getCompetitions();
     name = t.getName();
-    for(size_t i = 0; i< t.getAthletes().size();i++)
-        athletes.push_back(t.getAthletes()[i]);
 }
 
 const vector<Athlete> & Team::getAthletes() const{
     return athletes;
+}
+
+void Team::setAthletes(const vector<Athlete> & a){
+    athletes=a;
+}
+
+void Team::showInfo() const{
+    cout <<  left <<setw(17) << "Team Name" <<  setw(4) << " " << name <<endl;
+    cout << left << setw(17) << "Sport" << setw(4) << " "<< getSport() << setw(3) <<endl;
+    cout <<  left <<setw(17) << "Competitions";
+    for(const auto & competition:competitions)
+        cout << competition<<" ";
+    cout << endl;
+    cout <<  left <<setw(17) << "Members" ;
+    for(const auto & athlete:athletes)
+        cout << athlete.getName()<<" ";
+    cout << endl;
 }

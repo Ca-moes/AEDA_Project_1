@@ -8,6 +8,16 @@ Fase1 Fase2
 55
 164
 
+Rute Xavier
+01/10/1995
+CB023167
+24/07/2020
+08/08/2020
+Vela
+SailClassification1
+53.60
+182
+
 Carlos Dias
 09/09/1993
 CB009404
@@ -51,6 +61,16 @@ Atletismo
 100mts 200mts
 57
 163
+
+Manuel Cunha
+05/01/1990
+CB009167
+25/07/2020
+07/08/2020
+Vela
+SailClassification1
+67
+180
 
 Joao Lopes
 23/07/1978
