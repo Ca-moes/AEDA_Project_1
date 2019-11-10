@@ -122,6 +122,13 @@ public:
     const vector<Sport*> & getSports() const;
 
     /**
+     * Sorts the people and athletes vector
+     *
+     */
+     void sortAllPeople();
+
+
+    /**
    * Calculates the Delegation's total cost
    * Sets the Delegation's total cost
    */
@@ -154,6 +161,12 @@ public:
     *
     */
     void addAthlete();
+
+    /**
+    * Removes an athlete from the people and athletes vectors
+    *
+    */
+    void removeAthlete();
 
     /**
    * Find a Person in the people vector

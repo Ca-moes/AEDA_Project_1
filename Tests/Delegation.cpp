@@ -107,6 +107,8 @@ void Delegation::readDelegationFile() {
     delegationFile.clear();
 
     calculateTotalCost();
+    sort(people.begin(), people.end(), sortPersons);
+    sort(athletes.begin(), athletes.end(), sortMembersAlphabetically<Athlete>);
 
     //Read teams file
 
@@ -680,7 +682,6 @@ void Delegation::showPortugueseMembers() {
 
 
     if (!people.empty()) {
-        sort(people.begin(), people.end(), sortMembersAlphabetically<Person>);
         vector<Person *>::const_iterator it;
         for (it = people.begin(); it != people.end(); it++) {
             (*it)->showInfoPerson();
@@ -1264,7 +1265,6 @@ void Delegation::addAthlete() {
         novo->setSport(tmp);
         competitions = sports.at(index)->getCompetitions();
         for (int i = 0; i < competitions.size(); i++){
-            cout << competitions.at(i).getName() << endl;
             competition_names.push_back(competitions.at(i).getName());
         }
         novo->setCompetitions(competition_names);
@@ -1287,8 +1287,6 @@ void Delegation::addAthlete() {
         }
         cin.clear();
     }
-    cout << tmp << endl;
-    cout << stof(tmp) << endl;
     novo->setWeight(stof(tmp));
 
     cout << "Height: ";
@@ -1312,6 +1310,41 @@ void Delegation::addAthlete() {
 
     people.push_back(novo);
     athletes.push_back(novo);
+}
+
+void Delegation::removeAthlete(){
+    int test = 0;
+    int index;
+    string input = "", tmp;
+
+    cout << "Name: ";
+    getline(cin, tmp);
+    if (cin.eof()) {
+        cin.clear();
+        return; //go back on ctrl+d
+    }
+    cin.clear();
+    while (checkStringInput(tmp)) {
+        cout << "Invalid Name. Try again!" << endl;
+        cout << "Name: ";
+        getline(cin, tmp);
+        if (cin.eof()) {
+            cin.clear();
+            return; //go back on ctrl+d
+        }
+        cin.clear();
+    }
+    index = findPerson(tmp);
+    if (index == -1 || !(people.at(index)->isAthlete())) {
+        throw NonExistentAthlete(tmp);
+    } else {
+        vector<Person *>::iterator it = people.begin() + index;
+        vector<Athlete*>::iterator it_a = athletes.begin() + index;
+        athletes.erase(it_a);
+        delete *it;
+        people.erase(it);
+        return;
+    }
 }
 
 void Delegation::showAthlete() const {
@@ -1374,7 +1407,6 @@ void Delegation::showAllAthletes() {
 
 
     if (!athletes.empty()) {
-        sort(athletes.begin(), athletes.end(), sortMembersAlphabetically<Person>);
         vector<Athlete *>::const_iterator it;
         for (it = athletes.begin(); it != athletes.end(); it++) {
             (*it)->showInfo();
@@ -1634,6 +1666,13 @@ int Delegation::findSport(const string name) const {
         if (name == sports.at(i)->getName()) return i;
     }
     return -1;
+}
+
+//Sort Functions
+
+void Delegation::sortAllPeople() {
+    sort(people.begin(), people.end(), sortPersons);
+    sort(athletes.begin(), athletes.end(), sortPersons);
 }
 
 //File Errors - Exceptions

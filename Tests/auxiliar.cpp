@@ -123,3 +123,7 @@ void exceptionHandler(){
 bool sortCompetitionsByDate(const Competition & c1, const Competition & c2){
     return(c1.getBegin() < c2.getBegin());
 }
+
+bool sortPersons(const Person * p1, const Person * p2){
+    return (*p1) < (*p2);
+}
