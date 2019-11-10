@@ -398,6 +398,7 @@ void teamsMenu(Delegation & delegation) {
                 }
                 catch(NoMembers & e){
                     cout<< e << endl;
+                    usleep(4000000);
                 }
                 break;
             case 0:

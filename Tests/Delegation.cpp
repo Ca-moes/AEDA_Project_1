@@ -127,6 +127,24 @@ void Delegation::readDelegationFile() {
     }
     readCompetitionsFile(fileToLineVector(delegationFile));
     delegationFile.clear();
+
+    //set team competitions participants
+    for (auto &team: teams) {//corre o vetor de equipas
+        vector<Athlete> members = team->getAthletes();//para cada equipa guarda o vetor de membros
+        vector<string> comps;//para cada equipa, serve para guarda as competições onde participa
+        for(auto & member: members){//corre o vetor de membros de uma equipa
+            for(size_t i= 0; i< athletes.size(); i++){//corre o vetor de atletas da delegação
+                if(athletes[i]->getName() == member.getName()) { //se encontrar o atleta nos atletas
+                    vector<string> appendComps = member.getCompetitions(); // guarda o vetor de competições
+                    comps.insert(comps.end(),appendComps.begin(), appendComps.end()); // adiciona o vetor de competições às competições
+                    break;
+                }
+            }
+        }
+        noRepeatVector(comps);
+        team->setCompetitions(comps);
+        comps.resize(0);
+    }
 }
 
 void Delegation::readPeopleFile(const vector<string> &lines) {
@@ -1210,7 +1228,7 @@ void Delegation::showTeam() const {
         vector<Team *>::const_iterator t;
         for (t = teams.begin(); t != teams.end(); t++) {
             if ((*t)->getName() == nm) {
-                //(*t)->showInfo();
+                (*t)->showInfo();
                 found = true;
             }
         }
@@ -1325,7 +1343,60 @@ void Delegation::removeSport(const string &sport) {
     }
 }
 
-void Delegation::showCompetition(const string & sport){}
+void Delegation::showCompetition(const string & sport){
+    int test = 0;
+    string input = "";
+
+    system("cls");
+    cout << "_____________________________________________________" << endl << endl;
+    cout << "\t\t" << sport<<" - Information about a Competition" << endl;
+    cout << "_____________________________________________________" << endl << endl;
+
+    vector<Sport * >::iterator s = sports.begin();
+
+    while(s!= sports.end()){
+        if((*s)->getName() == sport){
+            vector<Competition> c = (*s)->getCompetitions();
+            if(!c.size() != 0){
+                int test = 0;
+                int index;
+                string input = "", nm;
+                bool found = false;
+
+                do {
+                    cout << "Competition's name: ";
+                    getline(cin, nm);
+                    if (cin.eof()) {
+                        cin.clear();
+                        return; //go back on ctrl+d
+                    }
+                    cin.clear();
+                } while (cin.fail());
+
+
+                vector<Competition>::const_iterator cit;
+                for (cit = c.begin(); cit != c.end(); cit++) {
+                    if (cit->getName() == nm) {
+                        //cit->showInfo();
+                        found = true;
+                    }
+                }
+                if (!found)
+                    throw NonExistentCompetition(nm,sport);
+            }
+            else
+                throw NoCompetitions();
+        }
+        s++;
+    }
+
+    cout << endl << "0 - BACK" << endl;
+    do {
+        test = checkinputchoice(input, 0, 0);
+        if (test != 0)
+            cerr << "Invalid option! Press 0 to go back." << endl;
+    } while (test != 0 && test != 2);
+}
 
 void Delegation::showAllCompetitions(const string & sport){}
 

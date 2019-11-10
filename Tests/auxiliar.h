@@ -74,9 +74,27 @@ vector<string> fileToLineVector(istream & in);
  * @param end the date of ending
  * @returns the numbers of days
  */
-
 int daysBetween(const Date begin, const Date end);
 
+/**
+ * Compares two people by name(from a to z)
+ *
+ * @param p1 a person
+ * @param p2 a person
+ * @returns true if p1's name comes before p2's name in alphabetical order, false otherwise
+ */
 bool sortMembersAlphabetically(const Person * p1, const Person * p2);
 
+/**
+ * Deletes repeted elements from vector of objects with == and < operators defined
+ *
+ * @param v1 the vector to be changed
+ */
+template <class T>
+void noRepeatVector (vector<T> & v1){
+    typename vector<string>::iterator it;
+    sort(v1.begin(), v1.end());
+    it = unique(v1.begin(), v1.end());
+    v1.resize(distance(v1.begin(), it));
+}
 #endif //PROJECT_1_INPUTCHECK_H

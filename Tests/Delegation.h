@@ -6,7 +6,6 @@
 #define PROJECT_1_DELEGATION_H
 
 #include "Sport.h"
-#include "auxiliar.h"
 #include "fstream"
 #include <regex>
 #include <list>
@@ -179,7 +178,7 @@ public:
     /** Shows the information of all teams of the Portuguese Delegation in a human friendly way*/
     void showAllTeams();
 
-    /** End the participation of the Portuguese Delegation in a specific sport and saves the "history"
+    /** End the participation of the Portuguese Delegation in a specific sport and saves the "history"- throws exception if no team exists
      * @param sport the name of the sport to remove
      */
     void removeSport(const string &sport);
