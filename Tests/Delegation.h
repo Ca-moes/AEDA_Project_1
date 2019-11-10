@@ -150,12 +150,26 @@ public:
     void changeStaffMember();
 
     /**
+    * Adds an athlete to the people vector and the athlete vector
+    *
+    */
+    void addAthlete();
+
+    /**
    * Find a Person in the people vector
    *
    * @params name the name of the Person
    * @returns the index of the Person, -1 if it does not exist
    */
    int findPerson(const string name) const;
+
+    /**
+    * Find a Sport in the sports vector
+    *
+    * @params name the name of the Sport
+    * @returns the index of the Sport, -1 if it does not exist
+    */
+    int findSport(const string name) const;
 
     /**Shows the information of all the members of the Portuguese Delegation in a human friendly way*/
     void showPortugueseMembers();

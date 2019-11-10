@@ -263,6 +263,7 @@ void staffMenu(Delegation & delegation) {
                 }
                 catch(NonExistentStaff & e){
                     cout << e << endl;
+                    exceptionHandler();
                 }
                 catch(NoMembers & n){
                     cout << n << endl;
@@ -310,7 +311,17 @@ void athletesMenu(Delegation & delegation) {
 
         switch (stoi(input)) {
             case 1:
-                //delegation.addAthlete();
+                try {
+                    delegation.addAthlete();
+                }
+                catch(PersonAlreadyExists &e) {
+                    cout << e << endl;
+                    exceptionHandler();
+                }
+                catch(NonExistentSport &e) {
+                    cout << e << endl;
+                    exceptionHandler();
+                }
                 break;
             case 2:
                 //changeClientMenu(delegation);

@@ -1131,6 +1131,190 @@ void Delegation::showStaffMembers() {
 }
 
 //Athletes Functions
+
+void Delegation::addAthlete() {
+    Athlete *novo = new Athlete();
+    string tmp;
+    Date tmp_date;
+    vector<Competition> competitions;
+    vector<string> competition_names;
+    int index;
+
+    int test = 0;
+    string input = "";
+
+    cout << "Name: ";
+    getline(cin, tmp);
+    if (cin.eof()) {
+        cin.clear();
+        return; //go back on ctrl+d
+    }
+    cin.clear();
+    while (checkStringInput(tmp)) {
+        cerr << "Invalid Name. Try again!" << endl;
+        cout << "Name: ";
+        getline(cin, tmp);
+        if (cin.eof()) {
+            cin.clear();
+            return; //go back on ctrl+d
+        }
+        cin.clear();
+    }
+    if (findPerson(tmp) != -1) {
+        throw PersonAlreadyExists(tmp);
+    }
+    novo->setName(tmp);
+
+    cout << "Date of Birth: ";
+    getline(cin, tmp);
+    if (cin.eof()) {
+        cin.clear();
+        return; //go back on ctrl+d
+    }
+    cin.clear();
+    while (checkDateInput(tmp, tmp_date)) {
+        cout << "Invalid Date. Try again!" << endl;
+        cout << "Date of Birth: ";
+        getline(cin, tmp);
+        if (cin.eof()) {
+            cin.clear();
+            return; //go back on ctrl+d
+        }
+        cin.clear();
+    }
+    novo->setBirth(tmp_date);
+
+    cout << "Passport: ";
+    getline(cin, tmp);
+    if (cin.eof()) {
+        cin.clear();
+        return; //go back on ctrl+d
+    }
+    cin.clear();
+    while (checkAlphaNumericInput(tmp)) {
+        cout << "Invalid Passport. Try again!" << endl;
+        cout << "Passport: ";
+        getline(cin, tmp);
+        if (cin.eof()) {
+            cin.clear();
+            return; //go back on ctrl+d
+        }
+        cin.clear();
+    }
+    novo->setPassport(tmp);
+
+    cout << "Date of Arrival: ";
+    getline(cin, tmp);
+    if (cin.eof()) {
+        cin.clear();
+        return; //go back on ctrl+d
+    }
+    cin.clear();
+    while (checkDateInput(tmp, tmp_date) || !(tmp_date.isOlimpianDate())) {
+        cout << "Invalid Date. Try again!" << endl;
+        cout << "Date of Arrival: ";
+        getline(cin, tmp);
+        if (cin.eof()) {
+            cin.clear();
+            return; //go back on ctrl+d
+        }
+        cin.clear();
+    }
+    novo->setArrival(tmp_date);
+
+    cout << "Date of Departure: ";
+    getline(cin, tmp);
+    if (cin.eof()) {
+        cin.clear();
+        return; //go back on ctrl+d
+    }
+    cin.clear();
+    while (checkDateInput(tmp, tmp_date) || !(tmp_date.isOlimpianDate())) {
+        cout << "Invalid Date. Try again!" << endl;
+        cout << "Date of Departure: ";
+        getline(cin, tmp);
+        if (cin.eof()) {
+            cin.clear();
+            return; //go back on ctrl+d
+        }
+        cin.clear();
+    }
+    novo->setDeparture(tmp_date);
+
+    cout << "Sport: ";
+    getline(cin, tmp);
+    if (cin.eof()) {
+        cin.clear();
+        return; //go back on ctrl+d
+    }
+    cin.clear();
+    while (checkStringInput(tmp) == 1) {
+        cout << "Invalid Sport. Try again!" << endl;
+        cout << "Sport: ";
+        getline(cin, tmp);
+        if (cin.eof()) {
+            cin.clear();
+            return; //go back on ctrl+d
+        }
+        cin.clear();
+    }
+    index = findSport(tmp);
+    if (index == -1){
+        throw NonExistentSport(tmp);
+    } else {
+        novo->setSport(tmp);
+        competitions = sports.at(index)->getCompetitions();
+        for (int i = 0; i < competitions.size(); i++){
+            cout << competitions.at(i).getName() << endl;
+            competition_names.push_back(competitions.at(i).getName());
+        }
+        novo->setCompetitions(competition_names);
+    }
+
+    cout << "Weight: ";
+    getline(cin, tmp);
+    if (cin.eof()) {
+        cin.clear();
+        return; //go back on ctrl+d
+    }
+    cin.clear();
+    while (checkFloatInput(tmp)) {
+        cerr << "Invalid Weight. Try again!" << endl;
+        cout << "Weight: ";
+        getline(cin, tmp);
+        if (cin.eof()) {
+            cin.clear();
+            return; //go back on ctrl+d
+        }
+        cin.clear();
+    }
+    cout << tmp << endl;
+    cout << stof(tmp) << endl;
+    novo->setWeight(stof(tmp));
+
+    cout << "Height: ";
+    getline(cin, tmp);
+    if (cin.eof()) {
+        cin.clear();
+        return; //go back on ctrl+d
+    }
+    cin.clear();
+    while (checkPositiveIntInput(tmp)) {
+        cerr << "Invalid Height. Try again!" << endl;
+        cout << "Height: ";
+        getline(cin, tmp);
+        if (cin.eof()) {
+            cin.clear();
+            return; //go back on ctrl+d
+        }
+        cin.clear();
+    }
+    novo->setHeight(stoi(tmp));
+
+    people.push_back(novo);
+    athletes.push_back(novo);
+}
+
 void Delegation::showAthlete() const {
     int test = 0;
     string input = "";
@@ -1445,6 +1629,13 @@ void Delegation::showAllTrials(const string & sport){
 
 }
 
+int Delegation::findSport(const string name) const {
+    for (int i = 0; i < sports.size(); i++) {
+        if (name == sports.at(i)->getName()) return i;
+    }
+    return -1;
+}
+
 //File Errors - Exceptions
 FileError::FileError(string file) : file(move(file)) {}
 
@@ -1466,7 +1657,7 @@ NonExistentSport::NonExistentSport(string name) {
 }
 
 ostream &operator<<(ostream &os, const NonExistentSport &c) {
-    os << "The Delegation does not take part in " << c.sport << " competitions anymore!" << "!\n";
+    os << "The Delegation does not take part in " << c.sport << "!\n";
     return os;
 }
 

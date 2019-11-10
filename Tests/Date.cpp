@@ -92,7 +92,7 @@ bool Date::operator <(const Date & d) const{
 }
 
 ostream& operator<<(ostream& os, const Date & d){
-    os << setfill('0') << setw(2) << d.getDay() << "/" << setfill('0') << setw(2) << d.getMonth() << "/" << d.getYear();
+    os << right << setfill('0') << setw(2) << d.getDay() << "/" << setfill('0') << setw(2) << d.getMonth() << "/" << d.getYear() << setfill(' ');
     return os;
 }
 
