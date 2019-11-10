@@ -1,5 +1,6 @@
 #include <iostream>
 #include "auxiliar.h"
+#include "Menus.h"
 
 int checkInvalidType(istream & in){
     if (in.eof()) {
@@ -107,6 +108,18 @@ int daysBetween(const Date begin, const Date end) {
     }
 }
 
-bool sortMembersAlphabetically(const Person * p1, const Person * p2){
-    return (*p1) < (*p2);
+void exceptionHandler(){
+    int test = 0;
+    string input = "";
+
+    cout << endl << "0 - BACK" << endl;
+    do {
+        test = checkinputchoice(input, 0, 0);
+        if (test != 0)
+            cerr << "Invalid option! Press 0 to go back." << endl;
+    } while (test != 0 && test != 2);
+}
+
+bool sortCompetitionsByDate(const Competition & c1, const Competition & c2){
+    return(c1.getBegin() < c2.getBegin());
 }

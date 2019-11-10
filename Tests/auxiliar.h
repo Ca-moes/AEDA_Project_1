@@ -74,9 +74,42 @@ vector<string> fileToLineVector(istream & in);
  * @param end the date of ending
  * @returns the numbers of days
  */
-
 int daysBetween(const Date begin, const Date end);
 
-bool sortMembersAlphabetically(const Person * p1, const Person * p2);
+/**
+ * Compares two objects of a class - must have < operator
+ *
+ * @param p1 right object
+ * @param p2 left object
+ * @returns true if p1<p2, false otherwise
+ */
+template <class T>
+bool sortMembersAlphabetically(const T * p1, const T * p2){
+    return (*p1) < (*p2);
+}
 
+/**
+ * Deletes repeted elements from vector of objects with == and < operators defined
+ *
+ * @param v1 the vector to be changed
+ */
+template <class T>
+void noRepeatVector (vector<T> & v1){
+    typename vector<string>::iterator it;
+    sort(v1.begin(), v1.end());
+    it = unique(v1.begin(), v1.end());
+    v1.resize(distance(v1.begin(), it));
+}
+
+/**Handles an exception thrown in menus by showing the option to go back to the previous menu*/
+void exceptionHandler();
+
+/**
+ * Compares two competitions, allowing to order a Competition's vector by Begin Date (End Date and Alphabetically if needed)
+ *
+ * @param c1 competition 1
+ * @param c2 competition 2
+ * @returns true if c1 begins after c2 / if they begin in the same day and c1 ends earlier/ if they begin and end in the same day and c1's name comes first in the alphabet
+ */
+bool sortCompetitionsByDate(const Competition & c1, const Competition & c2);
 #endif //PROJECT_1_INPUTCHECK_H

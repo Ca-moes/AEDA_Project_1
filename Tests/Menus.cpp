@@ -148,10 +148,11 @@ void sportsMenu(Delegation & delegation) {
         switch (stoi(input)) {
             case 1:
                 try{
-                    sportsCompetitionsMenu(delegation,delegation.getSports()[stoi(input)-1]->getName());
+                    sportOptionsMenu(delegation,delegation.getSports()[stoi(input)-1]->getName());
                 }
                 catch(NonExistentSport & s){
                     cout << s;
+                    exceptionHandler();
                 }
                 break;
             case 0:
@@ -235,7 +236,7 @@ void staffMenu(Delegation & delegation) {
                 }
                 catch(PersonAlreadyExists & e){
                     cout << e << endl;
-                    usleep(4000000);
+                    exceptionHandler();
                 }
                 break;
             case 2:
@@ -244,7 +245,7 @@ void staffMenu(Delegation & delegation) {
                 }
                 catch(NonExistentStaff & e){
                     cout << e << endl;
-                    usleep(4000000);
+                    exceptionHandler();
                 }
                 break;
             case 3:
@@ -253,7 +254,7 @@ void staffMenu(Delegation & delegation) {
                 }
                 catch(NonExistentStaff & e){
                     cout << e << endl;
-                    usleep(4000000);
+                    exceptionHandler();
                 }
                 break;
             case 4:
@@ -265,7 +266,7 @@ void staffMenu(Delegation & delegation) {
                 }
                 catch(NoMembers & n){
                     cout << n << endl;
-                    usleep(4000000);
+                    exceptionHandler();
                 }
                 break;
             case 5:
@@ -274,7 +275,7 @@ void staffMenu(Delegation & delegation) {
                 }
                 catch(NonExistentPerson & e){
                     cout << e << endl;
-                    usleep(4000000);
+                    exceptionHandler();
                 }
                 break;
             case 0:
@@ -321,12 +322,14 @@ void athletesMenu(Delegation & delegation) {
                 try{
                     delegation.showAthlete();
                 }
-                catch(NonExistentPerson & e){
+                catch(NonExistentAthlete & e){
                     cout << e << endl;
+                    exceptionHandler();
                 }
                 catch(NoMembers & n){
                     cout << n << endl;
-                    usleep(4000000);
+                    //exceptionHandler();
+                    exceptionHandler();
                 }
                 break;
             case 5:
@@ -335,7 +338,7 @@ void athletesMenu(Delegation & delegation) {
                 }
                 catch(NoMembers & n){
                     cout << n << endl;
-                    usleep(4000000);
+                    exceptionHandler();
                 }
                 break;
             case 0:
@@ -384,11 +387,11 @@ void teamsMenu(Delegation & delegation) {
                 }
                 catch(NonExistentTeam & t){
                     cout<< t << endl;
-                    usleep(4000000);
+                    exceptionHandler();
                 }
                 catch(NoMembers & e){
                     cout<< e << endl;
-                    usleep(4000000);
+                    exceptionHandler();
                 }
                 break;
             case 5:
@@ -397,6 +400,7 @@ void teamsMenu(Delegation & delegation) {
                 }
                 catch(NoMembers & e){
                     cout<< e << endl;
+                    exceptionHandler();
                 }
                 break;
             case 0:
@@ -406,7 +410,7 @@ void teamsMenu(Delegation & delegation) {
 }
 
 //Sports submenus
-void sportsCompetitionsMenu(Delegation & delegation, const string & sport){
+void sportOptionsMenu(Delegation & delegation, const string & sport){
     int testinput = 0;
     string input;
     do
@@ -419,7 +423,7 @@ void sportsCompetitionsMenu(Delegation & delegation, const string & sport){
         cout << "Choose an option by typing a number and pressing Enter." << endl << endl;
         //show the main menu
         cout << "1 - End Participation" << endl;
-        cout << "2 - Competitions" << endl;
+        cout << "2 - Competitions & Trials" << endl;
         cout << "0 - EXIT" << endl;
 
         do {
@@ -430,8 +434,6 @@ void sportsCompetitionsMenu(Delegation & delegation, const string & sport){
         if (testinput == 2)
         { input = "0"; }
 
-        if(stoi(input) != 0)
-            input = "1";
         switch (stoi(input)) {
             case 1:
                 try{
@@ -440,9 +442,71 @@ void sportsCompetitionsMenu(Delegation & delegation, const string & sport){
                 catch(NonExistentSport & s){
                     throw;
                 }
+                catch(NoSports & s){
+                    throw;
+                }
                 break;
             case 2:
-                //competitionsMenu(delegation,sport);
+                competitionsMenu(delegation,sport);
+                break;
+            case 0:
+                break;
+        }
+    } while (stoi(input) != 0);
+}
+void competitionsMenu(Delegation & delegation, const string & sport){
+    int testinput = 0;
+    string input;
+    do
+    {
+        system("cls");
+        cout << "_____________________________________________________" << endl << endl;
+        cout << "\t\t" << sport << "- Competitions & Trials" << endl;
+        cout << "_____________________________________________________" << endl << endl;
+
+        cout << "Choose an option by typing a number and pressing Enter." << endl << endl;
+        //show the main menu
+        cout << "1 - Competition information" << endl;
+        cout << "2 - All Competitions" << endl;
+        cout << "3 - All Trials" << endl;
+        cout << "0 - EXIT" << endl;
+
+        do {
+            testinput = checkinputchoice(input, 0, 3);
+            if (testinput != 0 && testinput != 2)
+                cerr << "Invalid option! Please try again." << endl;
+        } while (testinput != 0 && testinput != 2);
+        if (testinput == 2)
+        { input = "0"; }
+
+
+        switch (stoi(input)) {
+            case 1:
+                try{
+                    delegation.showCompetition(sport);
+                }
+                catch(NonExistentCompetition & c){
+                    throw;
+                }
+                catch(NoCompetitions & c){
+                    throw;
+                }
+                break;
+            case 2:
+                try{
+                    delegation.showAllCompetitions(sport);
+                }
+                catch(NoCompetitions & c){
+                    throw;
+                }
+                break;
+            case 3:
+                try{
+                    delegation.showAllTrials(sport);
+                }
+                catch(NoTrials & c){
+                    throw;
+                }
                 break;
             case 0:
                 break;

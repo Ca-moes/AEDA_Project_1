@@ -127,6 +127,24 @@ void Delegation::readDelegationFile() {
     }
     readCompetitionsFile(fileToLineVector(delegationFile));
     delegationFile.clear();
+
+    //set team competitions participants
+    for (auto &team: teams) {//corre o vetor de equipas
+        vector<Athlete> members = team->getAthletes();//para cada equipa guarda o vetor de membros
+        vector<string> comps;//para cada equipa, serve para guarda as competições onde participa
+        for(auto & member: members){//corre o vetor de membros de uma equipa
+            for(size_t i= 0; i< athletes.size(); i++){//corre o vetor de atletas da delegação
+                if(athletes[i]->getName() == member.getName()) { //se encontrar o atleta nos atletas
+                    vector<string> appendComps = member.getCompetitions(); // guarda o vetor de competições
+                    comps.insert(comps.end(),appendComps.begin(), appendComps.end()); // adiciona o vetor de competições às competições
+                    break;
+                }
+            }
+        }
+        noRepeatVector(comps);
+        team->setCompetitions(comps);
+        comps.resize(0);
+    }
 }
 
 void Delegation::readPeopleFile(const vector<string> &lines) {
@@ -663,7 +681,7 @@ void Delegation::showPortugueseMembers() {
 
 
     if (!people.empty()) {
-        std::sort(people.begin(), people.end(), sortMembersAlphabetically);
+        sort(people.begin(), people.end(), sortMembersAlphabetically<Person>);
         vector<Person *>::const_iterator it;
         for (it = people.begin(); it != people.end(); it++) {
             (*it)->showInfoPerson();
@@ -1093,7 +1111,7 @@ void Delegation::showStaffMembers() {
 
 
     if (!people.empty()) {
-        sort(people.begin(), people.end(), sortMembersAlphabetically);
+        sort(people.begin(), people.end(), sortMembersAlphabetically<Person>);
         vector<Person *>::const_iterator it;
         for (it = people.begin(); it != people.end(); it++) {
             if (!(*it)->isAthlete()) {
@@ -1173,7 +1191,7 @@ void Delegation::showAllAthletes() {
 
 
     if (!athletes.empty()) {
-        sort(athletes.begin(), athletes.end(), sortMembersAlphabetically);
+        sort(athletes.begin(), athletes.end(), sortMembersAlphabetically<Person>);
         vector<Athlete *>::const_iterator it;
         for (it = athletes.begin(); it != athletes.end(); it++) {
             (*it)->showInfo();
@@ -1221,7 +1239,7 @@ void Delegation::showTeam() const {
         vector<Team *>::const_iterator t;
         for (t = teams.begin(); t != teams.end(); t++) {
             if ((*t)->getName() == nm) {
-                //(*t)->showInfo();
+                (*t)->showInfo();
                 found = true;
             }
         }
@@ -1245,16 +1263,15 @@ void Delegation::showAllTeams() {
 
     system("cls");
     cout << "_____________________________________________________" << endl << endl;
-    cout << "\t\t   Information about Athletes" << endl;
+    cout << "\t\t   Information about Teams" << endl;
     cout << "_____________________________________________________" << endl << endl;
 
 
-    if (!athletes.empty()) {
-        sort(athletes.begin(), athletes.end(), sortMembersAlphabetically);
-        vector<Athlete *>::const_iterator it;
-        for (it = athletes.begin(); it != athletes.end(); it++) {
+    if (!teams.empty()) {
+        sort(teams.begin(), teams.end(), sortMembersAlphabetically<Team>);
+        vector<Team *>::const_iterator it;
+        for (it = teams.begin(); it != teams.end(); it++) {
             (*it)->showInfo();
-            cout << endl;
         }
     } else
         throw NoMembers();
@@ -1334,6 +1351,98 @@ void Delegation::removeSport(const string &sport) {
         }
         throw NonExistentSport(sport);
     }
+}
+
+void Delegation::showCompetition(const string & sport){
+    int test = 0;
+    string input = "";
+
+    system("cls");
+    cout << "_____________________________________________________" << endl << endl;
+    cout << "\t\t" << sport<<" - Information about a Competition" << endl;
+    cout << "_____________________________________________________" << endl << endl;
+
+    vector<Sport * >::iterator s = sports.begin();
+
+    while(s!= sports.end()){
+        if((*s)->getName() == sport){
+            vector<Competition> c = (*s)->getCompetitions();
+            if(!c.size() != 0){
+                int test = 0;
+                int index;
+                string input = "", nm;
+                bool found = false;
+
+                do {
+                    cout << "Competition's name: ";
+                    getline(cin, nm);
+                    if (cin.eof()) {
+                        cin.clear();
+                        return; //go back on ctrl+d
+                    }
+                    cin.clear();
+                } while (cin.fail());
+
+
+                vector<Competition>::const_iterator cit;
+                for (cit = c.begin(); cit != c.end(); cit++) {
+                    if (cit->getName() == nm) {
+                        //cit->showInfo();
+                        found = true;
+                    }
+                }
+                if (!found)
+                    throw NonExistentCompetition(nm,sport);
+            }
+            else
+                throw NoCompetitions(sport);
+        }
+        s++;
+    }
+
+    cout << endl << "0 - BACK" << endl;
+    do {
+        test = checkinputchoice(input, 0, 0);
+        if (test != 0)
+            cerr << "Invalid option! Press 0 to go back." << endl;
+    } while (test != 0 && test != 2);
+}
+
+void Delegation::showAllCompetitions(const string & sport){
+    int test = 0;
+    string input = "";
+    vector<Competition> competitions;
+
+    system("cls");
+    cout << "_____________________________________________________" << endl << endl;
+    cout << "\t\t\t\t" << sport << " Competitions" << endl;
+    cout << "_____________________________________________________" << endl << endl;
+
+    for(size_t i=0; i< sports.size(); i++){
+        if(sport == sports[i]->getName()){
+            competitions = sports[i]->getCompetitions();
+            break;
+        }
+    }
+    if (!competitions.empty()) {
+        sort(competitions.begin(), competitions.end(), sortCompetitionsByDate);
+        vector<Competition>::const_iterator it;
+        for (it = competitions.begin(); it != competitions.end(); it++) {
+            it->showInfo();
+        }
+    } else
+        throw NoCompetitions(sport);
+
+    cout << endl << "0 - BACK" << endl;
+    do {
+        test = checkinputchoice(input, 0, 0);
+        if (test != 0)
+            cerr << "Invalid option! Press 0 to go back." << endl;
+    } while (test != 0 && test != 2);
+}
+
+void Delegation::showAllTrials(const string & sport){
+
 }
 
 //File Errors - Exceptions
@@ -1445,5 +1554,26 @@ NoMembers::NoMembers() {}
 
 ostream &operator<<(ostream &os, NoMembers &p) {
     os << " No members to show!\n";
+    return os;
+}
+
+NoSports::NoSports(){}
+
+ostream &operator<<(ostream &os, NoSports &p) {
+    os << " No sports to show!\n";
+    return os;
+}
+
+NoCompetitions::NoCompetitions(const string & sport){}
+
+ostream &operator<<(ostream &os, NoCompetitions &p) {
+    os << " No " << p.sport << " competitions to show!\n";
+    return os;
+}
+
+NoTrials::NoTrials(){}
+
+ostream &operator<<(ostream &os, NoTrials &p) {
+    os << " No sports to show!\n";
     return os;
 }

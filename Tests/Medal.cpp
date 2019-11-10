@@ -4,6 +4,8 @@
 
 #include "Medal.h"
 #include <iomanip>
+#include <vector>
+#include <algorithm>
 
 
 Medal::Medal(char type, const string & winner, const string &country):type(type), winner(winner),
@@ -37,6 +39,17 @@ const string &Medal::getCountry() const {
 
 void Medal::setCountry(const string &country) {
     Medal::country = country;
+}
+
+bool Medal::operator<(Medal & m){
+    vector<char> medalType ={'g','s','b'};
+    vector<char>::iterator r = find(medalType.begin(), medalType.end(), m.getType());
+    vector<char>::iterator l = find(medalType.begin(), medalType.end(), type);
+
+    int indexL = distance(medalType.begin(), l);
+    int indexR = distance(medalType.begin(), r);
+
+    return indexL < indexR;
 }
 
 string Medal::info() const{

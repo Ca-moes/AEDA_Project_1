@@ -38,6 +38,7 @@ public:
     void removeParticipant(const string & p);//Alterar - para participantes indicar passaporte e para equipas o nome?
     void updateParticipant(const string & p);//Alterar - para participantes indicar passaporte e para equipas o nome?
     void showParticipants() const;
+    void showInfo() const;
     string info() const;
 };
 

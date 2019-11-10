@@ -82,6 +82,15 @@ bool Date::isOlimpianDate() {
     return ((month == 7 && day >= 24 && day <= 31) || (month == 8 && day >= 1 && day <= 9)) && (year == 2020);
 }
 
+bool Date::operator <(const Date & d) const{
+    if(year == d.getYear()){
+        if(month == d.getMonth())
+            return day < d.getDay();
+        return month < d.getMonth();
+    }
+    return year<d.getYear();
+}
+
 ostream& operator<<(ostream& os, const Date & d){
     os << setfill('0') << setw(2) << d.getDay() << "/" << setfill('0') << setw(2) << d.getMonth() << "/" << d.getYear();
     return os;

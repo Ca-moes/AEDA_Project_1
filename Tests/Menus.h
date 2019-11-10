@@ -6,6 +6,7 @@
 #define PROJECT_1_MENUS_H
 #include "Delegation.h"
 #include <iostream>
+#include "auxiliar.h"
 
 /**
  * Check if the input option is valid in a Menu
@@ -67,11 +68,18 @@ void athletesMenu(Delegation & delegation);
 void teamsMenu(Delegation & delegation);
 
 /**
+ * Display options to end participation in a sport or to see it's competitions/trials
+ *
+ * @param delegation a delegation
+ * @param sport the sport to check for competitions
+ */
+void sportOptionsMenu(Delegation & delegation, const string & sport);
+
+/**
  * Display competitions of a sport in a friendly way
  *
  * @param delegation a delegation
  * @param sport the sport to check for competitions
  */
-void sportsCompetitionsMenu(Delegation & delegation, const string & sport);
-
+void competitionsMenu(Delegation & delegation, const string & sport);
 #endif //PROJECT_1_MENUS_H
