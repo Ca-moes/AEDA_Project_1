@@ -120,7 +120,7 @@ void Competition::showInfo() const{
     cout <<  left <<setw(17) << "Begin Date" << setw(4) << " "<< getBegin() << setw(3) <<endl;
     cout <<  left <<setw(17) << "End Date" << setw(4) << " "<< getEnd() << setw(3) <<endl;
     if(!trials.empty()){
-        cout <<  left <<setw(17) << "Trials" <<setw(4) << endl;
+        cout <<  left <<setw(17) << "Trials" <<setw(4) << " ";
         for(const auto & trial : trials)
             cout << trial.getName() << " ";
         cout << endl;

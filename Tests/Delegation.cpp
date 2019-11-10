@@ -1056,7 +1056,7 @@ void Delegation::showStaffMember() const {
 
     system("cls");
     cout << "_____________________________________________________" << endl << endl;
-    cout << "\t\t   Information about a Staff Member" << endl;
+    cout << "\t   Information about a Staff Member" << endl;
     cout << "_____________________________________________________" << endl << endl;
 
 
@@ -1086,6 +1086,7 @@ void Delegation::showStaffMember() const {
         if (index == -1 || people.at(index)->isAthlete())
             throw NonExistentStaff(tmp);
         else {
+            cout << endl;
             (*(people.begin() + index))->showInfoPerson();
         }
     } else
@@ -1105,7 +1106,7 @@ void Delegation::showStaffMembers() {
 
     system("cls");
     cout << "_____________________________________________________" << endl << endl;
-    cout << "\t\t   Information about Staff Members" << endl;
+    cout << "\t  Information about Staff Members" << endl;
     cout << "_____________________________________________________" << endl << endl;
 
 
@@ -1320,7 +1321,7 @@ void Delegation::showAthlete() const {
 
     system("cls");
     cout << "_____________________________________________________" << endl << endl;
-    cout << "\t\t   Information about an Athlete" << endl;
+    cout << "\t   Information about an Athlete" << endl;
     cout << "_____________________________________________________" << endl << endl;
 
 
@@ -1350,6 +1351,7 @@ void Delegation::showAthlete() const {
         if (index == -1 || !people.at(index)->isAthlete())
             throw NonExistentAthlete(tmp);
         else {
+            cout << endl;
             (*(people.begin() + index))->showInfo();
         }
     } else
@@ -1369,7 +1371,7 @@ void Delegation::showAllAthletes() {
 
     system("cls");
     cout << "_____________________________________________________" << endl << endl;
-    cout << "\t\t   Information about Athletes" << endl;
+    cout << "\t  Information about Athletes" << endl;
     cout << "_____________________________________________________" << endl << endl;
 
 
@@ -1398,7 +1400,7 @@ void Delegation::showTeam() const {
 
     system("cls");
     cout << "_____________________________________________________" << endl << endl;
-    cout << "\t\t   Information about a Team" << endl;
+    cout << "\t\tInformation about a Team" << endl;
     cout << "_____________________________________________________" << endl << endl;
 
 
@@ -1542,7 +1544,7 @@ void Delegation::showCompetition(const string & sport){
 
     system("cls");
     cout << "_____________________________________________________" << endl << endl;
-    cout << "\t\t" << sport<<" - Information about a Competition" << endl;
+    cout << "\t\t" << sport<<" Competition Info" << endl;
     cout << "_____________________________________________________" << endl << endl;
 
     vector<Sport * >::iterator s = sports.begin();
@@ -1550,7 +1552,7 @@ void Delegation::showCompetition(const string & sport){
     while(s!= sports.end()){
         if((*s)->getName() == sport){
             vector<Competition> c = (*s)->getCompetitions();
-            if(!c.size() != 0){
+            if(!c.empty()){
                 int test = 0;
                 int index;
                 string input = "", nm;
@@ -1570,8 +1572,10 @@ void Delegation::showCompetition(const string & sport){
                 vector<Competition>::const_iterator cit;
                 for (cit = c.begin(); cit != c.end(); cit++) {
                     if (cit->getName() == nm) {
-                        //cit->showInfo();
+                        cout << endl;
+                        cit->showInfo();
                         found = true;
+                        break;
                     }
                 }
                 if (!found)
@@ -1598,7 +1602,7 @@ void Delegation::showAllCompetitions(const string & sport){
 
     system("cls");
     cout << "_____________________________________________________" << endl << endl;
-    cout << "\t\t\t\t" << sport << " Competitions" << endl;
+    cout << "\t\t" << sport << " Competitions" << endl;
     cout << "_____________________________________________________" << endl << endl;
 
     for(size_t i=0; i< sports.size(); i++){
