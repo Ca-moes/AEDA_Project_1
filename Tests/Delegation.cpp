@@ -364,9 +364,8 @@ void Delegation::readCompetitionsFile(const vector<string> &lines) {
                 numline = 1;
                 line = lines[i];
             } else if (line == "////////" || i == lines.size()) {//novo desporto - guardar os dados das competições e jogos e limpar variáveis auxiliares; ou útlima linha do ficheiro
-                if (i == lines.size())
-                    if (read == 't' || read == 'c')
-                        competitions.push_back(competition);
+                if (read == 't' || read == 'c')
+                   competitions.push_back(competition);
                 if (isTeamSport){
                     teamSport->setCompetitions(competitions);
                     for (auto &team : teams) {
@@ -374,9 +373,6 @@ void Delegation::readCompetitionsFile(const vector<string> &lines) {
                             teamSport->addTeam(team);
                     }
                     sports.push_back(new TeamSport(*teamSport));
-                    competitions.resize(0);
-                    trials.resize(0);
-                    medals.resize(0);
                 } else {
                     individualSport->setCompetitions(competitions);
                     for (auto &athlete : athletes) {
@@ -385,6 +381,9 @@ void Delegation::readCompetitionsFile(const vector<string> &lines) {
                     }
                     sports.push_back(new IndividualSport(*individualSport));
                 }
+                competitions.resize(0);
+                trials.resize(0);
+                medals.resize(0);
                 if (lines.size() == i) break;
                 read = 's';
                 numline = 1;
@@ -1613,6 +1612,7 @@ void Delegation::showAllCompetitions(const string & sport){
         vector<Competition>::const_iterator it;
         for (it = competitions.begin(); it != competitions.end(); it++) {
             it->showInfo();
+            cout << endl;
         }
     } else
         throw NoCompetitions(sport);

@@ -122,7 +122,7 @@ void participantsMenu(Delegation & delegation) {
 }
 void sportsMenu(Delegation & delegation) {
     int testinput = 0;
-    string input;
+    string input,option;
     do
     {
         system("cls");
@@ -144,8 +144,9 @@ void sportsMenu(Delegation & delegation) {
         { input = "0"; }
 
         if(stoi(input) != 0)
-            input = "1";
-        switch (stoi(input)) {
+            option = "1";
+        
+        switch (stoi(option)) {
             case 1:
                 try{
                     sportOptionsMenu(delegation,delegation.getSports()[stoi(input)-1]->getName());
@@ -158,7 +159,7 @@ void sportsMenu(Delegation & delegation) {
             case 0:
                 break;
         }
-    } while (stoi(input) != 0);
+    } while (stoi(option) != 0);
 }
 void resultsMenu(Delegation & delegation) {
     int testinput = 0;
