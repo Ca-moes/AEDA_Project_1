@@ -105,11 +105,20 @@ void noRepeatVector (vector<T> & v1){
 void exceptionHandler();
 
 /**
- * Compares two competitions, allowing to order a Competition's vector by Begin Date (End Date and Alphabetically if needed)
+ * Compares two competitions, allowing to order a vector of competitions by Begin Date (End Date and Alphabetically if needed)
  *
  * @param c1 competition 1
  * @param c2 competition 2
  * @returns true if c1 begins after c2 / if they begin in the same day and c1 ends earlier/ if they begin and end in the same day and c1's name comes first in the alphabet
  */
 bool sortCompetitionsByDate(const Competition & c1, const Competition & c2);
+
+/**
+ * Compares two trials, allowing to order a vector of trials by date or name if the dates are the same
+ *
+ * @param t1 trial 1
+ * @param t2 trial 2
+ * @returns true if t1 begins after t2 / if they begin in the same day and c1 comes first in the alphabet, false otherwise
+ */
+bool sortTrialsByDate(const Trial & t1, const Trial & t2);
 #endif //PROJECT_1_INPUTCHECK_H
