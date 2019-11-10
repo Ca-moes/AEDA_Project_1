@@ -670,7 +670,7 @@ void Delegation::showPortugueseMembers() {
 
 
     if (!people.empty()) {
-        std::sort(people.begin(), people.end(), sortMembersAlphabetically);
+        sort(people.begin(), people.end(), sortMembersAlphabetically<Person>);
         vector<Person *>::const_iterator it;
         for (it = people.begin(); it != people.end(); it++) {
             (*it)->showInfoPerson();
@@ -1100,7 +1100,7 @@ void Delegation::showStaffMembers() {
 
 
     if (!people.empty()) {
-        sort(people.begin(), people.end(), sortMembersAlphabetically);
+        sort(people.begin(), people.end(), sortMembersAlphabetically<Person>);
         vector<Person *>::const_iterator it;
         for (it = people.begin(); it != people.end(); it++) {
             if (!(*it)->isAthlete()) {
@@ -1180,7 +1180,7 @@ void Delegation::showAllAthletes() {
 
 
     if (!athletes.empty()) {
-        sort(athletes.begin(), athletes.end(), sortMembersAlphabetically);
+        sort(athletes.begin(), athletes.end(), sortMembersAlphabetically<Person>);
         vector<Athlete *>::const_iterator it;
         for (it = athletes.begin(); it != athletes.end(); it++) {
             (*it)->showInfo();
@@ -1252,16 +1252,15 @@ void Delegation::showAllTeams() {
 
     system("cls");
     cout << "_____________________________________________________" << endl << endl;
-    cout << "\t\t   Information about Athletes" << endl;
+    cout << "\t\t   Information about Teams" << endl;
     cout << "_____________________________________________________" << endl << endl;
 
 
-    if (!athletes.empty()) {
-        sort(athletes.begin(), athletes.end(), sortMembersAlphabetically);
-        vector<Athlete *>::const_iterator it;
-        for (it = athletes.begin(); it != athletes.end(); it++) {
+    if (!teams.empty()) {
+        sort(teams.begin(), teams.end(), sortMembersAlphabetically<Team>);
+        vector<Team *>::const_iterator it;
+        for (it = teams.begin(); it != teams.end(); it++) {
             (*it)->showInfo();
-            cout << endl;
         }
     } else
         throw NoMembers();

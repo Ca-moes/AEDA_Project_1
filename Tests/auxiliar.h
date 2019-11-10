@@ -77,13 +77,16 @@ vector<string> fileToLineVector(istream & in);
 int daysBetween(const Date begin, const Date end);
 
 /**
- * Compares two people by name(from a to z)
+ * Compares two objects of a class - must have < operator
  *
- * @param p1 a person
- * @param p2 a person
- * @returns true if p1's name comes before p2's name in alphabetical order, false otherwise
+ * @param p1 right object
+ * @param p2 left object
+ * @returns true if p1<p2, false otherwise
  */
-bool sortMembersAlphabetically(const Person * p1, const Person * p2);
+template <class T>
+bool sortMembersAlphabetically(const T * p1, const T * p2){
+    return (*p1) < (*p2);
+}
 
 /**
  * Deletes repeted elements from vector of objects with == and < operators defined

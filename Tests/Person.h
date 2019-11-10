@@ -120,6 +120,7 @@ public:
     const vector<Athlete> & getAthletes() const;
     void setAthletes(const vector<Athlete> & a);
     void showInfo() const;
+    bool operator<(const Team & t) const;
 };
 
 class Staff: public Person{

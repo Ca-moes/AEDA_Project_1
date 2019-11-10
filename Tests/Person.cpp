@@ -245,3 +245,7 @@ void Team::showInfo() const{
     }
     cout << endl;
 }
+
+bool Team::operator<(const Team & p) const{
+    return(name < p.getName());
+}
