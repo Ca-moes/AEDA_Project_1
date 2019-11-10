@@ -97,4 +97,6 @@ void noRepeatVector (vector<T> & v1){
     it = unique(v1.begin(), v1.end());
     v1.resize(distance(v1.begin(), it));
 }
+
+void exceptionHandler();
 #endif //PROJECT_1_INPUTCHECK_H

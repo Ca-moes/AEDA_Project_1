@@ -6,6 +6,7 @@
 #define PROJECT_1_MENUS_H
 #include "Delegation.h"
 #include <iostream>
+#include "auxiliar.h"
 
 /**
  * Check if the input option is valid in a Menu

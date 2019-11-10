@@ -152,7 +152,7 @@ void sportsMenu(Delegation & delegation) {
                 }
                 catch(NonExistentSport & s){
                     cout << s;
-                    usleep(4000000);
+                    exceptionHandler();
                 }
                 break;
             case 0:
@@ -236,7 +236,7 @@ void staffMenu(Delegation & delegation) {
                 }
                 catch(PersonAlreadyExists & e){
                     cout << e << endl;
-                    usleep(4000000);
+                    exceptionHandler();
                 }
                 break;
             case 2:
@@ -245,7 +245,7 @@ void staffMenu(Delegation & delegation) {
                 }
                 catch(NonExistentStaff & e){
                     cout << e << endl;
-                    usleep(4000000);
+                    exceptionHandler();
                 }
                 break;
             case 3:
@@ -254,7 +254,7 @@ void staffMenu(Delegation & delegation) {
                 }
                 catch(NonExistentStaff & e){
                     cout << e << endl;
-                    usleep(4000000);
+                    exceptionHandler();
                 }
                 break;
             case 4:
@@ -266,7 +266,7 @@ void staffMenu(Delegation & delegation) {
                 }
                 catch(NoMembers & n){
                     cout << n << endl;
-                    usleep(4000000);
+                    exceptionHandler();
                 }
                 break;
             case 5:
@@ -275,7 +275,7 @@ void staffMenu(Delegation & delegation) {
                 }
                 catch(NonExistentPerson & e){
                     cout << e << endl;
-                    usleep(4000000);
+                    exceptionHandler();
                 }
                 break;
             case 0:
@@ -322,12 +322,14 @@ void athletesMenu(Delegation & delegation) {
                 try{
                     delegation.showAthlete();
                 }
-                catch(NonExistentPerson & e){
+                catch(NonExistentAthlete & e){
                     cout << e << endl;
+                    exceptionHandler();
                 }
                 catch(NoMembers & n){
                     cout << n << endl;
-                    usleep(4000000);
+                    //exceptionHandler();
+                    exceptionHandler();
                 }
                 break;
             case 5:
@@ -336,7 +338,7 @@ void athletesMenu(Delegation & delegation) {
                 }
                 catch(NoMembers & n){
                     cout << n << endl;
-                    usleep(4000000);
+                    exceptionHandler();
                 }
                 break;
             case 0:
@@ -385,11 +387,11 @@ void teamsMenu(Delegation & delegation) {
                 }
                 catch(NonExistentTeam & t){
                     cout<< t << endl;
-                    usleep(4000000);
+                    exceptionHandler();
                 }
                 catch(NoMembers & e){
                     cout<< e << endl;
-                    usleep(4000000);
+                    exceptionHandler();
                 }
                 break;
             case 5:
@@ -398,7 +400,7 @@ void teamsMenu(Delegation & delegation) {
                 }
                 catch(NoMembers & e){
                     cout<< e << endl;
-                    usleep(4000000);
+                    exceptionHandler();
                 }
                 break;
             case 0:
