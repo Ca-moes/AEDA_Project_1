@@ -110,7 +110,7 @@ void participantsMenu(Delegation & delegation) {
                 break;
             case 4:
                 try{
-                    delegation.showPortugueseMembers();
+                    delegation.showMembers();
                 }catch(NoMembers & e){
                     cout << e;
                     exceptionHandler();

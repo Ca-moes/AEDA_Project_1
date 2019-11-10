@@ -669,7 +669,7 @@ string Delegation::info() const {
     return os.str();
 }
 
-void Delegation::showPortugueseMembers() {
+void Delegation::showMembers() {
     int test = 0;
     string input = "";
 
@@ -1767,18 +1767,6 @@ ostream &operator<<(ostream &os, NonExistentTrial &t) {
     return os;
 }
 
-//participant doesn't exist
-
-NonExistentParticipant::NonExistentParticipant(string name, string where) {
-    participant = name;
-    this->where = where;
-}
-
-ostream &operator<<(ostream &os, NonExistentParticipant &p) {
-    os << p.participant << " doesn't compete in " << p.where << "!\n";
-    return os;
-}
-
 NonExistentPerson::NonExistentPerson(string name) {
     person = name;
 }
@@ -1787,7 +1775,6 @@ ostream &operator<<(ostream &os, NonExistentPerson &p) {
     os << p.person << " doesn't exist!\n";
     return os;
 }
-
 
 NonExistentAthlete::NonExistentAthlete(string name) {
     person = name;
