@@ -211,6 +211,11 @@ public:
      * @param sport the name of the sport to remove
      */
     void showAllTrials(const string & sport);
+
+    /** Shows the information of all the trials in a specific competition - throws exception if no trials exists
+     * @param competition the name of the competition
+     */
+    void showTrials(const Competition & competition) const;
 };
 
 //Exceptions
@@ -361,8 +366,9 @@ public:
  *  An exception thrown when a competition within a sport doesn't have any trials
  */
 class NoTrials{
+    string sport;
 public:
     friend ostream & operator <<(ostream & os, NoTrials & p);
-    NoTrials();
+    NoTrials(const string & sport);
 };
 #endif //PROJECT_1_DELEGATION_H

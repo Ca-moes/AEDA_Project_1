@@ -26,6 +26,7 @@ public:
     bool leapYear();
     friend int daysBetween(const Date begin, const Date end);
     bool operator <(const Date & d) const;
+    bool operator ==(const Date & d) const;
 private:
     unsigned short int year;
     unsigned short int month;

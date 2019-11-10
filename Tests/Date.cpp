@@ -91,6 +91,10 @@ bool Date::operator <(const Date & d) const{
     return year<d.getYear();
 }
 
+bool Date::operator ==(const Date & d) const{
+   return (d.getYear() ==  year && d.getMonth() == month && d.getDay() == day);
+}
+
 ostream& operator<<(ostream& os, const Date & d){
     os << right << setfill('0') << setw(2) << d.getDay() << "/" << setfill('0') << setw(2) << d.getMonth() << "/" << d.getYear() << setfill(' ');
     return os;

@@ -112,7 +112,8 @@ void participantsMenu(Delegation & delegation) {
                 try{
                     delegation.showPortugueseMembers();
                 }catch(NoMembers & e){
-                    cout << e << endl;
+                    cout << e;
+                    exceptionHandler();
                 }
                 break;
             case 0:
@@ -127,7 +128,7 @@ void sportsMenu(Delegation & delegation) {
     {
         system("cls");
         cout << "_____________________________________________________" << endl << endl;
-        cout << "\t\t\t\t  Sports Options " << endl;
+        cout << "\t\t  Sports Options " << endl;
         cout << "_____________________________________________________" << endl << endl;
 
         for(size_t i=0; i < delegation.getSports().size(); i++){
@@ -145,7 +146,8 @@ void sportsMenu(Delegation & delegation) {
 
         if(stoi(input) != 0)
             option = "1";
-        
+        else
+            option = "0";
         switch (stoi(option)) {
             case 1:
                 try{
@@ -236,7 +238,7 @@ void staffMenu(Delegation & delegation) {
                     delegation.addStaffMember();
                 }
                 catch(PersonAlreadyExists & e){
-                    cout << e << endl;
+                    cout << e;
                     exceptionHandler();
                 }
                 break;
@@ -245,7 +247,7 @@ void staffMenu(Delegation & delegation) {
                     delegation.removeStaffMember();
                 }
                 catch(NonExistentStaff & e){
-                    cout << e << endl;
+                    cout << e;
                     exceptionHandler();
                 }
                 break;
@@ -254,7 +256,7 @@ void staffMenu(Delegation & delegation) {
                     delegation.changeStaffMember();
                 }
                 catch(NonExistentStaff & e){
-                    cout << e << endl;
+                    cout << e;
                     exceptionHandler();
                 }
                 break;
@@ -263,11 +265,11 @@ void staffMenu(Delegation & delegation) {
                     delegation.showStaffMember();
                 }
                 catch(NonExistentStaff & e){
-                    cout << e << endl;
+                    cout << e;
                     exceptionHandler();
                 }
                 catch(NoMembers & n){
-                    cout << n << endl;
+                    cout << n;
                     exceptionHandler();
                 }
                 break;
@@ -276,7 +278,7 @@ void staffMenu(Delegation & delegation) {
                     delegation.showStaffMembers();
                 }
                 catch(NonExistentPerson & e){
-                    cout << e << endl;
+                    cout << e;
                     exceptionHandler();
                 }
                 break;
@@ -316,11 +318,11 @@ void athletesMenu(Delegation & delegation) {
                     delegation.addAthlete();
                 }
                 catch(PersonAlreadyExists &e) {
-                    cout << e << endl;
+                    cout << e;
                     exceptionHandler();
                 }
                 catch(NonExistentSport &e) {
-                    cout << e << endl;
+                    cout << e;
                     exceptionHandler();
                 }
                 break;
@@ -335,12 +337,11 @@ void athletesMenu(Delegation & delegation) {
                     delegation.showAthlete();
                 }
                 catch(NonExistentAthlete & e){
-                    cout << e << endl;
+                    cout << e;
                     exceptionHandler();
                 }
                 catch(NoMembers & n){
-                    cout << n << endl;
-                    //exceptionHandler();
+                    cout << n;
                     exceptionHandler();
                 }
                 break;
@@ -349,7 +350,7 @@ void athletesMenu(Delegation & delegation) {
                     delegation.showAllAthletes();
                 }
                 catch(NoMembers & n){
-                    cout << n << endl;
+                    cout << n;
                     exceptionHandler();
                 }
                 break;
@@ -398,11 +399,11 @@ void teamsMenu(Delegation & delegation) {
                     delegation.showTeam();
                 }
                 catch(NonExistentTeam & t){
-                    cout<< t << endl;
+                    cout<< t;
                     exceptionHandler();
                 }
                 catch(NoMembers & e){
-                    cout<< e << endl;
+                    cout<< e;
                     exceptionHandler();
                 }
                 break;
@@ -411,7 +412,7 @@ void teamsMenu(Delegation & delegation) {
                     delegation.showAllTeams();
                 }
                 catch(NoMembers & e){
-                    cout<< e << endl;
+                    cout<< e;
                     exceptionHandler();
                 }
                 break;
@@ -429,7 +430,7 @@ void sportOptionsMenu(Delegation & delegation, const string & sport){
     {
         system("cls");
         cout << "_____________________________________________________" << endl << endl;
-        cout << "\t\t\t\t\t\t" << sport << endl;
+        cout << "\t\t\t" << sport << endl;
         cout << "_____________________________________________________" << endl << endl;
 
         cout << "Choose an option by typing a number and pressing Enter." << endl << endl;
@@ -473,7 +474,7 @@ void competitionsMenu(Delegation & delegation, const string & sport){
     {
         system("cls");
         cout << "_____________________________________________________" << endl << endl;
-        cout << "\t\t" << sport << "- Competitions & Trials" << endl;
+        cout << "\t   " << sport << " - Competitions & Trials" << endl;
         cout << "_____________________________________________________" << endl << endl;
 
         cout << "Choose an option by typing a number and pressing Enter." << endl << endl;
@@ -498,10 +499,12 @@ void competitionsMenu(Delegation & delegation, const string & sport){
                     delegation.showCompetition(sport);
                 }
                 catch(NonExistentCompetition & c){
-                    throw;
+                    cout << c;
+                    exceptionHandler();
                 }
                 catch(NoCompetitions & c){
-                    throw;
+                    cout << c ;
+                    exceptionHandler();
                 }
                 break;
             case 2:
@@ -509,7 +512,8 @@ void competitionsMenu(Delegation & delegation, const string & sport){
                     delegation.showAllCompetitions(sport);
                 }
                 catch(NoCompetitions & c){
-                    throw;
+                    cout << c;
+                    exceptionHandler();
                 }
                 break;
             case 3:
@@ -517,7 +521,8 @@ void competitionsMenu(Delegation & delegation, const string & sport){
                     delegation.showAllTrials(sport);
                 }
                 catch(NoTrials & c){
-                    throw;
+                    cout << c;
+                    exceptionHandler();
                 }
                 break;
             case 0:

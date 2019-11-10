@@ -65,3 +65,13 @@ string Trial::info() const{
     os <<  left <<setw(17) << "Number of Elements" << setw(4) << " "<< numberOfElements <<endl;
     return os.str();
 }
+
+void Trial::showInfo() const{
+    cout <<  left <<setw(17) << "Name" << setw(4) << " "<< name <<endl;
+    cout <<  left <<setw(17) << "Date" <<setw(4) << " "<< date << endl;
+    cout <<  left <<setw(17) << "Participants" <<setw(4) << " ";
+    for(const auto & participant : participants)
+        cout << participant <<" ";
+    cout << endl;
+    cout <<  left <<setw(17) << "Winner" << setw(4) << " "<< winner <<endl;
+}

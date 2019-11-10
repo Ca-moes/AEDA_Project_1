@@ -1056,7 +1056,7 @@ void Delegation::showStaffMember() const {
 
     system("cls");
     cout << "_____________________________________________________" << endl << endl;
-    cout << "\t\t   Information about a Staff Member" << endl;
+    cout << "\t   Information about a Staff Member" << endl;
     cout << "_____________________________________________________" << endl << endl;
 
 
@@ -1086,6 +1086,7 @@ void Delegation::showStaffMember() const {
         if (index == -1 || people.at(index)->isAthlete())
             throw NonExistentStaff(tmp);
         else {
+            cout << endl;
             (*(people.begin() + index))->showInfoPerson();
         }
     } else
@@ -1105,7 +1106,7 @@ void Delegation::showStaffMembers() {
 
     system("cls");
     cout << "_____________________________________________________" << endl << endl;
-    cout << "\t\t   Information about Staff Members" << endl;
+    cout << "\t  Information about Staff Members" << endl;
     cout << "_____________________________________________________" << endl << endl;
 
 
@@ -1124,7 +1125,7 @@ void Delegation::showStaffMembers() {
     cout << endl << "0 - BACK" << endl;
     do {
         test = checkinputchoice(input, 0, 0);
-        if (test != 0)
+        if (test != 0 && test != 2)
             cerr << "Invalid option! Press 0 to go back." << endl;
     } while (test != 0 && test != 2);
 }
@@ -1320,7 +1321,7 @@ void Delegation::showAthlete() const {
 
     system("cls");
     cout << "_____________________________________________________" << endl << endl;
-    cout << "\t\t   Information about an Athlete" << endl;
+    cout << "\t   Information about an Athlete" << endl;
     cout << "_____________________________________________________" << endl << endl;
 
 
@@ -1350,6 +1351,7 @@ void Delegation::showAthlete() const {
         if (index == -1 || !people.at(index)->isAthlete())
             throw NonExistentAthlete(tmp);
         else {
+            cout << endl;
             (*(people.begin() + index))->showInfo();
         }
     } else
@@ -1369,7 +1371,7 @@ void Delegation::showAllAthletes() {
 
     system("cls");
     cout << "_____________________________________________________" << endl << endl;
-    cout << "\t\t   Information about Athletes" << endl;
+    cout << "\t  Information about Athletes" << endl;
     cout << "_____________________________________________________" << endl << endl;
 
 
@@ -1398,7 +1400,7 @@ void Delegation::showTeam() const {
 
     system("cls");
     cout << "_____________________________________________________" << endl << endl;
-    cout << "\t\t   Information about a Team" << endl;
+    cout << "\t\tInformation about a Team" << endl;
     cout << "_____________________________________________________" << endl << endl;
 
 
@@ -1539,10 +1541,12 @@ void Delegation::removeSport(const string &sport) {
 void Delegation::showCompetition(const string & sport){
     int test = 0;
     string input = "";
+    int testinput=0;
+    vector<Competition>::const_iterator cit;
 
     system("cls");
     cout << "_____________________________________________________" << endl << endl;
-    cout << "\t\t" << sport<<" - Information about a Competition" << endl;
+    cout << "\t\t" << sport<<" Competition Info" << endl;
     cout << "_____________________________________________________" << endl << endl;
 
     vector<Sport * >::iterator s = sports.begin();
@@ -1550,7 +1554,7 @@ void Delegation::showCompetition(const string & sport){
     while(s!= sports.end()){
         if((*s)->getName() == sport){
             vector<Competition> c = (*s)->getCompetitions();
-            if(!c.size() != 0){
+            if(!c.empty()){
                 int test = 0;
                 int index;
                 string input = "", nm;
@@ -1566,12 +1570,12 @@ void Delegation::showCompetition(const string & sport){
                     cin.clear();
                 } while (cin.fail());
 
-
-                vector<Competition>::const_iterator cit;
                 for (cit = c.begin(); cit != c.end(); cit++) {
                     if (cit->getName() == nm) {
-                        //cit->showInfo();
+                        cout << endl;
+                        cit->showInfo();
                         found = true;
+                        break;
                     }
                 }
                 if (!found)
@@ -1583,12 +1587,30 @@ void Delegation::showCompetition(const string & sport){
         s++;
     }
 
+    cout << endl << "1 - Trials Details";
     cout << endl << "0 - BACK" << endl;
+
     do {
-        test = checkinputchoice(input, 0, 0);
+        test = checkinputchoice(input, 0, 1);
         if (test != 0)
             cerr << "Invalid option! Press 0 to go back." << endl;
     } while (test != 0 && test != 2);
+    if (testinput == 2)
+    { input = "0"; }
+
+    switch (stoi(input)) {
+        case 1:
+            try{
+                showTrials(*cit);
+            }
+            catch(NoTrials & t){
+                cout << t;
+                exceptionHandler();
+            }
+            break;
+        case 0:
+            break;
+    }
 }
 
 void Delegation::showAllCompetitions(const string & sport){
@@ -1598,7 +1620,7 @@ void Delegation::showAllCompetitions(const string & sport){
 
     system("cls");
     cout << "_____________________________________________________" << endl << endl;
-    cout << "\t\t\t\t" << sport << " Competitions" << endl;
+    cout << "\t\t" << sport << " Competitions" << endl;
     cout << "_____________________________________________________" << endl << endl;
 
     for(size_t i=0; i< sports.size(); i++){
@@ -1626,7 +1648,68 @@ void Delegation::showAllCompetitions(const string & sport){
 }
 
 void Delegation::showAllTrials(const string & sport){
+    int test = 0;
+    string input = "";
+    vector<Competition> competitions;
+    int nTrials=0;
 
+    system("cls");
+    cout << "_____________________________________________________" << endl << endl;
+    cout << "\t\t" << sport << " Trials" << endl;
+    cout << "_____________________________________________________" << endl << endl;
+
+    for(size_t i=0; i< sports.size(); i++){
+        if(sport == sports[i]->getName()){
+            competitions = sports[i]->getCompetitions();
+            break;
+        }
+    }
+    if (!competitions.empty()) {
+        sort(competitions.begin(), competitions.end(), sortCompetitionsByDate);
+        vector<Competition>::const_iterator it;
+        for (it = competitions.begin(); it != competitions.end(); it++) {
+            vector<Trial> trials = it->getTrials();
+            if(!trials.empty()){
+                cout << it->getName()<< " competition:" << endl;
+                for(size_t i=0; i< trials.size(); i++){
+                    trials[i].showInfo();
+                    cout << endl;
+                }
+                nTrials++;
+            }
+        }
+        if(nTrials == 0)
+            throw NoTrials(sport);
+    } else
+        throw NoCompetitions(sport);
+
+    cout << endl << "0 - BACK" << endl;
+    do {
+        test = checkinputchoice(input, 0, 0);
+        if (test != 0)
+            cerr << "Invalid option! Press 0 to go back." << endl;
+    } while (test != 0 && test != 2);
+}
+
+void Delegation::showTrials(const Competition & c) const{
+    int test = 0;
+    string input = "";
+    vector<Trial> t = c.getTrials();
+    if(!t.empty()){
+        cout << endl << "Trials:" << endl;
+        sort(t.begin(), t.end(), sortTrialsByDate);
+        for(size_t i=0; i< t.size(); i++){
+            t[i].showInfo();
+            cout << endl;
+        }
+    } else throw NoTrials(c.getName());
+
+    cout << endl << "0 - BACK" << endl;
+    do {
+        test = checkinputchoice(input, 0, 0);
+        if (test != 0)
+            cerr << "Invalid option! Press 0 to go back." << endl;
+    } while (test != 0 && test != 2);
 }
 
 int Delegation::findSport(const string name) const {
@@ -1755,16 +1838,16 @@ ostream &operator<<(ostream &os, NoSports &p) {
     return os;
 }
 
-NoCompetitions::NoCompetitions(const string & sport){}
+NoCompetitions::NoCompetitions(const string & sport){this->sport = sport;}
 
 ostream &operator<<(ostream &os, NoCompetitions &p) {
     os << " No " << p.sport << " competitions to show!\n";
     return os;
 }
 
-NoTrials::NoTrials(){}
+NoTrials::NoTrials(const string & sport){this->sport = sport;}
 
 ostream &operator<<(ostream &os, NoTrials &p) {
-    os << " No sports to show!\n";
+    os << p.sport << " competitions don't have any trials!\n";
     return os;
 }

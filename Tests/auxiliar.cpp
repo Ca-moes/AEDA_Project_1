@@ -121,5 +121,15 @@ void exceptionHandler(){
 }
 
 bool sortCompetitionsByDate(const Competition & c1, const Competition & c2){
+    if((c1.getBegin() == c2.getBegin()) && (c1.getEnd() == c2.getEnd()))
+        return c1.getName() < c2.getName();
+    else if(c1.getBegin() == c2.getBegin() && !(c1.getEnd() == c2.getEnd()))
+        return c1.getEnd() < c2.getEnd();
     return(c1.getBegin() < c2.getBegin());
+}
+
+bool sortTrialsByDate(const Trial & t1, const Trial & t2){
+    if(t1.getDate() == t2.getDate())
+        return t1.getName() < t2.getName();
+    return(t1.getDate() < t2.getDate());
 }
