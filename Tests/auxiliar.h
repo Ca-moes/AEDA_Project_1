@@ -101,5 +101,15 @@ void noRepeatVector (vector<T> & v1){
     v1.resize(distance(v1.begin(), it));
 }
 
+/**Handles an exception thrown in menus by showing the option to go back to the previous menu*/
 void exceptionHandler();
+
+/**
+ * Compares two competitions, allowing to order a Competition's vector by Begin Date (End Date and Alphabetically if needed)
+ *
+ * @param c1 competition 1
+ * @param c2 competition 2
+ * @returns true if c1 begins after c2 / if they begin in the same day and c1 ends earlier/ if they begin and end in the same day and c1's name comes first in the alphabet
+ */
+bool sortCompetitionsByDate(const Competition & c1, const Competition & c2);
 #endif //PROJECT_1_INPUTCHECK_H

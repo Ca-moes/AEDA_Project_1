@@ -337,9 +337,10 @@ public:
  *  An exception thrown when the Delegation doesn't have any competition to show in a specific sport
  */
 class NoCompetitions{
+    string sport;
 public:
-    friend ostream & operator <<(ostream & os, NoMembers & p);
-    NoCompetitions();
+    friend ostream & operator <<(ostream & os, NoCompetitions & p);
+    NoCompetitions(const string & sport);
 };
 
 /**

@@ -28,6 +28,8 @@ public:
 
     string info() const;
 
+    bool operator <(Medal & m);
+
 private:
     char type;
     string winner;

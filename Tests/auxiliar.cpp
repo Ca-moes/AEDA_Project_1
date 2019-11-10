@@ -119,3 +119,7 @@ void exceptionHandler(){
             cerr << "Invalid option! Press 0 to go back." << endl;
     } while (test != 0 && test != 2);
 }
+
+bool sortCompetitionsByDate(const Competition & c1, const Competition & c2){
+    return(c1.getBegin() < c2.getBegin());
+}

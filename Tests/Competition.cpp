@@ -2,6 +2,7 @@
 #include "Trial.h"
 #include "Date.h"
 #include <iomanip>
+#include <algorithm>
 
 
 Competition::Competition(){
@@ -68,7 +69,9 @@ const vector<Trial> & Competition::getTrials() const{
 }
 
 void Competition::setMedals(const vector<Medal> &medals){
-    this->medals = medals;
+    vector<Medal> sortedMedals = medals;
+    sort(sortedMedals.begin(),sortedMedals.end());
+    this->medals = sortedMedals;
 }
 
 void Competition::addTrial(const Trial & t){
@@ -110,6 +113,27 @@ string Competition::info() const{
         os << medal.info()<<" ";
     os << endl;
     return os.str();
+}
+
+void Competition::showInfo() const{
+    cout <<  left <<setw(17) << "Name" << setw(4) << " "<<  getName() << setw(3) <<endl;
+    cout <<  left <<setw(17) << "Begin Date" << setw(4) << " "<< getBegin() << setw(3) <<endl;
+    cout <<  left <<setw(17) << "End Date" << setw(4) << " "<< getEnd() << setw(3) <<endl;
+    if(!trials.empty()){
+        cout <<  left <<setw(17) << "Trials" <<setw(4) << endl;
+        for(const auto & trial : trials)
+            cout << trial.getName() << " ";
+        cout << endl;
+    }
+    cout <<  left <<setw(17) << "Winners" << setw(4) <<endl;
+    for(const auto & medal : getMedals()){
+        if(medal.getType() == 'g')
+            cout << left << setw(2) <<left << "->" << left <<setw(15) << "Gold" << setw(4) << " "<< medal.getWinner() << setw(3) <<endl;
+        else if(medal.getType() == 's')
+            cout <<left << setw(2) << "->" << left <<setw(15) << "Silver" << setw(4) << " "<< medal.getWinner() << setw(3) <<endl;
+        else
+            cout << left << setw(2) << "->" << left <<setw(15) << "Bronze" << setw(4) << " "<< medal.getWinner() << setw(3) <<endl;
+    }
 }
 
 ostream& operator<<(ostream& os, const Competition & c)

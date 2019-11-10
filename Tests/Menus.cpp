@@ -434,8 +434,6 @@ void sportOptionsMenu(Delegation & delegation, const string & sport){
         if (testinput == 2)
         { input = "0"; }
 
-        if(stoi(input) != 0)
-            input = "1";
         switch (stoi(input)) {
             case 1:
                 try{
@@ -463,7 +461,7 @@ void competitionsMenu(Delegation & delegation, const string & sport){
     {
         system("cls");
         cout << "_____________________________________________________" << endl << endl;
-        cout << "\t\t\t\t\t\t" << sport << endl;
+        cout << "\t\t" << sport << "- Competitions & Trials" << endl;
         cout << "_____________________________________________________" << endl << endl;
 
         cout << "Choose an option by typing a number and pressing Enter." << endl << endl;
@@ -481,8 +479,7 @@ void competitionsMenu(Delegation & delegation, const string & sport){
         if (testinput == 2)
         { input = "0"; }
 
-        if(stoi(input) != 0)
-            input = "1";
+
         switch (stoi(input)) {
             case 1:
                 try{
