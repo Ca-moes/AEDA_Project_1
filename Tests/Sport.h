@@ -35,7 +35,7 @@ public:
 
 class TeamSport: public Sport{
     vector<Team*> teams;
-    unsigned int numberOfElements;
+    unsigned int numberOfElements{};
 public:
     ~TeamSport(){};
     TeamSport(){}
@@ -43,7 +43,7 @@ public:
     void setParticipants(const vector<Team> & teams);
     vector<Participant*> getParticipants() const;
     void setNumberofElements(unsigned int n);
-    unsigned int getNumberofElements();
+    unsigned int getNumberofElements() const;
     void addTeam(Team* t);
     vector<Team*> getTeams() const;
     bool isTeamSport(){return true;};

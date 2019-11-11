@@ -86,6 +86,7 @@ TeamSport::TeamSport(const TeamSport & s) : Sport(s.getName(), s.getCompetitions
             teams.push_back(t);
         }
     }
+    numberOfElements = s.getNumberofElements();
 }
 
 void TeamSport::setParticipants(const vector<Team> & tems){
@@ -108,7 +109,7 @@ vector<Team*> TeamSport::getTeams() const{
     return teams;
 }
 
-unsigned int TeamSport::getNumberofElements() {
+unsigned int TeamSport::getNumberofElements() const{
     return numberOfElements;
 }
 
