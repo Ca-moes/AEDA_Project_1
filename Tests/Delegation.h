@@ -173,6 +173,12 @@ public:
     void removeAthlete();
 
     /**
+    * Changes data of an athlete from the people and athletes vectors
+    *
+    */
+    void changeAthlete();
+
+    /**
    * Find a Person in the people vector
    *
    * @params name the name of the Person
