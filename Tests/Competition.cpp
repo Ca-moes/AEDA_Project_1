@@ -120,12 +120,23 @@ void Competition::showInfo() const{
     cout <<  left <<setw(17) << "Begin Date" << setw(4) << " "<< getBegin() << setw(3) <<endl;
     cout <<  left <<setw(17) << "End Date" << setw(4) << " "<< getEnd() << setw(3) <<endl;
     if(!trials.empty()){
-        cout <<  left <<setw(17) << "Trials" <<setw(4) << endl;
+        cout <<  left <<setw(17) << "Trials" <<setw(4) << " ";
         for(const auto & trial : trials)
             cout << trial.getName() << " ";
         cout << endl;
     }
     cout <<  left <<setw(17) << "Winners" << setw(4) <<endl;
+    for(const auto & medal : getMedals()){
+        if(medal.getType() == 'g')
+            cout << left << setw(2) <<left << "->" << left <<setw(15) << "Gold" << setw(4) << " "<< medal.getWinner() << setw(3) <<endl;
+        else if(medal.getType() == 's')
+            cout <<left << setw(2) << "->" << left <<setw(15) << "Silver" << setw(4) << " "<< medal.getWinner() << setw(3) <<endl;
+        else
+            cout << left << setw(2) << "->" << left <<setw(15) << "Bronze" << setw(4) << " "<< medal.getWinner() << setw(3) <<endl;
+    }
+}
+
+void Competition::showMedals() const{
     for(const auto & medal : getMedals()){
         if(medal.getType() == 'g')
             cout << left << setw(2) <<left << "->" << left <<setw(15) << "Gold" << setw(4) << " "<< medal.getWinner() << setw(3) <<endl;

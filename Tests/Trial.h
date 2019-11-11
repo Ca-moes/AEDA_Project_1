@@ -33,6 +33,7 @@ public:
     unsigned int getNumberOfElements() const;
     void setNumberOfElements(unsigned int n);
     string info() const;
+    void showInfo() const;
 };
 
 ostream& operator<<(ostream& os, const Trial & g);

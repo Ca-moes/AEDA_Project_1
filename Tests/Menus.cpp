@@ -8,6 +8,7 @@
 
 using namespace std;
 
+
 int checkinputchoice(string& test, int lowerlimit, int upperlimit) {
     do {
         getline(cin, test);
@@ -34,7 +35,7 @@ void mainMenu(Delegation &delegation){
     string input = "";
     do
     {
-        system("cls");
+        if (system("CLS")) system("clear");
         cout << "_____________________________________________________________________________" << endl << endl;
         cout << "\t\t" << delegation.getCountry() << "'s Olympic Delegation - Tokyo 2020" << endl;
         cout << "_____________________________________________________________________________" << endl << endl;
@@ -64,12 +65,10 @@ void mainMenu(Delegation &delegation){
             case 3:
                 resultsMenu(delegation);
                 break;
-            case 0:
-                //delegation.writePeopleFile();
-                //delegation.writeTeamFile();
-                //delegation.writeCompetitionsFile();
+            default:
                 break;
         }
+
     } while (stoi(input) != 0);
 }
 
@@ -79,7 +78,7 @@ void participantsMenu(Delegation & delegation) {
     string input;
     do
     {
-        system("cls");
+        if (system("CLS")) system("clear");
         cout << "_____________________________________________________" << endl << endl;
         cout << "\t\t   Members Options " << endl;
         cout << "_____________________________________________________" << endl << endl;
@@ -112,11 +111,15 @@ void participantsMenu(Delegation & delegation) {
                 try{
                     delegation.sortAllPeople();
                     delegation.showPortugueseMembers();
+                    delegation.showMembers();
                 }catch(NoMembers & e){
-                    cout << e << endl;
+                    cout << e;
+                    exceptionHandler();
                 }
                 break;
             case 0:
+                break;
+            default:
                 break;
         }
     } while (stoi(input) != 0);
@@ -126,9 +129,9 @@ void sportsMenu(Delegation & delegation) {
     string input,option;
     do
     {
-        system("cls");
+        if (system("CLS")) system("clear");
         cout << "_____________________________________________________" << endl << endl;
-        cout << "\t\t\t\t  Sports Options " << endl;
+        cout << "\t\t  Sports Options " << endl;
         cout << "_____________________________________________________" << endl << endl;
 
         for(size_t i=0; i < delegation.getSports().size(); i++){
@@ -149,7 +152,7 @@ void sportsMenu(Delegation & delegation) {
         } else {
             option = "0";
         }
-        
+      
         switch (stoi(option)) {
             case 1:
                 try{
@@ -162,6 +165,8 @@ void sportsMenu(Delegation & delegation) {
                 break;
             case 0:
                 break;
+            default:
+                break;
         }
     } while (stoi(option) != 0);
 }
@@ -170,19 +175,17 @@ void resultsMenu(Delegation & delegation) {
     string input;
     do
     {
-        system("cls");
+        if (system("CLS")) system("clear");
         cout << "_____________________________________________________" << endl << endl;
         cout << "\t\t   Sports Options " << endl;
         cout << "_____________________________________________________" << endl << endl;
 
-        cout << "1 - Athletes" << endl;
-        cout << "2 - Teams" << endl;
-        cout << "3 - Staff" << endl;
-        cout << "4 - All Participants" << endl;
+        cout << "1 - Medals Statistics / Competitions Results" << endl;
+        cout << "2 - Trials Results" << endl;
         cout << "0 - BACK (Main Menu)" << endl;
 
         do {
-            testinput = checkinputchoice(input, 0, 6);
+            testinput = checkinputchoice(input, 0, 2);
             if (testinput != 0 && testinput != 2)
                 cerr << "Invalid option! Please try again." << endl;
         } while (testinput != 0 && testinput != 2);
@@ -191,16 +194,13 @@ void resultsMenu(Delegation & delegation) {
 
         switch (stoi(input)) {
             case 1:
-                //athletesMenu(delegation);
+                medalsStatisticsMenu(delegation);
                 break;
             case 2:
                 //teamsMenu(delegation);
                 break;
             case 3:
                 //staffMenu(delegation);
-                break;
-            case 4:
-                //showParticipants();
                 break;
             case 0:
                 break;
@@ -214,7 +214,7 @@ void staffMenu(Delegation & delegation) {
     string input;
     do
     {
-        system("cls");
+        if (system("CLS")) system("clear");
         cout << "_____________________________________________________" << endl << endl;
         cout << "\t\t   Staff's Options " << endl;
         cout << "_____________________________________________________" << endl << endl;
@@ -240,7 +240,7 @@ void staffMenu(Delegation & delegation) {
                     delegation.addStaffMember();
                 }
                 catch(PersonAlreadyExists & e){
-                    cout << e << endl;
+                    cout << e;
                     exceptionHandler();
                 }
                 break;
@@ -249,7 +249,7 @@ void staffMenu(Delegation & delegation) {
                     delegation.removeStaffMember();
                 }
                 catch(NonExistentStaff & e){
-                    cout << e << endl;
+                    cout << e;
                     exceptionHandler();
                 }
                 break;
@@ -258,7 +258,7 @@ void staffMenu(Delegation & delegation) {
                     delegation.changeStaffMember();
                 }
                 catch(NonExistentStaff & e){
-                    cout << e << endl;
+                    cout << e;
                     exceptionHandler();
                 }
                 break;
@@ -267,11 +267,11 @@ void staffMenu(Delegation & delegation) {
                     delegation.showStaffMember();
                 }
                 catch(NonExistentStaff & e){
-                    cout << e << endl;
+                    cout << e;
                     exceptionHandler();
                 }
                 catch(NoMembers & n){
-                    cout << n << endl;
+                    cout << n;
                     exceptionHandler();
                 }
                 break;
@@ -280,7 +280,7 @@ void staffMenu(Delegation & delegation) {
                     delegation.showStaffMembers();
                 }
                 catch(NonExistentPerson & e){
-                    cout << e << endl;
+                    cout << e;
                     exceptionHandler();
                 }
                 break;
@@ -294,7 +294,7 @@ void athletesMenu(Delegation & delegation) {
     string input;
     do
     {
-        system("cls");
+        if (system("CLS")) system("clear");
         cout << "_____________________________________________________" << endl << endl;
         cout << "\t\t   Athletes Options " << endl;
         cout << "_____________________________________________________" << endl << endl;
@@ -320,11 +320,11 @@ void athletesMenu(Delegation & delegation) {
                     delegation.addAthlete();
                 }
                 catch(PersonAlreadyExists &e) {
-                    cout << e << endl;
+                    cout << e;
                     exceptionHandler();
                 }
                 catch(NonExistentSport &e) {
-                    cout << e << endl;
+                    cout << e;
                     exceptionHandler();
                 }
                 delegation.calculateTotalCost();
@@ -347,12 +347,11 @@ void athletesMenu(Delegation & delegation) {
                     delegation.showAthlete();
                 }
                 catch(NonExistentAthlete & e){
-                    cout << e << endl;
+                    cout << e;
                     exceptionHandler();
                 }
                 catch(NoMembers & n){
-                    cout << n << endl;
-                    //exceptionHandler();
+                    cout << n;
                     exceptionHandler();
                 }
                 break;
@@ -362,7 +361,7 @@ void athletesMenu(Delegation & delegation) {
                     delegation.showAllAthletes();
                 }
                 catch(NoMembers & n){
-                    cout << n << endl;
+                    cout << n;
                     exceptionHandler();
                 }
                 break;
@@ -376,7 +375,7 @@ void teamsMenu(Delegation & delegation) {
     string input;
     do
     {
-        system("cls");
+        if (system("CLS")) system("clear");
         cout << "_____________________________________________________" << endl << endl;
         cout << "\t\t   Teams Options " << endl;
         cout << "_____________________________________________________" << endl << endl;
@@ -411,11 +410,11 @@ void teamsMenu(Delegation & delegation) {
                     delegation.showTeam();
                 }
                 catch(NonExistentTeam & t){
-                    cout<< t << endl;
+                    cout<< t;
                     exceptionHandler();
                 }
                 catch(NoMembers & e){
-                    cout<< e << endl;
+                    cout<< e;
                     exceptionHandler();
                 }
                 break;
@@ -424,7 +423,7 @@ void teamsMenu(Delegation & delegation) {
                     delegation.showAllTeams();
                 }
                 catch(NoMembers & e){
-                    cout<< e << endl;
+                    cout<< e;
                     exceptionHandler();
                 }
                 break;
@@ -440,9 +439,9 @@ void sportOptionsMenu(Delegation & delegation, const string & sport){
     string input;
     do
     {
-        system("cls");
+        if (system("CLS")) system("clear");
         cout << "_____________________________________________________" << endl << endl;
-        cout << "\t\t\t\t\t\t" << sport << endl;
+        cout << "\t\t\t" << sport << endl;
         cout << "_____________________________________________________" << endl << endl;
 
         cout << "Choose an option by typing a number and pressing Enter." << endl << endl;
@@ -486,7 +485,7 @@ void competitionsMenu(Delegation & delegation, const string & sport){
     {
         system("cls");
         cout << "_____________________________________________________" << endl << endl;
-        cout << "\t\t" << sport << "- Competitions & Trials" << endl;
+        cout << "\t   " << sport << " - Competitions & Trials" << endl;
         cout << "_____________________________________________________" << endl << endl;
 
         cout << "Choose an option by typing a number and pressing Enter." << endl << endl;
@@ -511,10 +510,12 @@ void competitionsMenu(Delegation & delegation, const string & sport){
                     delegation.showCompetition(sport);
                 }
                 catch(NonExistentCompetition & c){
-                    throw;
+                    cout << c;
+                    exceptionHandler();
                 }
                 catch(NoCompetitions & c){
-                    throw;
+                    cout << c ;
+                    exceptionHandler();
                 }
                 break;
             case 2:
@@ -522,7 +523,8 @@ void competitionsMenu(Delegation & delegation, const string & sport){
                     delegation.showAllCompetitions(sport);
                 }
                 catch(NoCompetitions & c){
-                    throw;
+                    cout << c;
+                    exceptionHandler();
                 }
                 break;
             case 3:
@@ -530,8 +532,87 @@ void competitionsMenu(Delegation & delegation, const string & sport){
                     delegation.showAllTrials(sport);
                 }
                 catch(NoTrials & c){
-                    throw;
+                    cout << c;
+                    exceptionHandler();
                 }
+                break;
+            case 0:
+                break;
+        }
+    } while (stoi(input) != 0);
+}
+
+//Results submenus
+void medalsStatisticsMenu(Delegation & delegation){
+    int testinput = 0;
+    string input;
+    do
+    {
+        if (system("CLS")) system("clear");
+        cout << "_____________________________________________________" << endl << endl;
+        cout << "\t\t   Medals Statistics " << endl;
+        cout << "_____________________________________________________" << endl << endl;
+
+        cout << "1 - All Medals" << endl;
+        cout << "2 - Medals by country" << endl;
+        cout << "3 - Medals Rankings" << endl;
+        cout << "0 - BACK" << endl;
+
+        do {
+            testinput = checkinputchoice(input, 0, 3);
+            if (testinput != 0 && testinput != 2)
+                cerr << "Invalid option! Please try again." << endl;
+        } while (testinput != 0 && testinput != 2);
+        if (testinput == 2)
+        { input = "0"; }
+
+        switch (stoi(input)) {
+            case 1:
+                delegation.showAllMedals();
+            case 2:
+                delegation.showCountryMedals();
+                break;
+            case 3:
+                medalRankingsMenu(delegation);
+                break;
+            case 0:
+                break;
+        }
+    } while (stoi(input) != 0);
+}
+
+//Medals Statistics Submenus
+void medalRankingsMenu(Delegation & delegation){
+    int testinput = 0;
+    string input;
+    do
+    {
+        if (system("CLS")) system("clear");
+        cout << "_____________________________________________________" << endl << endl;
+        cout << "\t\t   Medals Rankings " << endl;
+        cout << "_____________________________________________________" << endl << endl;
+
+        cout << "1 - Most awarded countries" << endl;
+        cout << "2 - Most awarded athletes" << endl;
+        cout << "3 - Most awarded teams" << endl;
+        cout << "0 - BACK" << endl;
+
+        do {
+            testinput = checkinputchoice(input, 0, 3);
+            if (testinput != 0 && testinput != 2)
+                cerr << "Invalid option! Please try again." << endl;
+        } while (testinput != 0 && testinput != 2);
+        if (testinput == 2)
+        { input = "0"; }
+
+        switch (stoi(input)) {
+            case 1:
+                //delegation.mostAwardedCountries();
+            case 2:
+                //delegation.mostAwardedAthletes();
+                break;
+            case 3:
+                //delegation.mostAwardedTeams();
                 break;
             case 0:
                 break;

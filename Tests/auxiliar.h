@@ -79,6 +79,7 @@ int daysBetween(const Date begin, const Date end);
 /**
  * Compares two objects of a class - must have < operator
  *
+ * @tparam T type of data that has the < operator defined
  * @param p1 right object
  * @param p2 left object
  * @returns true if p1<p2, false otherwise
@@ -89,8 +90,9 @@ bool sortMembersAlphabetically(const T * p1, const T * p2){
 }
 
 /**
- * Deletes repeted elements from vector of objects with == and < operators defined
+ * Deletes repeted elements from vector of objects
  *
+ * @tparam T the type of data stored in the vector (s== and < operators must be defined)
  * @param v1 the vector to be changed
  */
 template <class T>
@@ -121,4 +123,14 @@ bool sortCompetitionsByDate(const Competition & c1, const Competition & c2);
  * @returns true if p1 is athlete and p2 is staff / if they are the same and p1's name comes first in the alphabet
  */
 bool sortPersons(const Person * p1, const Person * p2);
+
+/**
+ * Compares two trials, allowing to order a vector of trials by date or name if the dates are the same
+ *
+ * @param t1 trial 1
+ * @param t2 trial 2
+ * @returns true if t1 begins after t2 / if they begin in the same day and c1 comes first in the alphabet, false otherwise
+ */
+bool sortTrialsByDate(const Trial & t1, const Trial & t2);
+
 #endif //PROJECT_1_INPUTCHECK_H

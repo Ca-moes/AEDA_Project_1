@@ -14,7 +14,7 @@ Spain-Spain,Russia-Russia,Japan-Japan
 Badminton
 2
 
-ParesMasculinos
+Pares_Masculinos
 30/07/2020
 01/08/2020
 Russia-RusPM,Portugal-PortPM,Japan-JapPM
