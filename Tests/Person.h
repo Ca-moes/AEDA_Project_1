@@ -53,7 +53,7 @@ public:
 
     virtual void showInfoPerson() const;
 
-    virtual bool isAthlete(){return false;};
+    virtual bool isAthlete() const {return false;};
 
     bool operator<(const Person & p) const;
 
@@ -100,7 +100,7 @@ public:
     float getHeight() const;
     void setHeight(float height);
     string info();
-    bool isAthlete(){return true;};
+    bool isAthlete() const {return true;};
     void showInfoPerson() const;
     void showInfo() const;
 };
@@ -133,7 +133,7 @@ public:
     const string &getFunction() const;
     void setFunction(const string &function);
     string info();
-    bool isAthlete(){return false;};
+    bool isAthlete() const {return false;};
     void showInfoPerson() const;
     //virtual double getDailyCost()=0;  //depende do tipo de funcionário
 };

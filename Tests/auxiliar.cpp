@@ -128,6 +128,10 @@ bool sortCompetitionsByDate(const Competition & c1, const Competition & c2){
     return(c1.getBegin() < c2.getBegin());
 }
 
+bool sortPersons(const Person * p1, const Person * p2){
+    return (*p1) < (*p2);
+}
+
 bool sortTrialsByDate(const Trial & t1, const Trial & t2){
     if(t1.getDate() == t2.getDate())
         return t1.getName() < t2.getName();

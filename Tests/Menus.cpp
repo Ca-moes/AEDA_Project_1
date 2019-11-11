@@ -109,6 +109,8 @@ void participantsMenu(Delegation & delegation) {
                 break;
             case 4:
                 try{
+                    delegation.sortAllPeople();
+                    delegation.showPortugueseMembers();
                     delegation.showMembers();
                 }catch(NoMembers & e){
                     cout << e;
@@ -145,10 +147,12 @@ void sportsMenu(Delegation & delegation) {
         if (testinput == 2)
         { input = "0"; }
 
-        if(stoi(input) != 0)
+        if(stoi(input) != 0) {
             option = "1";
-        else
+        } else {
             option = "0";
+        }
+      
         switch (stoi(option)) {
             case 1:
                 try{
@@ -296,8 +300,8 @@ void athletesMenu(Delegation & delegation) {
         cout << "_____________________________________________________" << endl << endl;
 
         cout << "1 - Add Athlete" << endl;
-        cout << "2 - Change Athlete" << endl;
-        cout << "3 - Remove Athlete" << endl;
+        cout << "2 - Remove Athlete" << endl;
+        cout << "3 - Change Athlete" << endl;
         cout << "4 - View Athlete Info" << endl;
         cout << "5 - View All Athletes Info" << endl;
         cout << "0 - BACK" << endl;
@@ -323,12 +327,20 @@ void athletesMenu(Delegation & delegation) {
                     cout << e;
                     exceptionHandler();
                 }
+                delegation.calculateTotalCost();
+                delegation.sortAllPeople();
                 break;
             case 2:
-                //changeClientMenu(delegation);
+                try {
+                    delegation.removeAthlete();
+                }
+                catch (NonExistentAthlete &e){
+                    cout << e << endl;
+                    exceptionHandler();
+                }
                 break;
             case 3:
-                //delegation.removeAthlete();
+                //delegation.changeAthlete();
                 break;
             case 4:
                 try{
@@ -345,6 +357,7 @@ void athletesMenu(Delegation & delegation) {
                 break;
             case 5:
                 try{
+                    delegation.sortAllPeople();
                     delegation.showAllAthletes();
                 }
                 catch(NoMembers & n){
