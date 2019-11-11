@@ -1875,8 +1875,85 @@ void Delegation::showAllMedals() const {
 }
 
 void Delegation::showCountryMedals() const{
+    int test = 0;
+    string input = "",sport="", country;
+    bool noMedals = true,noMedalsInComp,noMedalsInSport;
+    int g=0,sil=0,b=0;
 
+    cout << "Country: ";
+    do{
+        getline(cin,country);
+        if(cin.eof()){
+            cin.clear();
+            return;
+        }
+        cin.clear();
+    }while(checkStringInput(country));
 
+    system("cls");
+    cout << "_____________________________________________________" << endl << endl;
+    cout << "\t\t" << country <<  " Medals " << endl;
+    cout << "_____________________________________________________" << endl << endl;
+
+    vector<Sport*>::const_iterator s;
+    vector<Competition>::iterator c;
+    vector<Medal>::iterator m;
+
+    if (!sports.empty()) {
+        vector<Sport *>sp = sports;
+        sort(sp.begin(), sp.end(),sortMembersAlphabetically<Sport>);
+        for(s = sp.begin(); s != sp.end(); s++){
+            vector<Competition>comps = (*s)->getCompetitions();
+            if(!comps.empty()) {
+                noMedalsInSport = true;
+                for (c = comps.begin(); c != comps.end(); c++) {
+                    vector<Medal>medals = c->getMedals();
+                    insertionSort(medals);
+                    noMedalsInComp = true;
+                    for(m=medals.begin(); m!=medals.end();m++){
+                        if(caseInSensStringCompare(m->getCountry(),country)){
+                            if(noMedalsInSport){
+                                sport = (*s)->getName();
+                                transform(sport.begin(), sport.end(), sport.begin(), ::toupper);
+                                cout <<sport<<endl;
+                                noMedalsInSport=false;
+                            }
+                            if(noMedalsInComp){
+                                noMedalsInComp = false;
+                               cout << c->getName()<<endl;
+                            }
+                            m->showInfo();
+                            noMedals = false;
+                            //count number of medals
+                            if(m->getType() == 'g')
+                                g++;
+                            else if(m->getType() == 's')
+                                sil++;
+                            else
+                                b++;
+                        }
+                    }
+                    if(!noMedalsInComp)
+                        cout << endl;
+                }
+            }
+        }
+        if(noMedals)
+            throw NoMedals(country);
+    } else
+        throw NoMedals();
+
+    cout<< country << " won "<< g+sil+b << " medals: " <<endl;
+    cout << left << setw(18) << "->Gold Medals "<<g<<endl;
+    cout << left << setw(18)<< "->Silver Medals "<<sil<<endl;
+    cout << left << setw(18)<< "->Bronze Medals "<<b<<endl;
+
+    cout << endl << "0 - BACK" << endl;
+    do {
+        test = checkinputchoice(input, 0, 0);
+        if (test != 0)
+            cerr << "Invalid option! Press 0 to go back." << endl;
+    } while (test != 0 && test != 2);
 }
 
 //File Errors - Exceptions
@@ -2008,9 +2085,14 @@ ostream &operator<<(ostream &os, NoTrials &p) {
     return os;
 }
 
-NoMedals::NoMedals() {}
+NoMedals::NoMedals() {country="";}
 
-ostream &operator<<(ostream &os, NoMedals &p) {
-    os << " No medals to show!\n";
+NoMedals::NoMedals(const string & c){country=c;}
+
+ostream &operator<<(ostream &os, NoMedals &m) {
+    if(m.country=="")
+        os << " No medals to show!\n";
+    else
+        os << m.country << " didn't win any medals!\n";
     return os;
 }

@@ -28,7 +28,11 @@ public:
 
     string info() const;
 
+    void showInfo() const;
+
     bool operator <(Medal & m);
+
+    bool operator >(Medal & m);
 
 private:
     char type;

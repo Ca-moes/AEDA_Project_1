@@ -567,9 +567,20 @@ void medalsStatisticsMenu(Delegation & delegation){
 
         switch (stoi(input)) {
             case 1:
-                delegation.showAllMedals();
+                try{
+                    delegation.showAllMedals();
+                }catch(NoMedals & e){
+                    cout<< e;
+                    exceptionHandler();
+                }
+                break;
             case 2:
-                delegation.showCountryMedals();
+                try{
+                    delegation.showCountryMedals();
+                }catch(NoMedals & e){
+                    cout<< e;
+                    exceptionHandler();
+                }
                 break;
             case 3:
                 medalRankingsMenu(delegation);
