@@ -364,8 +364,10 @@ void Delegation::readCompetitionsFile(const vector<string> &lines) {
                 numline = 1;
                 line = lines[i];
             } else if (line == "////////" || i == lines.size()) {//novo desporto - guardar os dados das competições e jogos e limpar variáveis auxiliares; ou útlima linha do ficheiro
-                if (read == 't' || read == 'c')
-                   competitions.push_back(competition);
+                if (read == 't' || read == 'c'){
+                    competition.setMedals(medals);
+                    competitions.push_back(competition);
+                }
                 if (isTeamSport){
                     teamSport->setCompetitions(competitions);
                     for (auto &team : teams) {
@@ -520,9 +522,62 @@ void Delegation::writeCompetitionsFile(){
         for (int i = 0; i < sports.size(); ++i) {
             myfile << sports.at(i)->getName() << endl;
             if (sports.at(i)->isTeamSport()){
-                TeamSport* ts = dynamic_cast<TeamSport*> (sports.at(i));
-                myfile << ts->getNumberofElements() << endl;
+                TeamSport* sport = dynamic_cast<TeamSport*> (sports.at(i));
+                myfile << sport->getNumberofElements() << "\n\n";
+                for (int j = 0; j < sport->getCompetitions().size(); ++j) {
+                    myfile << sport->getCompetitions().at(j).getName() << endl;
+                    myfile << sport->getCompetitions().at(j).getBegin() << endl;
+                    myfile << sport->getCompetitions().at(j).getEnd() << endl;
+                    for (int k = 0; k < sport->getCompetitions().at(j).getMedals().size(); ++k) {
+                        myfile << sport->getCompetitions().at(j).getMedals().at(k).getCountry() << "-"
+                               << sport->getCompetitions().at(j).getMedals().at(k).getWinner();
+                        if (k != sport->getCompetitions().at(j).getMedals().size() - 1)
+                            myfile << ",";
+                        else
+                            myfile << "\n";
+                    }
+                    if (sport->getCompetitions().at(j).getTrials().size()!= 0){
+                        for (int k = 0; k < sport->getCompetitions().at(j).getTrials().size() ; ++k) {
+                            myfile << "//" << endl;
+                            myfile << sport->getCompetitions().at(j).getTrials().at(k).getName() << endl;
+                            myfile << sport->getCompetitions().at(j).getTrials().at(k).getDate() << endl;
+                        }
+                    }
+                    else{
+                        if (j != sport->getCompetitions().size()-1)
+                            myfile << "\n";
+                    }
+                }
+
+            } else{
+                IndividualSport* sport = dynamic_cast<IndividualSport*> (sports.at(i));
+                myfile << 1 << "\n\n";
+                for (int j = 0; j < sport->getCompetitions().size(); ++j) {
+                    myfile << sport->getCompetitions().at(j).getName() << endl;
+                    myfile << sport->getCompetitions().at(j).getBegin() << endl;
+                    myfile << sport->getCompetitions().at(j).getEnd() << endl;
+                    for (int k = 0; k < sport->getCompetitions().at(j).getMedals().size(); ++k) {
+                        myfile << sport->getCompetitions().at(j).getMedals().at(k).getCountry() << "-" << sport->getCompetitions().at(j).getMedals().at(k).getWinner();
+                        if (k != sport->getCompetitions().at(j).getMedals().size()-1)
+                            myfile << ",";
+                        else
+                            myfile << "\n";
+                    }
+                    if (sport->getCompetitions().at(j).getTrials().size()!= 0){
+                        for (int k = 0; k < sport->getCompetitions().at(j).getTrials().size() ; ++k) {
+                            myfile << "//" << endl;
+                            myfile << sport->getCompetitions().at(j).getTrials().at(k).getName() << endl;
+                            myfile << sport->getCompetitions().at(j).getTrials().at(k).getDate() << endl;
+                        }
+                    }
+                    else{
+                        if (j != sport->getCompetitions().size()-1)
+                            myfile << "\n";
+                    }
+                }
             }
+            if (i != sports.size()-1)
+                myfile << "////////" << endl;
         }
         myfile.close();
     }
