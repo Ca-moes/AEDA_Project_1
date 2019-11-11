@@ -38,7 +38,7 @@ Italy-ItlPF,Portugal-PortPF,Germany-GerPF
 Set3place
 03/08/2020
 //
-Final Set
+FinalSet
 04/08/2020
 ////////
 Atletismo
@@ -62,12 +62,12 @@ Sail Classification 1
 04/08/2020
 Spain-V1,Portugal-V3,Japan-V5
 
-Sail Classification 2
+SailClassification2
 30/07/2020
 04/08/2020
 Spain-V2,Portugal-V4,Germany-V9
 
-Sail Final
+SailFinal
 05/08/2020
 07/08/2020
 Spain-V1,Japan-V5,Portugal-V4

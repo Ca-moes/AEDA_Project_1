@@ -62,7 +62,9 @@ string Person::info(){
 }
 
 bool Person::operator<(const Person & p) const{
-    return(name < p.getName());
+    if (this->isAthlete() && !(p.isAthlete())) return true;
+    else if(p.isAthlete() && !(this->isAthlete())) return false;
+    else return name < p.getName();
 }
 
 ostream & operator<<(ostream & os, const Person & p){
