@@ -16,6 +16,7 @@ class Competition {
     Date end;
     vector<Trial> trials;
     vector<Medal> medals;
+    vector<string> participants;
 public:
     Competition();
     Competition(const Competition & c);
@@ -30,14 +31,7 @@ public:
     const vector<Medal> & getMedals() const;
     void setTrials(const vector<Trial> & trials);
     const vector<Trial> & getTrials() const;
-    void addTrial(const Trial & t);
-    void removeTrial(const string & t);
-    void updateTrial(const string & t);
-    void showTrials() const;
     void addParticipant(const string & p);
-    void removeParticipant(const string & p);//Alterar - para participantes indicar passaporte e para equipas o nome?
-    void updateParticipant(const string & p);//Alterar - para participantes indicar passaporte e para equipas o nome?
-    void showParticipants() const;
     void showInfo() const;
     void showMedals() const;
     string info() const;

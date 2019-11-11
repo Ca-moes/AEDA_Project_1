@@ -28,30 +28,6 @@ const vector<Competition> & Sport::getCompetitions() const{
     return competitions;
 }
 
-void Sport::addCompetition(const Competition & c){
-
-}
-
-void Sport::removeCompetition(const string & c){
-
-}
-
-void Sport::updateCompetition(const string & c){
-
-}
-
-void Sport::removeParticipant(const string & p){
-
-}
-
-void Sport::updateParticipant(const string & p){
-
-}
-
-void Sport::showParticipants() const{
-
-}
-
 bool operator== (const Sport & s1,const Sport & s2){
     return s1.name == s2.name;
 }
@@ -68,8 +44,8 @@ string Sport::info() const{
     return os.str();
 }
 
-void Sport::showCompetitions() const{
-
+bool Sport::operator < (const Sport & left) const{
+    return name < left.getName();
 }
 
 //Team Sport

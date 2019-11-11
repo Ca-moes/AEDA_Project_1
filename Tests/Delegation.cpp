@@ -1796,7 +1796,7 @@ int Delegation::findSport(const string & name) const {
 //Medals Functions
 void Delegation::showAllMedals() const{
     int test = 0;
-    string input = "";
+    string input = "",sport="";
 
     system("cls");
     cout << "_____________________________________________________" << endl << endl;
@@ -1805,12 +1805,16 @@ void Delegation::showAllMedals() const{
 
     vector<Sport*>::const_iterator s;
     vector<Competition>::iterator c;
-    //corre cada desporto
     if (!sports.empty()) {
-        for(s = sports.begin(); s != sports.end(); s++){
+        vector<Sport *>sp = sports;
+        sort(sp.begin(), sp.end(),sortMembersAlphabetically<Sport>);
+        for(s = sp.begin(); s != sp.end(); s++){
             vector<Competition>comps = (*s)->getCompetitions();
+            sort(comps.begin(), comps.end(),sortCompetitionsByDate);
             if(!comps.empty()) {
-                cout << (*s)->getName()<<endl;
+                sport = (*s)->getName();
+                transform(sport.begin(), sport.end(), sport.begin(), ::toupper);
+                cout <<sport<<endl;
                 for (c = comps.begin(); c != comps.end(); c++) {
                     cout << c->getName()<<endl;
                     c->showMedals();

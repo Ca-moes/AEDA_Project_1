@@ -173,7 +173,7 @@ void resultsMenu(Delegation & delegation) {
     {
         if (system("CLS")) system("clear");
         cout << "_____________________________________________________" << endl << endl;
-        cout << "\t\t   Sports Options " << endl;
+        cout << "\t\t   Medals & Results " << endl;
         cout << "_____________________________________________________" << endl << endl;
 
         cout << "1 - Medals Statistics / Competitions Results" << endl;
