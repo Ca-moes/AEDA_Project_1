@@ -1816,6 +1816,15 @@ ostream &operator<<(ostream &os, PersonAlreadyExists &p) {
     return os;
 }
 
+TeamAlreadyExists::TeamAlreadyExists(string team) {
+    this->team = team;
+}
+
+ostream &operator<<(ostream &os, TeamAlreadyExists &p) {
+    os << p.team << " already exists!\n";
+    return os;
+}
+
 NoMembers::NoMembers() {}
 
 ostream &operator<<(ostream &os, NoMembers &p) {
@@ -1825,7 +1834,7 @@ ostream &operator<<(ostream &os, NoMembers &p) {
 
 NoSports::NoSports(){}
 
-ostream &operator<<(ostream &os, NoSports &p) {
+ostream & operator <<(ostream & os, const NoSports & s) {
     os << " No sports to show!\n";
     return os;
 }
