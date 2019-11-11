@@ -998,7 +998,7 @@ void Delegation::changeStaffMember() {
                     return; //go back on ctrl+d
                 }
                 cin.clear();
-                while (checkStringInput(tmp)) {
+                while (checkStringInput(tmp) || findPerson(tmp) != -1) {
                     cout << "Invalid Name. Try again!" << endl;
                     cout << "New name: ";
                     getline(cin, tmp);
@@ -1098,7 +1098,7 @@ void Delegation::changeStaffMember() {
                     return; //go back on ctrl+d
                 }
                 cin.clear();
-                while (checkStringInput(tmp) == 1) {
+                while (checkStringInput(tmp)) {
                     cout << "Invalid Function. Try again!" << endl;
                     cout << "Function: ";
                     getline(cin, tmp);
@@ -1419,6 +1419,264 @@ void Delegation::removeAthlete(){
         delete *it;
         people.erase(it);
         return;
+    }
+}
+
+void Delegation::changeAthlete() {
+    int test = 0;
+    int index;
+    string input = "", tmp;
+
+    cout << "Name: ";
+    getline(cin, tmp);
+    if (cin.eof()) {
+        cin.clear();
+        return; //go back on ctrl+d
+    }
+    cin.clear();
+    while (checkStringInput(tmp)) {
+        cout << "Invalid Name. Try again!" << endl;
+        cout << "Name: ";
+        getline(cin, tmp);
+        if (cin.eof()) {
+            cin.clear();
+            return; //go back on ctrl+d
+        }
+        cin.clear();
+    }
+    index = findPerson(tmp);
+    if (index == -1 || !(people.at(index)->isAthlete())) {
+        throw NonExistentAthlete(tmp);
+    } else {
+        system("cls");
+        cout << "_____________________________________________________" << endl << endl;
+        cout << "\t\t   What do you want to change?" << endl;
+        cout << "_____________________________________________________" << endl << endl;
+
+        cout << "1 - Name" << endl;
+        cout << "2 - Date of Birth" << endl;
+        cout << "3 - Passport" << endl;
+        cout << "4 - Date of Arrival" << endl;
+        cout << "5 - Date of Departure" << endl;
+        cout << "6 - Sport" << endl;
+        cout << "7 - Weight" << endl;
+        cout << "8 - Height" << endl;
+        cout << "0 - BACK" << endl;
+
+        do {
+            test = checkinputchoice(input, 0, 8);
+            if (test != 0 && test != 2)
+                cerr << "Invalid option! Please try again." << endl;
+        } while (test != 0 && test != 2);
+        if (test == 2) { input = "0"; }
+
+        Date tmp_date;
+        int s_index;
+        vector<Competition> competitions;
+        vector<string> competition_names;
+
+        switch (stoi(input)) {
+            case 1:
+                cout << "New name: ";
+                getline(cin, tmp);
+                if (cin.eof()) {
+                    cin.clear();
+                    return; //go back on ctrl+d
+                }
+                cin.clear();
+                while (checkStringInput(tmp) || findPerson(tmp) != -1) {
+                    cout << "Invalid Name. Try again!" << endl;
+                    cout << "New name: ";
+                    getline(cin, tmp);
+                    if (cin.eof()) {
+                        cin.clear();
+                        return; //go back on ctrl+d
+                    }
+                    cin.clear();
+                }
+                people.at(index)->setName(tmp);
+                athletes.at(index)->setName(tmp);
+                break;
+            case 2:
+                cout << "Date of Birth: ";
+                getline(cin, tmp);
+                if (cin.eof()) {
+                    cin.clear();
+                    return; //go back on ctrl+d
+                }
+                cin.clear();
+                while (checkDateInput(tmp, tmp_date)) {
+                    cout << "Invalid Date. Try again!" << endl;
+                    cout << "Date of Birth: ";
+                    getline(cin, tmp);
+                    if (cin.eof()) {
+                        cin.clear();
+                        return; //go back on ctrl+d
+                    }
+                    cin.clear();
+                }
+                people.at(index)->setBirth(tmp_date);
+                athletes.at(index)->setBirth(tmp_date);
+                break;
+            case 3:
+                cout << "Passport: ";
+                getline(cin, tmp);
+                if (cin.eof()) {
+                    cin.clear();
+                    return; //go back on ctrl+d
+                }
+                cin.clear();
+                while (checkAlphaNumericInput(tmp)) {
+                    cout << "Invalid Passport. Try again!" << endl;
+                    cout << "Passport: ";
+                    getline(cin, tmp);
+                    if (cin.eof()) {
+                        cin.clear();
+                        return; //go back on ctrl+d
+                    }
+                    cin.clear();
+                }
+                people.at(index)->setPassport(tmp);
+                athletes.at(index)->setPassport(tmp);
+                break;
+            case 4:
+                cout << "Date of Arrival: ";
+                getline(cin, tmp);
+                if (cin.eof()) {
+                    cin.clear();
+                    return; //go back on ctrl+d
+                }
+                cin.clear();
+                while (checkDateInput(tmp, tmp_date) || !(tmp_date.isOlimpianDate())) {
+                    cout << "Invalid Date. Try again!" << endl;
+                    cout << "Date of Arrival: ";
+                    getline(cin, tmp);
+                    if (cin.eof()) {
+                        cin.clear();
+                        return; //go back on ctrl+d
+                    }
+                    cin.clear();
+                }
+                people.at(index)->setArrival(tmp_date);
+                athletes.at(index)->setArrival(tmp_date);
+                break;
+            case 5:
+                cout << "Date of Departure: ";
+                getline(cin, tmp);
+                if (cin.eof()) {
+                    cin.clear();
+                    return; //go back on ctrl+d
+                }
+                cin.clear();
+                while (checkDateInput(tmp, tmp_date) || !(tmp_date.isOlimpianDate())) {
+                    cout << "Invalid Date. Try again!" << endl;
+                    cout << "Date of Departure: ";
+                    getline(cin, tmp);
+                    if (cin.eof()) {
+                        cin.clear();
+                        return; //go back on ctrl+d
+                    }
+                    cin.clear();
+                }
+                people.at(index)->setDeparture(tmp_date);
+                athletes.at(index)->setDeparture(tmp_date);
+                break;
+            case 6:
+                cout << "Sport: ";
+                getline(cin, tmp);
+                if (cin.eof()) {
+                    cin.clear();
+                    return; //go back on ctrl+d
+                }
+                cin.clear();
+                while (checkStringInput(tmp) || findSport(tmp) == -1) {
+                    cout << "Invalid Sport. Try again!" << endl;
+                    cout << "Sport: ";
+                    getline(cin, tmp);
+                    if (cin.eof()) {
+                        cin.clear();
+                        return; //go back on ctrl+d
+                    }
+                    cin.clear();
+                }
+                if (people.at(index)->isAthlete()) {
+                    Athlete *a = dynamic_cast<Athlete *> (people.at(index));
+                    if (a == NULL) {
+                        cout << "Couldn't change Sport!" << endl;
+                    } else {
+                        s_index = findSport(tmp);
+                        athletes.at(index)->setSport(tmp);
+                        a->setSport(tmp);
+                        competitions = sports.at(s_index)->getCompetitions();
+                        for (int i = 0; i < competitions.size(); i++) {
+                            competition_names.push_back(competitions.at(i).getName());
+                        }
+                        a->setCompetitions(competition_names);
+                        athletes.at(index)->setCompetitions(competition_names);
+                    }
+                }
+                break;
+            case 7:
+                cout << "Weight: ";
+                getline(cin, tmp);
+                if (cin.eof()) {
+                    cin.clear();
+                    return; //go back on ctrl+d
+                }
+                cin.clear();
+                while (checkFloatInput(tmp)) {
+                    cerr << "Invalid Weight. Try again!" << endl;
+                    cout << "Weight: ";
+                    getline(cin, tmp);
+                    if (cin.eof()) {
+                        cin.clear();
+                        return; //go back on ctrl+d
+                    }
+                    cin.clear();
+                }
+                if (people.at(index)->isAthlete()) {
+                    Athlete *a = dynamic_cast<Athlete *> (people.at(index));
+                    if (a == NULL) {
+                        cout << "Couldn't change Weight!" << endl;
+                    } else {
+                        athletes.at(index)->setWeight(stof(tmp));
+                        a->setWeight(stof(tmp));
+                    }
+                }
+                break;
+            case 8:
+                cout << "Height: ";
+                getline(cin, tmp);
+                if (cin.eof()) {
+                    cin.clear();
+                    return; //go back on ctrl+d
+                }
+                cin.clear();
+                while (checkPositiveIntInput(tmp)) {
+                    cerr << "Invalid Height. Try again!" << endl;
+                    cout << "Height: ";
+                    getline(cin, tmp);
+                    if (cin.eof()) {
+                        cin.clear();
+                        return; //go back on ctrl+d
+                    }
+                    cin.clear();
+                }
+                if (people.at(index)->isAthlete()) {
+                    Athlete *a = dynamic_cast<Athlete *> (people.at(index));
+                    if (a == NULL) {
+                        cout << "Couldn't change Height!" << endl;
+                    } else {
+                        athletes.at(index)->setHeight(stof(tmp));
+                        a->setHeight(stoi(tmp));
+                    }
+                }
+                break;
+            case 0:
+                break;
+            default:
+                break;
+        }
     }
 }
 

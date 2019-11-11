@@ -331,6 +331,7 @@ void athletesMenu(Delegation & delegation) {
                 break;
             case 2:
                 try {
+                    delegation.sortAllPeople();
                     delegation.removeAthlete();
                 }
                 catch (NonExistentAthlete &e){
@@ -339,7 +340,15 @@ void athletesMenu(Delegation & delegation) {
                 }
                 break;
             case 3:
-                //delegation.changeAthlete();
+                try {
+                    delegation.sortAllPeople();
+                    delegation.changeAthlete();
+                } catch (NonExistentAthlete &e){
+                    cout << e << endl;
+                    exceptionHandler();
+                }
+                delegation.sortAllPeople();
+                delegation.calculateTotalCost();
                 break;
             case 4:
                 try{
