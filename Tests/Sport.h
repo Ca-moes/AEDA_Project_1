@@ -21,15 +21,9 @@ public:
     virtual vector<Participant*> getParticipants() const{vector<Participant*> p; return p;};
     void setCompetitions(const vector<Competition> & competitions);
     const vector<Competition> & getCompetitions() const;
-    void addCompetition(const Competition & c); //daqui para baixo provavelmente vão ser virtual por causa dos vetores de atletas e equipas
-    void removeCompetition(const string & c);
-    void updateCompetition(const string & c);
-    void showCompetitions() const;
-    void removeParticipant(const string & p);
-    void updateParticipant(const string & p);
-    void showParticipants() const;
     virtual string info() const;
     virtual bool isTeamSport(){return false;};
+    bool operator < (const Sport & left) const;
     friend bool operator== (const Sport & s1,const Sport & s2 );
 };
 

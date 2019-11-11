@@ -14,7 +14,7 @@ Spain-Spain,Russia-Russia,Japan-Japan
 Badminton
 2
 
-Pares_Masculinos
+Pares Masculinos
 30/07/2020
 01/08/2020
 Russia-RusPM,Portugal-PortPM,Japan-JapPM
@@ -30,7 +30,7 @@ Set3
 //
 FinalSet
 01/08/2020
-Pares_Femininos
+Pares Femininos
 03/08/2020
 04/08/2020
 Italy-ItlPF,Portugal-PortPF,Germany-GerPF
@@ -57,7 +57,7 @@ Spain-Juan,Japan-Sali,Portugal-Maurilio Maria
 Vela
 2
 
-SailClassification1
+Sail Classification 1
 30/07/2020
 04/08/2020
 Spain-V1,Portugal-V3,Japan-V5

@@ -74,28 +74,9 @@ void Competition::setMedals(const vector<Medal> &medals){
     this->medals = sortedMedals;
 }
 
-void Competition::addTrial(const Trial & t){
+void Competition::addParticipant(const string & p){
+    participants.push_back(p);
 }
-
-void Competition::removeTrial(const string & t){}
-
-
-void Competition::updateTrial(const string & t){}
-
-
-void Competition::showTrials() const{}
-
-
-void Competition::addParticipant(const string & p){}
-
-
-void Competition::removeParticipant(const string & p){}
-
-
-void Competition::updateParticipant(const string & p){}
-
-
-void Competition::showParticipants() const{}
 
 string Competition::info() const{
     ostringstream os;
