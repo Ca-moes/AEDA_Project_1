@@ -165,7 +165,7 @@ public:
    * @params name the name of the Person
    * @returns the index of the Person, -1 if it does not exist
    */
-   int findPerson(const string name) const;
+   int findPerson(const string & name) const;
 
     /**
     * Find a Sport in the sports vector
@@ -173,7 +173,7 @@ public:
     * @params name the name of the Sport
     * @returns the index of the Sport, -1 if it does not exist
     */
-    int findSport(const string name) const;
+    int findSport(const string & name) const;
 
     /**Shows the information of all the members of the Portuguese Delegation in a human friendly way
      * @throws NoMembers if the Delegation has no Members
@@ -213,36 +213,48 @@ public:
      */
     void showTeam() const;
 
-    /** End the participation of the Portuguese Delegation in a specific sport and saves the "history"- throws exception if no team exists
+    /** End the participation of the Portuguese Delegation in a specific sport and saves the "history"
      * @param sport the name of the sport to remove
      * @throws NonExistentSport if the sport was successfully eliminated
      */
     void removeSport(const string &sport);
 
-    /** Shows the information of a specific competition in a specific sport - throws exception if the sport doesn't exist
+    /** Shows the information of a specific competition in a specific sport
      * @param sport the name of the sport to remove
      * @throws NoCompetitions if the sport doesn't have competitions
      * @throws NonExistentCompetition if a specific competition doesn't exist in the sport
      */
     void showCompetition(const string & sport);
 
-    /** Shows the information of all the competitions in a specific sport - throws exception if no sport exists
+    /** Shows the information of all the competitions in a specific sport
      * @param sport the name of the sport to remove
      * @throws NoCompetitions if the sport doesn't have competitions
      */
     void showAllCompetitions(const string & sport);
 
-    /** Shows the information of all the trials in a specific sport - throws exception if no trials exists
+    /** Shows the information of all the trials in a specific sport
      * @param sport the name of the sport to remove
      * @throws NoTrials if the sport's competitions don't have trials
      */
     void showAllTrials(const string & sport);
 
-    /** Shows the information of all the trials in a specific competition - throws exception if no trials exists
+    /** Shows the information of all the trials in a specific competition
      * @param competition the name of the competition
      * @throws NoTrials if the competition doesn't have trials
      */
     void showTrials(const Competition & competition) const;
+
+    /** Shows the information of all the medals
+    * @throws NoMedals if there isn't information about any medal
+    */
+    void showAllMedals() const;
+
+
+    /** Shows the information of all the medals of a country
+     * @throws NonExistentCountry if there the country doesn't take part in any competition
+     * @throws NoMedals if the country doesn't have any medals
+     */
+    void showCountryMedals() const;
 };
 
 //Exceptions
@@ -252,7 +264,13 @@ public:
 class FileError{
     string file;/**< Name of the file that generated the error*/
 public:
+    /** Shows the name of the file that generated the error
+     * @param os the name of ostream
+     * @param file file
+     * @returns reference to the original ostream to allow input/output chains
+     */
     friend ostream & operator << (ostream & os, const FileError & file);
+    /** File Error Constructor*/
     explicit FileError(string file);
 };
 
@@ -262,7 +280,13 @@ public:
 class FileStructureError{
     string file;/**< Name of the file where the structure is not the expected*/
 public:
+    /** Shows the name of the file that generated the error
+    * @param os the name of the ostream
+    * @param file file
+    * @returns reference to the original ostream to allow input/output chains
+    */
     friend ostream & operator << (ostream & os, const FileStructureError & file);
+    /** File Structure Error Constructor*/
     explicit FileStructureError(string file);
 };
 
@@ -272,7 +296,13 @@ public:
 class NonExistentSport{
     string sport;/**< Name of the sport that doesn't exist anymore*/
 public:
+    /** Shows the name of the sport that no longer exists
+    * @param os the name of the ostream
+    * @param c sport tha doesn't exist anymore
+    * @returns reference to the original ostream to allow input/output chains
+    */
     friend ostream & operator <<(ostream & os, const NonExistentSport & c);
+    /** Non Existent Sport Constructor*/
     explicit NonExistentSport(string name);
 };
 
@@ -281,7 +311,13 @@ public:
  */
 class NoSports{
 public:
-    friend ostream & operator <<(ostream & os, const NoSports & c);
+    /** Indicates that no sports exist
+    * @param os the name of the ostream
+    * @param s NoSports object
+    * @returns reference to the original ostream to allow input/output chains
+    */
+    friend ostream & operator <<(ostream & os, const NoSports & s);
+    /** No Sports Default Constructor*/
     explicit NoSports();
 };
 
@@ -292,7 +328,13 @@ class NonExistentCompetition{
     string competition;/**< Name of the Competition that doesn't exist*/
     string sport;/**< Name of the sport where the competition was searched for*/
 public:
+    /** Shows the name of the competition that doesn't exist in a specific sport
+    * @param os the name of the ostream
+    * @param c The Competition that doesn't exist
+    * @returns reference to the original ostream to allow input/output chains
+    */
     friend ostream & operator <<(ostream & os, const NonExistentCompetition & c);
+    /** Non Existent Competition Constructor*/
     explicit NonExistentCompetition(string name, string sport);
 };
 
@@ -304,7 +346,13 @@ class NonExistentTrial{
     string competition;/**< Name of the competition where the trial was searched for*/
     string sport;/**< Name of the sport where the trial was searched for*/
 public:
+    /** Shows the name of the trial that doesn't exist in a specific competition in a specific sport
+    * @param os the name of the ostream
+    * @param t The Trial that doesn't exist
+    * @returns reference to the original ostream to allow input/output chains
+    */
     friend ostream & operator <<(ostream & os, NonExistentTrial & t);
+    /** Non Existent Trial Constructor*/
     NonExistentTrial(string name, string competition, string sport);
 };
 
@@ -314,8 +362,14 @@ public:
 class NonExistentPerson{
     string person;/**< Name of the person that doesn't exist*/
 public:
+    /** Shows the name of the person that doesn't exist
+    * @param os the name of the ostream
+    * @param p The Person that doesn't exist
+    * @returns reference to the original ostream to allow input/output chains
+    */
     friend ostream & operator <<(ostream & os, NonExistentPerson & p);
-    NonExistentPerson(string name);
+    /** Non Existent Person Constructor*/
+    explicit NonExistentPerson(string name);
 };
 
 /**
@@ -324,8 +378,14 @@ public:
 class NonExistentStaff{
     string person;/**< Name of the staff member that doesn't exist*/
 public:
+    /** Shows the name of the staff member that doesn't exist
+    * @param os the name of the ostream
+    * @param p The Staff member that doesn't exist
+    * @returns reference to the original ostream to allow input/output chains
+    */
     friend ostream & operator <<(ostream & os, NonExistentStaff & p);
-    NonExistentStaff(string name);
+    /** Non Existent Staff member Constructor*/
+    explicit NonExistentStaff(string name);
 };
 
 /**
@@ -334,28 +394,62 @@ public:
 class NonExistentAthlete{
     string person;/**< Name of the athlete that doesn't exist*/
 public:
+    /** Shows the name of the athlete that doesn't exist
+    * @param os the name of the ostream
+    * @param p The Athlete that doesn't exist
+    * @returns reference to the original ostream to allow input/output chains
+    */
     friend ostream & operator <<(ostream & os, NonExistentAthlete & p);
-    NonExistentAthlete(string name);
+    /** Non Existent Athlete Constructor*/
+    explicit NonExistentAthlete(string name);
 };
 
 /**
  *  An exception thrown when there isn't any team with a specific name in the Delegation's teams
  */
 class NonExistentTeam{
-    string team;
+    string team;/**<the name of the team that doesn't exist*/
 public:
+    /** Shows the name of the team that doesn't exist
+    * @param os the name of the ostream
+    * @param p The Team that doesn't exist
+    * @returns reference to the original ostream to allow input/output chains
+    */
     friend ostream & operator <<(ostream & os, NonExistentTeam & p);
-    NonExistentTeam(string name);
+    /** Non Existent Team Constructor*/
+    explicit NonExistentTeam(string name);
 };
 
 /**
  *  An exception thrown when a person with a specific name already belongs to the Delegation
  */
 class PersonAlreadyExists{
-    string person; /**the name or de passport of the person that already exists*/
+    string person; /**<the name or de passport of the person that already exists*/
 public:
+    /** Shows the name of the person that already exists in the Delegation
+    * @param os the name of the ostream
+    * @param p The Person that already exists
+    * @returns reference to the original ostream to allow input/output chains
+    */
     friend ostream & operator <<(ostream & os, PersonAlreadyExists & p);
-    PersonAlreadyExists(string person);
+    /** Person already exists Constructor*/
+    explicit PersonAlreadyExists(string person);
+};
+
+/**
+ *  An exception thrown when a team with a specific name already belongs to the Delegation
+ */
+class TeamAlreadyExists{
+    string team; /**<the name or de passport of the person that already exists*/
+public:
+    /** Shows the name of the team that already exists in the Delegation
+    * @param os the name of the ostream
+    * @param p The Team that already exists
+    * @returns reference to the original ostream to allow input/output chains
+    */
+    friend ostream & operator <<(ostream & os, TeamAlreadyExists & p);
+    /** Team already exists Constructor*/
+    explicit TeamAlreadyExists(string team);
 };
 
 /**
@@ -363,7 +457,13 @@ public:
  */
 class NoMembers{
 public:
+    /** Informs that there are no members
+    * @param os the name of the ostream
+    * @param p NoMembers object
+    * @returns reference to the original ostream to allow input/output chains
+    */
     friend ostream & operator <<(ostream & os, NoMembers & p);
+    /** No Members default constructor*/
     NoMembers();
 };
 
@@ -373,8 +473,14 @@ public:
 class NoCompetitions{
     string sport; /**< Name of the sport that doesn't have competitions*/
 public:
+    /** Informs that there are no competitions
+   * @param os the name of the ostream
+   * @param p NoCompetitions object
+   * @returns reference to the original ostream to allow input/output chains
+   */
     friend ostream & operator <<(ostream & os, NoCompetitions & p);
-    NoCompetitions(const string & sport);
+    /** No competitions constructor*/
+    explicit NoCompetitions(const string & sport);
 };
 
 /**
@@ -383,7 +489,29 @@ public:
 class NoTrials{
     string sport;/**< Name of the sport or competition that doesn't have trials*/
 public:
+    /** Informs that there are no trials
+   * @param os the name of the ostream
+   * @param p NoTrials object
+   * @returns reference to the original ostream to allow input/output chains
+   */
     friend ostream & operator <<(ostream & os, NoTrials & p);
-    NoTrials(const string & sport);
+    /** No trials constructor*/
+    explicit NoTrials(const string & sport);
 };
+
+/**
+ *  An exception thrown when the Delegation doesn't have info about any medal
+ */
+class NoMedals{
+public:
+    /** Indicates that no medals exist
+    * @param os the name of the ostream
+    * @param s NoMedals object
+    * @returns reference to the original ostream to allow input/output chains
+    */
+    friend ostream & operator <<(ostream & os, const NoMedals & s);
+    /** No Medals Default Constructor*/
+    explicit NoMedals();
+};
+
 #endif //PROJECT_1_DELEGATION_H

@@ -358,13 +358,26 @@ void Delegation::readCompetitionsFile(const vector<string> &lines) {
                     competition.setMedals(medals);
                     competitions.push_back(competition);
                     medals.resize(0);
+                    trials.resize(0);
                 }
+                competition = Competition();
+                trial = Trial();
+                medal = Medal();
                 read = 'c';
                 i++;
                 numline = 1;
                 line = lines[i];
             } else if (line == "////////" || i == lines.size()) {//novo desporto - guardar os dados das competições e jogos e limpar variáveis auxiliares; ou útlima linha do ficheiro
                 if (read == 't' || read == 'c'){
+                    if (read == 't') {
+                        for (auto &athlete :athletes) {
+                            for (auto &comp : athlete->getCompetitions()) {
+                                if (comp == competition.getName())
+                                    competition.addParticipant(athlete->getName());
+                            }
+                        }
+                        competition.setTrials(trials);
+                    }
                     competition.setMedals(medals);
                     competitions.push_back(competition);
                 }
@@ -393,6 +406,7 @@ void Delegation::readCompetitionsFile(const vector<string> &lines) {
                 line = lines[i];
             } else if (line == "//") { //novo trial
                 read = 't';
+                trial =Trial();
                 numline = 1;
                 i++;
                 line = lines[i];
@@ -757,7 +771,7 @@ void Delegation::showMembers() {
     } while (test != 0 && test != 2);
 }
 
-int Delegation::findPerson(const string name) const {
+int Delegation::findPerson(const string & name) const {
     for (int i = 0; i < people.size(); i++) {
         if (name == people.at(i)->getName()) return i;
     }
@@ -1772,11 +1786,52 @@ void Delegation::showTrials(const Competition & c) const{
     } while (test != 0 && test != 2);
 }
 
-int Delegation::findSport(const string name) const {
+int Delegation::findSport(const string & name) const {
     for (int i = 0; i < sports.size(); i++) {
         if (name == sports.at(i)->getName()) return i;
     }
     return -1;
+}
+
+//Medals Functions
+void Delegation::showAllMedals() const{
+    int test = 0;
+    string input = "";
+
+    system("cls");
+    cout << "_____________________________________________________" << endl << endl;
+    cout << "\t\t  All Medals " << endl;
+    cout << "_____________________________________________________" << endl << endl;
+
+    vector<Sport*>::const_iterator s;
+    vector<Competition>::iterator c;
+    //corre cada desporto
+    if (!sports.empty()) {
+        for(s = sports.begin(); s != sports.end(); s++){
+            vector<Competition>comps = (*s)->getCompetitions();
+            if(!comps.empty()) {
+                cout << (*s)->getName()<<endl;
+                for (c = comps.begin(); c != comps.end(); c++) {
+                    cout << c->getName()<<endl;
+                    c->showMedals();
+                    cout << endl;
+
+                }
+            }
+        }
+    } else
+        throw NoMedals();
+
+    cout << endl << "0 - BACK" << endl;
+    do {
+        test = checkinputchoice(input, 0, 0);
+        if (test != 0)
+            cerr << "Invalid option! Press 0 to go back." << endl;
+    } while (test != 0 && test != 2);
+}
+
+void Delegation::showCountryMedals() const{
+
 }
 
 //File Errors - Exceptions
@@ -1871,6 +1926,15 @@ ostream &operator<<(ostream &os, PersonAlreadyExists &p) {
     return os;
 }
 
+TeamAlreadyExists::TeamAlreadyExists(string team) {
+    this->team = team;
+}
+
+ostream &operator<<(ostream &os, TeamAlreadyExists &p) {
+    os << p.team << " already exists!\n";
+    return os;
+}
+
 NoMembers::NoMembers() {}
 
 ostream &operator<<(ostream &os, NoMembers &p) {
@@ -1880,7 +1944,7 @@ ostream &operator<<(ostream &os, NoMembers &p) {
 
 NoSports::NoSports(){}
 
-ostream &operator<<(ostream &os, NoSports &p) {
+ostream & operator <<(ostream & os, const NoSports & s) {
     os << " No sports to show!\n";
     return os;
 }
@@ -1896,5 +1960,12 @@ NoTrials::NoTrials(const string & sport){this->sport = sport;}
 
 ostream &operator<<(ostream &os, NoTrials &p) {
     os << p.sport << " competitions don't have any trials!\n";
+    return os;
+}
+
+NoMedals::NoMedals() {}
+
+ostream &operator<<(ostream &os, NoMedals &p) {
+    os << " No medals to show!\n";
     return os;
 }

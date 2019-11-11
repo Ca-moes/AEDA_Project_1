@@ -176,14 +176,12 @@ void resultsMenu(Delegation & delegation) {
         cout << "\t\t   Sports Options " << endl;
         cout << "_____________________________________________________" << endl << endl;
 
-        cout << "1 - Athletes" << endl;
-        cout << "2 - Teams" << endl;
-        cout << "3 - Staff" << endl;
-        cout << "4 - All Participants" << endl;
+        cout << "1 - Medals Statistics / Competitions Results" << endl;
+        cout << "2 - Trials Results" << endl;
         cout << "0 - BACK (Main Menu)" << endl;
 
         do {
-            testinput = checkinputchoice(input, 0, 6);
+            testinput = checkinputchoice(input, 0, 2);
             if (testinput != 0 && testinput != 2)
                 cerr << "Invalid option! Please try again." << endl;
         } while (testinput != 0 && testinput != 2);
@@ -192,16 +190,13 @@ void resultsMenu(Delegation & delegation) {
 
         switch (stoi(input)) {
             case 1:
-                //athletesMenu(delegation);
+                medalsStatisticsMenu(delegation);
                 break;
             case 2:
                 //teamsMenu(delegation);
                 break;
             case 3:
                 //staffMenu(delegation);
-                break;
-            case 4:
-                //showParticipants();
                 break;
             case 0:
                 break;
@@ -527,6 +522,84 @@ void competitionsMenu(Delegation & delegation, const string & sport){
                     cout << c;
                     exceptionHandler();
                 }
+                break;
+            case 0:
+                break;
+        }
+    } while (stoi(input) != 0);
+}
+
+//Results submenus
+void medalsStatisticsMenu(Delegation & delegation){
+    int testinput = 0;
+    string input;
+    do
+    {
+        if (system("CLS")) system("clear");
+        cout << "_____________________________________________________" << endl << endl;
+        cout << "\t\t   Medals Statistics " << endl;
+        cout << "_____________________________________________________" << endl << endl;
+
+        cout << "1 - All Medals" << endl;
+        cout << "2 - Medals by country" << endl;
+        cout << "3 - Medals Rankings" << endl;
+        cout << "0 - BACK" << endl;
+
+        do {
+            testinput = checkinputchoice(input, 0, 3);
+            if (testinput != 0 && testinput != 2)
+                cerr << "Invalid option! Please try again." << endl;
+        } while (testinput != 0 && testinput != 2);
+        if (testinput == 2)
+        { input = "0"; }
+
+        switch (stoi(input)) {
+            case 1:
+                delegation.showAllMedals();
+            case 2:
+                delegation.showCountryMedals();
+                break;
+            case 3:
+                medalRankingsMenu(delegation);
+                break;
+            case 0:
+                break;
+        }
+    } while (stoi(input) != 0);
+}
+
+//Medals Statistics Submenus
+void medalRankingsMenu(Delegation & delegation){
+    int testinput = 0;
+    string input;
+    do
+    {
+        if (system("CLS")) system("clear");
+        cout << "_____________________________________________________" << endl << endl;
+        cout << "\t\t   Medals Rankings " << endl;
+        cout << "_____________________________________________________" << endl << endl;
+
+        cout << "1 - Most awarded countries" << endl;
+        cout << "2 - Most awarded athletes" << endl;
+        cout << "3 - Most awarded teams" << endl;
+        cout << "0 - BACK" << endl;
+
+        do {
+            testinput = checkinputchoice(input, 0, 3);
+            if (testinput != 0 && testinput != 2)
+                cerr << "Invalid option! Please try again." << endl;
+        } while (testinput != 0 && testinput != 2);
+        if (testinput == 2)
+        { input = "0"; }
+
+        switch (stoi(input)) {
+            case 1:
+                //delegation.mostAwardedCountries();
+            case 2:
+                //delegation.mostAwardedAthletes();
+                break;
+            case 3:
+                //delegation.mostAwardedTeams();
                 break;
             case 0:
                 break;
