@@ -72,6 +72,8 @@ void teamsMenu(Delegation & delegation);
  *
  * @param delegation a delegation
  * @param sport the sport to check for competitions
+ * @throws NonExistentSport if the user ends the participation in a sport
+ * @throws NoSport if the Delegation doesn't take part in one sport
  */
 void sportOptionsMenu(Delegation & delegation, const string & sport);
 
@@ -82,4 +84,18 @@ void sportOptionsMenu(Delegation & delegation, const string & sport);
  * @param sport the sport to check for competitions
  */
 void competitionsMenu(Delegation & delegation, const string & sport);
+
+/**
+ * Display medals statistics menu that allows the user to check information about the attributed medals
+ *
+ * @param delegation a delegation
+ */
+void medalsStatisticsMenu(Delegation & delegation);
+
+/**
+ * Display medals rankings menu that allows the user to check information about the different rankings
+ *
+ * @param delegation a delegation
+ */
+void medalRankingsMenu(Delegation & delegation);
 #endif //PROJECT_1_MENUS_H

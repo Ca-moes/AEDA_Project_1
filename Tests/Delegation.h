@@ -163,7 +163,7 @@ public:
    * @params name the name of the Person
    * @returns the index of the Person, -1 if it does not exist
    */
-   int findPerson(const string name) const;
+   int findPerson(const string & name) const;
 
     /**
     * Find a Sport in the sports vector
@@ -171,7 +171,7 @@ public:
     * @params name the name of the Sport
     * @returns the index of the Sport, -1 if it does not exist
     */
-    int findSport(const string name) const;
+    int findSport(const string & name) const;
 
     /**Shows the information of all the members of the Portuguese Delegation in a human friendly way
      * @throws NoMembers if the Delegation has no Members
@@ -241,6 +241,18 @@ public:
      * @throws NoTrials if the competition doesn't have trials
      */
     void showTrials(const Competition & competition) const;
+
+    /** Shows the information of all the medals
+    * @throws NoMedals if there isn't information about any medal
+    */
+    void showAllMedals() const;
+
+
+    /** Shows the information of all the medals of a country
+     * @throws NonExistentCountry if there the country doesn't take part in any competition
+     * @throws NoMedals if the country doesn't have any medals
+     */
+    void showCountryMedals() const;
 };
 
 //Exceptions
@@ -484,4 +496,20 @@ public:
     /** No trials constructor*/
     explicit NoTrials(const string & sport);
 };
+
+/**
+ *  An exception thrown when the Delegation doesn't have info about any medal
+ */
+class NoMedals{
+public:
+    /** Indicates that no medals exist
+    * @param os the name of the ostream
+    * @param s NoMedals object
+    * @returns reference to the original ostream to allow input/output chains
+    */
+    friend ostream & operator <<(ostream & os, const NoMedals & s);
+    /** No Medals Default Constructor*/
+    explicit NoMedals();
+};
+
 #endif //PROJECT_1_DELEGATION_H
