@@ -137,3 +137,15 @@ bool sortTrialsByDate(const Trial & t1, const Trial & t2){
         return t1.getName() < t2.getName();
     return(t1.getDate() < t2.getDate());
 }
+
+bool compareChar(const char & c1, const char & c2)
+{
+    if (c1 == c2) return true;
+    return(toupper(c1) == toupper(c2));
+}
+
+/**Case Insensitive String Comparision*/
+bool caseInSensStringCompare(const string & str1, const string &str2)
+{
+    return ( (str1.size() == str2.size() ) && equal(str1.begin(), str1.end(), str2.begin(), compareChar) );
+}

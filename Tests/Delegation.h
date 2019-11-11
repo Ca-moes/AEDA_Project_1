@@ -519,18 +519,20 @@ public:
 };
 
 /**
- *  An exception thrown when the Delegation doesn't have info about any medal
+ *  An exception thrown when the Delegation doesn't have info about any medal or if a country doesn't have medals
  */
 class NoMedals{
 public:
+    string country;/**<The country with no medals*/
     /** Indicates that no medals exist
     * @param os the name of the ostream
     * @param s NoMedals object
     * @returns reference to the original ostream to allow input/output chains
     */
-    friend ostream & operator <<(ostream & os, const NoMedals & s);
+    friend ostream &operator<<(ostream &os, NoMedals &m);
     /** No Medals Default Constructor*/
-    explicit NoMedals();
+    NoMedals();
+    explicit NoMedals(const string & c);
 };
 
 #endif //PROJECT_1_DELEGATION_H

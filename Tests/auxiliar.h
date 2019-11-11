@@ -140,9 +140,14 @@ void insertionSort(vector<Comparable> &v)
     {
         Comparable tmp = v[p];
         int j;
-        for (j = p; j > 0 && tmp < v[j-1]; j--)
+        for (j = p; j > 0 && tmp > v[j-1]; j--)
             v[j] = v[j-1];
         v[j] = tmp;
     }
 }
+
+bool compareChar(const char & c1, const char & c2);
+
+bool caseInSensStringCompare(const string & str1, const string &str2);
+
 #endif //PROJECT_1_INPUTCHECK_H
