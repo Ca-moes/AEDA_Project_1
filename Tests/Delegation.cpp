@@ -1831,9 +1831,10 @@ int Delegation::findSport(const string & name) const {
 void Delegation::sortAllPeople() {
     sort(people.begin(), people.end(), sortPersons);
     sort(athletes.begin(), athletes.end(), sortPersons);
+}
 
 //Medals Functions
-void Delegation::showAllMedals() const{
+void Delegation::showAllMedals() const {
     int test = 0;
     string input = "";
 

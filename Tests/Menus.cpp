@@ -110,7 +110,6 @@ void participantsMenu(Delegation & delegation) {
             case 4:
                 try{
                     delegation.sortAllPeople();
-                    delegation.showPortugueseMembers();
                     delegation.showMembers();
                 }catch(NoMembers & e){
                     cout << e;
