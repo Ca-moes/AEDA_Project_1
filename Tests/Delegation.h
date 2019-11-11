@@ -9,6 +9,8 @@
 #include "fstream"
 #include <regex>
 #include <list>
+
+
 /**
  * A class to store the general information about a Delegation that takes part in the 2020 Tokyo Olympic Games
  */
