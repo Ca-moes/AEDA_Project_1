@@ -108,6 +108,10 @@ vector<Team*> TeamSport::getTeams() const{
     return teams;
 }
 
+unsigned int TeamSport::getNumberofElements() {
+    return numberOfElements;
+}
+
 //Individual Sport
 void IndividualSport::setParticipants(const vector<Athlete *> & athletes){
     this->athletes = athletes;
