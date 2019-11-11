@@ -317,7 +317,7 @@ void Delegation::writePeopleFile(){
         }
         myfile.close();
     }
-    else cout << "Unable to open file";
+    else cerr << "Unable to open file";
 }
 
 void Delegation::readCompetitionsFile(const vector<string> &lines) {
@@ -517,8 +517,13 @@ void Delegation::writeCompetitionsFile(){
     ofstream myfile ("competitions_write.txt");
     if (myfile.is_open())
     {
-        myfile << "This is a line.\n";
-        myfile << "This is another line.\n";
+        for (int i = 0; i < sports.size(); ++i) {
+            myfile << sports.at(i)->getName() << endl;
+            if (sports.at(i)->isTeamSport()){
+                TeamSport* ts = dynamic_cast<TeamSport*> (sports.at(i));
+                myfile << ts->getNumberofElements() << endl;
+            }
+        }
         myfile.close();
     }
     else cout << "Unable to open file";
