@@ -532,72 +532,69 @@ void Delegation::readCompetitionsFile(const vector<string> &lines) {
 }
 
 void Delegation::writeCompetitionsFile(){
+
     ofstream myfile ("competitions_write.txt");
-    if (myfile.is_open())
-    {
+    if (myfile.is_open()) {
         for (int i = 0; i < sports.size(); ++i) {
             myfile << sports.at(i)->getName() << endl;
-            if (sports.at(i)->isTeamSport()){
-                TeamSport* sport = dynamic_cast<TeamSport*> (sports.at(i));
+            if (sports.at(i)->isTeamSport()) {
+                TeamSport *sport = dynamic_cast<TeamSport *> (sports.at(i));
                 myfile << sport->getNumberofElements() << "\n\n";
-                for (int j = 0; j < sport->getCompetitions().size(); ++j) {
-                    myfile << sport->getCompetitions().at(j).getName() << endl;
-                    myfile << sport->getCompetitions().at(j).getBegin() << endl;
-                    myfile << sport->getCompetitions().at(j).getEnd() << endl;
-                    for (int k = 0; k < sport->getCompetitions().at(j).getMedals().size(); ++k) {
-                        myfile << sport->getCompetitions().at(j).getMedals().at(k).getCountry() << "-"
-                               << sport->getCompetitions().at(j).getMedals().at(k).getWinner();
-                        if (k != sport->getCompetitions().at(j).getMedals().size() - 1)
-                            myfile << ",";
-                        else
-                            myfile << "\n";
-                    }
-                    if (sport->getCompetitions().at(j).getTrials().size()!= 0){
-                        for (int k = 0; k < sport->getCompetitions().at(j).getTrials().size() ; ++k) {
-                            myfile << "//" << endl;
-                            myfile << sport->getCompetitions().at(j).getTrials().at(k).getName() << endl;
-                            myfile << sport->getCompetitions().at(j).getTrials().at(k).getDate() << endl;
-                        }
-                    }
-                    else{
-                        if (j != sport->getCompetitions().size()-1)
-                            myfile << "\n";
-                    }
-                }
-
-            } else{
-                IndividualSport* sport = dynamic_cast<IndividualSport*> (sports.at(i));
+            } else {
+                IndividualSport *sport = dynamic_cast<IndividualSport *> (sports.at(i));
                 myfile << 1 << "\n\n";
-                for (int j = 0; j < sport->getCompetitions().size(); ++j) {
-                    myfile << sport->getCompetitions().at(j).getName() << endl;
-                    myfile << sport->getCompetitions().at(j).getBegin() << endl;
-                    myfile << sport->getCompetitions().at(j).getEnd() << endl;
-                    for (int k = 0; k < sport->getCompetitions().at(j).getMedals().size(); ++k) {
-                        myfile << sport->getCompetitions().at(j).getMedals().at(k).getCountry() << "-" << sport->getCompetitions().at(j).getMedals().at(k).getWinner();
-                        if (k != sport->getCompetitions().at(j).getMedals().size()-1)
-                            myfile << ",";
-                        else
+            }
+            for (int j = 0; j < sports.at(i)->getCompetitions().size(); ++j) {
+                myfile << sports.at(i)->getCompetitions().at(j).getName() << endl;
+                myfile << sports.at(i)->getCompetitions().at(j).getBegin() << endl;
+                myfile << sports.at(i)->getCompetitions().at(j).getEnd() << endl;
+                for (int k = 0; k < sports.at(i)->getCompetitions().at(j).getMedals().size(); ++k) {
+                    myfile << sports.at(i)->getCompetitions().at(j).getMedals().at(k).getCountry() << "-"
+                           << sports.at(i)->getCompetitions().at(j).getMedals().at(k).getWinner();
+                    if (k != sports.at(i)->getCompetitions().at(j).getMedals().size() - 1)
+                        myfile << ",";
+                    else{
+                        if (i != sports.size() -1)  // se não for o ultimo deporto adicona nova linha depois ds medalhas da competiçaõ
                             myfile << "\n";
-                    }
-                    if (sport->getCompetitions().at(j).getTrials().size()!= 0){
-                        for (int k = 0; k < sport->getCompetitions().at(j).getTrials().size() ; ++k) {
-                            myfile << "//" << endl;
-                            myfile << sport->getCompetitions().at(j).getTrials().at(k).getName() << endl;
-                            myfile << sport->getCompetitions().at(j).getTrials().at(k).getDate() << endl;
+                        if (i == sports.size() -1)  // se for o ultimo desporto
+                        {
+                            if(j != sports.at(i)->getCompetitions().size() - 1)
+                                myfile << "\n";
                         }
                     }
-                    else{
-                        if (j != sport->getCompetitions().size()-1)
+
+                }
+                if (sports.at(i)->getCompetitions().at(j).getTrials().size() != 0) {
+                    for (int k = 0; k < sports.at(i)->getCompetitions().at(j).getTrials().size(); ++k) {
+                        myfile << "//" << endl;
+                        myfile << sports.at(i)->getCompetitions().at(j).getTrials().at(k).getName() << endl;
+                        myfile << sports.at(i)->getCompetitions().at(j).getTrials().at(k).getParticipants().size()
+                               << endl;
+                        myfile << sports.at(i)->getCompetitions().at(j).getTrials().at(k).getDate() << endl;
+                        for (int l = 0; l < sports.at(i)->getCompetitions().at(j).getTrials().at(
+                                k).getParticipants().size(); ++l) {
+                            myfile << sports.at(i)->getCompetitions().at(j).getTrials().at(k).getParticipants().at(l);
+                            if (l !=
+                                sports.at(i)->getCompetitions().at(j).getTrials().at(k).getParticipants().size() - 1)
+                                myfile << ",";
+                            else {
+                                myfile << "\n";
+                            }
+
+                        }
+                        myfile << sports.at(i)->getCompetitions().at(j).getTrials().at(k).getWinner() << endl;
+                        if (k == sports.at(i)->getCompetitions().at(j).getTrials().size() - 1 && j != sports.at(i)->getCompetitions().size() -1)
                             myfile << "\n";
                     }
+                } else {
+                    if (j != sports.at(i)->getCompetitions().size() - 1)
+                        myfile << "\n";
                 }
             }
             if (i != sports.size()-1)
                 myfile << "////////" << endl;
         }
-        myfile.close();
     }
-    else cout << "Unable to open file";
 }
 
 void Delegation::readTeamsFile(const vector<string> &lines) {
