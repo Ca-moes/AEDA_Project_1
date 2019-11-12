@@ -261,7 +261,7 @@ public:
      * @param competition the name of the competition
      * @throws NoTrials if the competition doesn't have trials
      */
-    void showTrials(const Competition & competition) const;
+    void showTrials(const string & comp,const string & sport) const;
 
     /** Shows the information of all the medals
     * @throws NoMedals if there isn't information about any medal
@@ -274,6 +274,45 @@ public:
      * @throws NoMedals if the country doesn't have any medals
      */
     void showCountryMedals() const;
+
+    void showCountryMedals(const string & c) const;
+
+    int numberOfMedalsCountry(const string & name) const;
+
+    bool compareCountriesByMedals(const string &left, const string & right) const;
+
+    vector<string> getCountriesWithMedals() const;
+
+    void mostAwardedCountries() const;
+
+    void friend countriesSort(const Delegation & d, vector<string> & countries);
+
+    void mostAwardedGold() const;
+
+    vector<string> getCountriesWithGoldMedals() const;
+
+    bool compareCountriesByGoldMedals(const string &left, const string & right) const;
+
+    void friend countriesSortGold(const Delegation & d, vector<string> & countries);
+
+    int numberOfGoldMedalsCountry(const string & name) const;
+
+    void showCountryGoldMedals(const string & c) const;
+
+    void showAthleteMedals(const string & c) const;
+
+    vector<string> getAthletesWithMedals() const;
+
+    int numberOfMedalsAthlete(const string & name) const;
+
+    void mostAwardedAthletes() const;
+
+    friend void athletesSort(const Delegation & d,vector<string> & ats);
+
+    bool compareAthletesByMedals(const string &left, const string & right) const;
+
+    Team * getAthleteTeam(const string & at) const;
+
 };
 
 //Exceptions

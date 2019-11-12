@@ -40,13 +40,6 @@ void participantsMenu(Delegation & delegation);
 void sportsMenu(Delegation & delegation);
 
 /**
- * Display results menu that to show medals information
- *
- * @param delegation a delegation
- */
-void resultsMenu(Delegation & delegation);
-
-/**
  * Display staff's menu that allows the use to manage staff's members - add, remove, change and check information
  *
  * @param delegation a delegation

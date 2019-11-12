@@ -30,6 +30,8 @@ public:
 
     void showInfo() const;
 
+    void showType() const;
+
     bool operator <(Medal & m);
 
     bool operator >(Medal & m);

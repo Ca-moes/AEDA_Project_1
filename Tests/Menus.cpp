@@ -44,7 +44,7 @@ void mainMenu(Delegation &delegation){
         //show the main menu
         cout << "1 - Members" << endl;
         cout << "2 - Sports Competitions" << endl;
-        cout << "3 - Results" << endl;
+        cout << "3 - Medals Statistics" << endl;
         cout << "0 - EXIT" << endl;
         //checking if option is valid
         do {
@@ -63,7 +63,7 @@ void mainMenu(Delegation &delegation){
                 sportsMenu(delegation);
                 break;
             case 3:
-                resultsMenu(delegation);
+                medalsStatisticsMenu(delegation);
                 break;
             default:
                 break;
@@ -72,7 +72,7 @@ void mainMenu(Delegation &delegation){
     } while (stoi(input) != 0);
 }
 
-//submenus - participants, sports, results
+//submenus - participants, sports, medals statistics
 void participantsMenu(Delegation & delegation) {
     int testinput = 0;
     string input;
@@ -169,22 +169,23 @@ void sportsMenu(Delegation & delegation) {
         }
     } while (stoi(option) != 0);
 }
-void resultsMenu(Delegation & delegation) {
+void medalsStatisticsMenu(Delegation & delegation){
     int testinput = 0;
     string input;
     do
     {
         if (system("CLS")) system("clear");
         cout << "_____________________________________________________" << endl << endl;
-        cout << "\t\t   Medals & Results " << endl;
+        cout << "\t\t   Medals Statistics " << endl;
         cout << "_____________________________________________________" << endl << endl;
 
-        cout << "1 - Medals Statistics / Competitions Results" << endl;
-        cout << "2 - Trials Results" << endl;
-        cout << "0 - BACK (Main Menu)" << endl;
+        cout << "1 - All Medals" << endl;
+        cout << "2 - Medals by country" << endl;
+        cout << "3 - Medals Rankings" << endl;
+        cout << "0 - BACK" << endl;
 
         do {
-            testinput = checkinputchoice(input, 0, 2);
+            testinput = checkinputchoice(input, 0, 3);
             if (testinput != 0 && testinput != 2)
                 cerr << "Invalid option! Please try again." << endl;
         } while (testinput != 0 && testinput != 2);
@@ -193,13 +194,23 @@ void resultsMenu(Delegation & delegation) {
 
         switch (stoi(input)) {
             case 1:
-                medalsStatisticsMenu(delegation);
+                try{
+                    delegation.showAllMedals();
+                }catch(NoMedals & e){
+                    cout<< e;
+                    exceptionHandler();
+                }
                 break;
             case 2:
-                //teamsMenu(delegation);
+                try{
+                    delegation.showCountryMedals();
+                }catch(NoMedals & e){
+                    cout<< e;
+                    exceptionHandler();
+                }
                 break;
             case 3:
-                //staffMenu(delegation);
+                medalRankingsMenu(delegation);
                 break;
             case 0:
                 break;
@@ -550,56 +561,6 @@ void competitionsMenu(Delegation & delegation, const string & sport){
     } while (stoi(input) != 0);
 }
 
-//Results submenus
-void medalsStatisticsMenu(Delegation & delegation){
-    int testinput = 0;
-    string input;
-    do
-    {
-        if (system("CLS")) system("clear");
-        cout << "_____________________________________________________" << endl << endl;
-        cout << "\t\t   Medals Statistics " << endl;
-        cout << "_____________________________________________________" << endl << endl;
-
-        cout << "1 - All Medals" << endl;
-        cout << "2 - Medals by country" << endl;
-        cout << "3 - Medals Rankings" << endl;
-        cout << "0 - BACK" << endl;
-
-        do {
-            testinput = checkinputchoice(input, 0, 3);
-            if (testinput != 0 && testinput != 2)
-                cerr << "Invalid option! Please try again." << endl;
-        } while (testinput != 0 && testinput != 2);
-        if (testinput == 2)
-        { input = "0"; }
-
-        switch (stoi(input)) {
-            case 1:
-                try{
-                    delegation.showAllMedals();
-                }catch(NoMedals & e){
-                    cout<< e;
-                    exceptionHandler();
-                }
-                break;
-            case 2:
-                try{
-                    delegation.showCountryMedals();
-                }catch(NoMedals & e){
-                    cout<< e;
-                    exceptionHandler();
-                }
-                break;
-            case 3:
-                medalRankingsMenu(delegation);
-                break;
-            case 0:
-                break;
-        }
-    } while (stoi(input) != 0);
-}
-
 //Medals Statistics Submenus
 void medalRankingsMenu(Delegation & delegation){
     int testinput = 0;
@@ -611,9 +572,9 @@ void medalRankingsMenu(Delegation & delegation){
         cout << "\t\t   Medals Rankings " << endl;
         cout << "_____________________________________________________" << endl << endl;
 
-        cout << "1 - Most awarded countries" << endl;
-        cout << "2 - Most awarded athletes" << endl;
-        cout << "3 - Most awarded teams" << endl;
+        cout << "1 - Most awarded countries (total of medals)" << endl;
+        cout << "2 - Most awarded countries (gold medals)" << endl;
+        cout << "3 - Most awarded athletes" << endl;
         cout << "0 - BACK" << endl;
 
         do {
@@ -626,12 +587,28 @@ void medalRankingsMenu(Delegation & delegation){
 
         switch (stoi(input)) {
             case 1:
-                //delegation.mostAwardedCountries();
-            case 2:
-                //delegation.mostAwardedAthletes();
+                try{
+                    delegation.mostAwardedCountries();
+                }
+                catch(NoMedals & e){
+                    cout << e;
+                }
                 break;
+            case 2:
+               try{
+                   delegation.mostAwardedGold();
+               }
+               catch(NoMedals & e){
+                   cout << e;
+               }
+               break;
             case 3:
-                //delegation.mostAwardedTeams();
+                try{
+                    delegation.mostAwardedAthletes();
+                }
+                catch(NoMedals & e){
+                    cout << e;
+                }
                 break;
             case 0:
                 break;
