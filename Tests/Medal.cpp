@@ -70,3 +70,12 @@ void Medal::showInfo() const{
     else
         cout << left << setw(2) << "->" << left <<setw(8) << "Bronze"<< setw(4) << " "<< winner<<endl;
 }
+
+void Medal::showType() const{
+    if(type == 'g')
+        cout << left << setw(2) <<left << "  " << left <<setw(8) << "Gold"<<endl;
+    else if(type == 's')
+        cout <<left << setw(2) << "  " << left <<setw(8) << "Silver" <<endl;
+    else
+        cout << left << setw(2) << "  " << left <<setw(8) << "Bronze"<<endl;
+}
