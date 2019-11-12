@@ -151,13 +151,10 @@ public:
     */
     void addStaffMember();
 
-    /**
-    * Removes a staff member of the people vector
-    *
-    */
+    /** Removes a staff member of the people vector */
     void removeStaffMember();
 
-    /**Changes a data of a staff member*/
+    /** Changes a data of a staff member */
     void changeStaffMember();
 
     /**
@@ -177,6 +174,9 @@ public:
     *
     */
     void changeAthlete();
+
+    /** Adds a team to the teams vector */
+    void addAthleteToTeam();
 
     /**
    * Find a Person in the people vector
@@ -533,6 +533,22 @@ public:
     /** No Medals Default Constructor*/
     NoMedals();
     explicit NoMedals(const string & c);
+};
+
+/**
+ *  An exception thrown when the Sport is not a team sport
+ */
+class NotATeamSport{
+    string sport; /**< Name of the sport that doesn't have competitions*/
+public:
+    /** Informs that the sport is not a team sport
+   * @param os the name of the ostream
+   * @param p NotATeamSport object
+   * @returns reference to the original ostream to allow input/output chains
+   */
+    friend ostream & operator <<(ostream & os, NotATeamSport & p);
+    /** NotATeamSport constructor*/
+    explicit NotATeamSport(const string & s);
 };
 
 #endif //PROJECT_1_DELEGATION_H

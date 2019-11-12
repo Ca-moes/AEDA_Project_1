@@ -346,7 +346,7 @@ void Delegation::readCompetitionsFile(const vector<string> &lines) {
             line = lines[i];
         numline++;
         if (numline == 1) {// se for a primeira linha de uma pessoa vamos ver se é uma nova modalidade, competição ou jogo
-            if (line.empty()) {// Se alinha está vazia vamos ler a próxima competição
+            if (line.empty()) {// Se a linha está vazia vamos ler a próxima competição
                 if (read == 'c' || read == 't') {
                     if (read == 't') {
                         for (auto &athlete :athletes) {
@@ -1208,7 +1208,7 @@ void Delegation::showStaffMembers() {
 //Athletes Functions
 
 void Delegation::addAthlete() {
-    Athlete *novo = new Athlete();
+    Athlete* novo = new Athlete();
     string tmp;
     Date tmp_date;
     vector<Competition> competitions;
@@ -1388,9 +1388,8 @@ void Delegation::addAthlete() {
 }
 
 void Delegation::removeAthlete(){
-    int test = 0;
     int index;
-    string input = "", tmp;
+    string tmp;
 
     cout << "Name: ";
     getline(cin, tmp);
@@ -1758,6 +1757,59 @@ void Delegation::showAllAthletes() {
 }
 
 //Teams Functions
+void Delegation::addAthleteToTeam(){
+    string tmp;
+    int index_a, index_s;
+
+    cout << "Name: ";
+    getline(cin, tmp);
+    if (cin.eof()) {
+        cin.clear();
+        return; //go back on ctrl+d
+    }
+    cin.clear();
+    while (checkStringInput(tmp)) {
+        cout << "Invalid Name. Try again!" << endl;
+        cout << "Name: ";
+        getline(cin, tmp);
+        if (cin.eof()) {
+            cin.clear();
+            return; //go back on ctrl+d
+        }
+        cin.clear();
+    }
+    index_a = findPerson(tmp);
+    if (index_a == -1 || !(people.at(index_a)->isAthlete())) {
+        throw NonExistentAthlete(tmp);
+    }
+
+    cout << "Sport: ";
+    getline(cin, tmp);
+    if (cin.eof()) {
+        cin.clear();
+        return; //go back on ctrl+d
+    }
+    cin.clear();
+    while (checkStringInput(tmp) == 1) {
+        cout << "Invalid Sport. Try again!" << endl;
+        cout << "Sport: ";
+        getline(cin, tmp);
+        if (cin.eof()) {
+            cin.clear();
+            return; //go back on ctrl+d
+        }
+        cin.clear();
+    }
+    index_s = findSport(tmp);
+    if (index_s == -1){
+        throw NonExistentSport(tmp);
+    } else if(!(sports.at(index_a)->isTeamSport())){
+        throw NotATeamSport(tmp);
+    }
+
+    showAllCompetitions(tmp);
+}
+
 void Delegation::showTeam() const {
     int test = 0;
     string input = "";
@@ -2352,5 +2404,12 @@ ostream &operator<<(ostream &os, NoMedals &m) {
         os << " No medals to show!\n";
     else
         os << m.country << " didn't win any medals!\n";
+    return os;
+}
+
+NotATeamSport::NotATeamSport(const string &s){sport=s;}
+
+ostream &operator<<(ostream &os, NotATeamSport &p) {
+    os << p.sport << " is not a team sport!\n";
     return os;
 }
