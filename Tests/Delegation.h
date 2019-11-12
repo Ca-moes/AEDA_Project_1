@@ -255,7 +255,7 @@ public:
      * @param competition the name of the competition
      * @throws NoTrials if the competition doesn't have trials
      */
-    void showTrials(const Competition & competition) const;
+    void showTrials(const string & comp,const string & sport) const;
 
     /** Shows the information of all the medals
     * @throws NoMedals if there isn't information about any medal
@@ -268,6 +268,8 @@ public:
      * @throws NoMedals if the country doesn't have any medals
      */
     void showCountryMedals() const;
+
+    void showCountryMedals(const string & c) const;
 
     int numberOfMedalsCountry(const string & name) const;
 
