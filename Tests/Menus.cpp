@@ -617,7 +617,7 @@ void medalRankingsMenu(Delegation & delegation){
 
         switch (stoi(input)) {
             case 1:
-                //delegation.mostAwardedCountries();
+                delegation.mostAwardedCountries();
             case 2:
                 //delegation.mostAwardedAthletes();
                 break;

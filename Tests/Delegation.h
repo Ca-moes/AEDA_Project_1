@@ -268,6 +268,17 @@ public:
      * @throws NoMedals if the country doesn't have any medals
      */
     void showCountryMedals() const;
+
+    int numberOfMedalsCountry(const string & name) const;
+
+    bool compareCountriesByMedals(const string &left, const string & right) const;
+
+    vector<string> getCountriesWithMedals() const;
+
+    void mostAwardedCountries() const;
+
+    void friend countriesSort(const Delegation & d, vector<string> & countries);
+
 };
 
 //Exceptions
