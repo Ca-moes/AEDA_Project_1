@@ -281,6 +281,18 @@ public:
 
     void friend countriesSort(const Delegation & d, vector<string> & countries);
 
+    void mostAwardedGold() const;
+
+    vector<string> getCountriesWithGoldMedals() const;
+
+    bool compareCountriesByGoldMedals(const string &left, const string & right) const;
+
+    void friend countriesSortGold(const Delegation & d, vector<string> & countries);
+
+    int numberOfGoldMedalsCountry(const string & name) const;
+
+    void showCountryGoldMedals(const string & c) const;
+
     void showAthleteMedals(const string & c) const;
 
     vector<string> getAthletesWithMedals() const;

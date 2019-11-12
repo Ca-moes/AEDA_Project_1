@@ -1890,6 +1890,7 @@ void Delegation::showAllMedals() const {
     } while (test != 0 && test != 2);
 }
 
+//Most awarded countries(total medals)
 void Delegation::showCountryMedals() const{
     int test = 0;
     string input = "",sport="", cntr;
@@ -2185,7 +2186,207 @@ void Delegation::mostAwardedCountries() const{
 bool Delegation::compareCountriesByMedals(const string &left, const string & right) const{
     return numberOfMedalsCountry(left) > numberOfMedalsCountry(right);
 }
+//Most awarded countries(gold medals)
+void Delegation::mostAwardedGold() const{
+    int test = 0,nMax;
+    string input = "",n="",temp="";
+    vector<string> countries;
+    bool notValid=false;
+    int g=0,sil=0,b=0;
 
+    system("cls");
+    cout << "_____________________________________________________" << endl << endl;
+    cout << "\t Most Awarded Countries - Gold Medals " << endl;
+    cout << "_____________________________________________________" << endl << endl;
+
+    try{
+        countries = getCountriesWithGoldMedals();
+    }catch(NoMedals & e){throw;}
+
+    countriesSortGold((*this),countries);
+    nMax=countries.size();
+
+    cout << "Show countries ranking positions from 1st to nth positions."<<endl;
+    cout<< "Choose n from 1 to " << nMax << ": ";
+
+    do{
+        getline(cin,n);
+        if(cin.eof()){
+            cin.clear();
+            return;
+        }
+        if(checkPositiveIntInput(n))
+            cerr << "Invalid number, please try again!"<<endl;
+        else
+            notValid = stoi(n) < 1 || stoi(n) > nMax;
+        if(notValid) cerr << "Invalid number, please try again!"<<endl;
+    }while(checkPositiveIntInput(n) || notValid);
+
+
+    cout<< endl<< left << setw(4) << " " << setw(10) <<  "COUNTRY" << left << setw(4) << "|"<< setw(4) << "GOLD MEDALS" <<endl;
+    cout << "______________|______________"<<endl;
+    for(size_t i= 0; i<stoi(n); i++){
+        cout<< left << setw(4) << " " << setw(10)<<  countries[i] << left << setw(4) << "|"<< setw(4) << (*this).numberOfGoldMedalsCountry(countries[i]) << endl;
+    }
+
+    cout << endl << "1 - Medals Details";
+    cout << endl << "0 - BACK" << endl;
+
+    do {
+        test = checkinputchoice(input, 0, 1);
+        if (test != 0)
+            cerr << "Invalid option! Press 0 to go back." << endl;
+    } while (test != 0 && test != 2);
+    if (test == 2)
+    { input = "0"; }
+
+    switch (stoi(input)) {
+        case 1:
+            cout << endl;
+            for (size_t i = 0; i < stoi(n); i++) {
+                temp = countries[i];
+                transform(temp.begin(), temp.end(), temp.begin(), ::toupper);
+                for (int j = 0; j < temp.size() * 3; j++)cout << "-";
+                cout << endl;
+                for (int j = 0; j < temp.size(); j++)cout << " ";
+                cout << temp << endl;
+                for (int j = 0; j < temp.size() * 3; j++)cout << "-";
+                cout << endl;
+                showCountryGoldMedals(countries[i]);
+            }
+            cout << endl << "0 - BACK" << endl;
+            do {
+                test = checkinputchoice(input, 0, 0);
+                if (test != 0)
+                    cerr << "Invalid option! Press 0 to go back." << endl;
+            } while (test != 0 && test != 2);
+            break;
+        case 0:
+            break;
+    }
+}
+
+vector<string> Delegation::getCountriesWithGoldMedals() const{
+    vector<Sport*>::const_iterator s;
+    vector<Competition>::iterator c;
+    vector<Medal>::iterator m;
+
+    vector<string> countries;
+    if (!sports.empty()) {
+        vector<Sport *>sp = sports;
+        sort(sp.begin(), sp.end(),sortMembersAlphabetically<Sport>);
+        for(s = sp.begin(); s != sp.end(); s++){
+            vector<Competition>comps = (*s)->getCompetitions();
+            if(!comps.empty()) {
+                for (c = comps.begin(); c != comps.end(); c++) {
+                    vector<Medal>medals = c->getMedals();
+                    insertionSort(medals);
+                    for(m=medals.begin(); m!=medals.end();m++){
+                        if(m->getType() == 'g')
+                            countries.push_back(m->getCountry());
+                    }
+                }
+            }
+        }
+    } else
+        throw NoMedals();
+
+    noRepeatVector(countries);
+    return countries;
+}
+
+bool Delegation::compareCountriesByGoldMedals(const string &left, const string & right) const{
+    return numberOfGoldMedalsCountry(left) > numberOfGoldMedalsCountry(right);
+}
+
+void countriesSortGold(const Delegation & d,vector<string> & countries){
+    for (unsigned int p = 1; p < countries.size(); p++)
+    {
+        string tmp = countries[p];
+        int j;
+        for (j = p; j > 0 && d.compareCountriesByGoldMedals(tmp,countries[j-1]); j--)
+            countries[j] = countries[j-1];
+        countries[j] = tmp;
+    }
+}
+
+int Delegation::numberOfGoldMedalsCountry(const string & name) const{
+    vector<Sport*>::const_iterator s;
+    vector<Competition>::iterator c;
+    vector<Medal>::iterator m;
+    bool noMedals=true;
+    int n=0;
+
+    if (!sports.empty()) {
+        vector<Sport *>sp = sports;
+        sort(sp.begin(), sp.end(),sortMembersAlphabetically<Sport>);
+        for(s = sp.begin(); s != sp.end(); s++){
+            vector<Competition>comps = (*s)->getCompetitions();
+            if(!comps.empty()) {
+                for (c = comps.begin(); c != comps.end(); c++) {
+                    vector<Medal>medals = c->getMedals();
+                    insertionSort(medals);
+                    for(m=medals.begin(); m!=medals.end();m++){
+                        if(caseInSensStringCompare(m->getCountry(),name) && m->getType() == 'g'){
+                            n++;
+                            noMedals =false;
+                        }
+                    }
+                }
+            }
+        }
+        if(noMedals)
+            throw NoMedals(country);
+    } else
+        throw NoMedals();
+
+    return n;
+}
+
+void Delegation::showCountryGoldMedals(const string & c) const{
+    int test = 0;
+    string input = "",sport="";
+    bool noMedalsInComp,noMedalsInSport;
+
+    vector<Sport*>::const_iterator s;
+    vector<Competition>::iterator cit;
+    vector<Medal>::iterator m;
+
+    if (!sports.empty()) {
+        vector<Sport *>sp = sports;
+        sort(sp.begin(), sp.end(),sortMembersAlphabetically<Sport>);
+        for(s = sp.begin(); s != sp.end(); s++){
+            vector<Competition>comps = (*s)->getCompetitions();
+            if(!comps.empty()) {
+                noMedalsInSport = true;
+                for (cit = comps.begin(); cit != comps.end(); cit++) {
+                    vector<Medal>medals = cit->getMedals();
+                    insertionSort(medals);
+                    noMedalsInComp = true;
+                    for(m=medals.begin(); m!=medals.end();m++){
+                        if(caseInSensStringCompare(m->getCountry(),c) && m->getType() == 'g'){
+                            if(noMedalsInSport){
+                                sport = (*s)->getName();
+                                transform(sport.begin(), sport.end(), sport.begin(), ::toupper);
+                                cout << sport<<endl;
+                                noMedalsInSport=false;
+                            }
+                            if(noMedalsInComp){
+                                noMedalsInComp = false;
+                                cout << left << setw(23) <<cit->getName();
+                            }
+                            cout << left << m->getWinner();
+                        }
+                    }
+                    if(!noMedalsInComp)
+                        cout << endl;
+                }
+            }
+        }
+    }
+}
+
+//Most awarded athletes
 void Delegation::showAthleteMedals(const string & c) const{
     int test = 0;
     string input = "",sport="";

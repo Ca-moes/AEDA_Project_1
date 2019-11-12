@@ -587,7 +587,7 @@ void medalRankingsMenu(Delegation & delegation){
                 break;
             case 2:
                try{
-                   //delegation.mostAwardedGold();
+                   delegation.mostAwardedGold();
                }
                catch(NoMedals & e){
                    cout << e;
