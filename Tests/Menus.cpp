@@ -617,9 +617,20 @@ void medalRankingsMenu(Delegation & delegation){
 
         switch (stoi(input)) {
             case 1:
-                delegation.mostAwardedCountries();
+                try{
+                    delegation.mostAwardedCountries();
+                }
+                catch(NoMedals & e){
+                    cout << e;
+                }
+                break;
             case 2:
-                //delegation.mostAwardedAthletes();
+                try{
+                    delegation.mostAwardedAthletes();
+                }
+                catch(NoMedals & e){
+                    cout << e;
+                }
                 break;
             case 3:
                 //delegation.mostAwardedTeams();

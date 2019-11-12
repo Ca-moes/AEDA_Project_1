@@ -1892,20 +1892,20 @@ void Delegation::showAllMedals() const {
 
 void Delegation::showCountryMedals() const{
     int test = 0;
-    string input = "",sport="", country;
+    string input = "",sport="", cntr;
     bool noMedals = true,noMedalsInComp,noMedalsInSport;
     int g=0,sil=0,b=0;
 
     cout << "Country: ";
     do{
-        getline(cin,country);
+        getline(cin,cntr);
         if(cin.eof()){
             cin.clear();
             return;
         }
-        if(checkStringInput(country))
+        if(checkStringInput(cntr))
             cerr << "Invalid number, please try again!"<<endl;
-    }while(checkStringInput(country));
+    }while(checkStringInput(cntr));
 
     system("cls");
     cout << "_____________________________________________________" << endl << endl;
@@ -1928,7 +1928,7 @@ void Delegation::showCountryMedals() const{
                     insertionSort(medals);
                     noMedalsInComp = true;
                     for(m=medals.begin(); m!=medals.end();m++){
-                        if(caseInSensStringCompare(m->getCountry(),country)){
+                        if(caseInSensStringCompare(m->getCountry(),cntr)){
                             if(noMedalsInSport){
                                 sport = (*s)->getName();
                                 transform(sport.begin(), sport.end(), sport.begin(), ::toupper);
@@ -1956,7 +1956,7 @@ void Delegation::showCountryMedals() const{
             }
         }
         if(noMedals)
-            throw NoMedals(country);
+            throw NoMedals(cntr);
     } else
         throw NoMedals();
 
@@ -1971,6 +1971,62 @@ void Delegation::showCountryMedals() const{
         if (test != 0)
             cerr << "Invalid option! Press 0 to go back." << endl;
     } while (test != 0 && test != 2);
+}
+
+void Delegation::showAthleteMedals(const string & c) const{
+    int test = 0;
+    string input = "",sport="";
+    bool noMedals = true,noMedalsInComp,noMedalsInSport;
+    int g=0,sil=0,b=0;
+
+    vector<Sport*>::const_iterator s;
+    vector<Competition>::iterator cit;
+    vector<Medal>::iterator m;
+
+    if (!sports.empty()) {
+        vector<Sport *>sp = sports;
+        sort(sp.begin(), sp.end(),sortMembersAlphabetically<Sport>);
+        for(s = sp.begin(); s != sp.end(); s++){
+            vector<Competition>comps = (*s)->getCompetitions();
+            if(!comps.empty()) {
+                noMedalsInSport = true;
+                for (cit = comps.begin(); cit != comps.end(); cit++) {
+                    vector<Medal>medals = cit->getMedals();
+                    insertionSort(medals);
+                    noMedalsInComp = true;
+                    for(m=medals.begin(); m!=medals.end();m++){
+                        if(caseInSensStringCompare(m->getWinner(),c)){
+                            if(noMedalsInSport){
+                                sport = (*s)->getName();
+                                transform(sport.begin(), sport.end(), sport.begin(), ::toupper);
+                                cout <<sport<<endl;
+                                noMedalsInSport=false;
+                            }
+                            if(noMedalsInComp){
+                                noMedalsInComp = false;
+                                cout << cit->getName()<<endl;
+                            }
+                            m->showInfo();
+                            //count number of medals
+                            if(m->getType() == 'g')
+                                g++;
+                            else if(m->getType() == 's')
+                                sil++;
+                            else
+                                b++;
+                        }
+                    }
+                    if(!noMedalsInComp)
+                        cout << endl;
+                }
+            }
+        }
+    }
+
+    cout<< c << " won "<< g+sil+b << " medals: " <<endl;
+    cout << left << setw(18) << "->Gold Medals "<<g<<endl;
+    cout << left << setw(18)<< "->Silver Medals "<<sil<<endl;
+    cout << left << setw(18)<< "->Bronze Medals "<<b<<endl;
 }
 
 void Delegation::showCountryMedals(const string & c) const{
@@ -2104,7 +2160,6 @@ void countriesSort(const Delegation & d,vector<string> & countries){
 
 void Delegation::mostAwardedCountries() const{
     int test = 0,nMax;
-    int testinput=0;
     string input = "",n="",temp="";
     vector<string> countries;
     bool notValid=false;
@@ -2115,7 +2170,10 @@ void Delegation::mostAwardedCountries() const{
     cout << "\t\t Most Awarded Countries " << endl;
     cout << "_____________________________________________________" << endl << endl;
 
-    countries = getCountriesWithMedals();
+    try{
+        countries = getCountriesWithMedals();
+    }catch(NoMedals & e){throw;}
+
     countriesSort((*this),countries);
     nMax=countries.size();
 
@@ -2130,12 +2188,9 @@ void Delegation::mostAwardedCountries() const{
         }
         if(checkPositiveIntInput(n))
             cerr << "Invalid number, please try again!"<<endl;
-        else{
-            if(stoi(n)<1 || stoi(n)>nMax)
-                notValid = true;
-            else
-                notValid = false;
-        }
+        else
+            notValid = stoi(n) < 1 || stoi(n) > nMax;
+        if(notValid) cerr << "Invalid number, please try again!"<<endl;
     }while(checkPositiveIntInput(n) || notValid);
 
 
@@ -2153,7 +2208,7 @@ void Delegation::mostAwardedCountries() const{
         if (test != 0)
             cerr << "Invalid option! Press 0 to go back." << endl;
     } while (test != 0 && test != 2);
-    if (testinput == 2)
+    if (test == 2)
     { input = "0"; }
 
     switch (stoi(input)) {
@@ -2169,6 +2224,153 @@ void Delegation::mostAwardedCountries() const{
                 for (int j = 0; j < temp.size() * 3; j++)cout << "-";
                 cout << endl;
                 showCountryMedals(countries[i]);
+                cout << endl;
+            }
+            cout << endl << "0 - BACK" << endl;
+            do {
+                test = checkinputchoice(input, 0, 0);
+                if (test != 0)
+                    cerr << "Invalid option! Press 0 to go back." << endl;
+            } while (test != 0 && test != 2);
+            break;
+        case 0:
+            break;
+    }
+}
+
+int Delegation::numberOfMedalsAthlete(const string & name) const{
+    vector<Sport*>::const_iterator s;
+    vector<Competition>::iterator c;
+    vector<Medal>::iterator m;
+    bool noMedals = true;
+    int n=0;
+
+    if (!sports.empty()) {
+        vector<Sport *>sp = sports;
+        sort(sp.begin(), sp.end(),sortMembersAlphabetically<Sport>);
+        for(s = sp.begin(); s != sp.end(); s++){
+            if(!(*s)->isTeamSport()){
+                vector<Competition>comps = (*s)->getCompetitions();
+                if(!comps.empty()) {
+                    for (c = comps.begin(); c != comps.end(); c++) {
+                        vector<Medal>medals = c->getMedals();
+                        insertionSort(medals);
+                        for(m=medals.begin(); m!=medals.end();m++){
+                            if(m->getWinner() == name)
+                                n++;
+                        }
+                    }
+                }
+                noMedals = false;
+            }
+        }
+        if(noMedals)
+            throw NoMedals();
+    } else
+        throw NoMedals();
+
+    return n;
+}
+
+vector<string> Delegation::getAthletesWithMedals() const{
+    vector<Sport*>::const_iterator s;
+    vector<Competition>::iterator c;
+    vector<Medal>::iterator m;
+    bool noMedals = true;
+
+    vector<string> ats;
+    if (!sports.empty()) {
+        vector<Sport *>sp = sports;
+        sort(sp.begin(), sp.end(),sortMembersAlphabetically<Sport>);
+        for(s = sp.begin(); s != sp.end(); s++){
+            if(!(*s)->isTeamSport()){
+                vector<Competition>comps = (*s)->getCompetitions();
+                if(!comps.empty()) {
+                    for (c = comps.begin(); c != comps.end(); c++) {
+                        vector<Medal>medals = c->getMedals();
+                        insertionSort(medals);
+                        for(m=medals.begin(); m!=medals.end();m++){
+                            ats.push_back(m->getWinner());
+                        }
+                    }
+                }
+                noMedals = false;
+            }
+        }
+        if(noMedals)
+            throw NoMedals();
+    } else
+        throw NoMedals();
+
+    noRepeatVector(ats);
+    return ats;
+}
+
+void Delegation::mostAwardedAthletes() const{
+    int test = 0,nMax;
+    string input = "",n="",temp="";
+    vector<string> ats;
+    bool notValid=false;
+    int g=0,sil=0,b=0;
+
+    system("cls");
+    cout << "_____________________________________________________" << endl << endl;
+    cout << "\t\t Most Awarded Atheltes " << endl;
+    cout << "_____________________________________________________" << endl << endl;
+
+    try{
+        ats = getAthletesWithMedals();
+    }catch(NoMedals & e){throw;}
+    sort(ats.begin(), ats.end());
+    nMax=ats.size();
+
+    cout << "Show athletes ranking positions from 1st to nth positions."<<endl;
+    cout<< "Choose n from 1 to " << nMax << ": ";
+
+    do{
+        getline(cin,n);
+        if(cin.eof()){
+            cin.clear();
+            return;
+        }
+        if(checkPositiveIntInput(n))
+            cerr << "Invalid number, please try again!"<<endl;
+        else
+            notValid = stoi(n) < 1 || stoi(n) > nMax;
+        if(notValid) cerr << "Invalid number, please try again!"<<endl;
+    }while(checkPositiveIntInput(n) || notValid);
+
+
+    cout<< endl<< left << setw(4) << " " << setw(20) <<  "ATHLETE" << left << setw(4) << "|"<< setw(4) << "MEDALS" <<endl;
+    cout << "________________________|__________"<<endl;
+    for(size_t i= 0; i<stoi(n); i++){
+        cout<< left << setw(4) << " " << setw(20)<<  ats[i] << left << setw(4) << "|"<< setw(4) << (*this).numberOfMedalsAthlete(ats[i]) << endl;
+    }
+
+    cout << endl << "1 - Medals Details";
+    cout << endl << "0 - BACK" << endl;
+
+    do {
+        test = checkinputchoice(input, 0, 1);
+        if (test != 0 && test != 2)
+            cerr << "Invalid option! Press 0 to go back." << endl;
+    } while (test != 0 && test != 2);
+    if (test == 2)
+    { input = "0"; }
+
+    switch (stoi(input)) {
+        case 1:
+            cout << endl;
+            for (size_t i = 0; i < stoi(n); i++) {
+                temp = ats[i];
+                transform(temp.begin(), temp.end(), temp.begin(), ::toupper);
+                for (int j = 0; j < temp.size() * 3; j++)cout << "-";
+                cout << endl;
+                for (int j = 0; j < temp.size(); j++)cout << " ";
+                cout << temp << endl;
+                for (int j = 0; j < temp.size() * 3; j++)cout << "-";
+                cout << endl;
+                showAthleteMedals(ats[i]);
                 cout << endl;
             }
             cout << endl << "0 - BACK" << endl;

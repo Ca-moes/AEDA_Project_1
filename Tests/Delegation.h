@@ -269,6 +269,8 @@ public:
      */
     void showCountryMedals() const;
 
+    void showAthleteMedals(const string & c) const;
+
     void showCountryMedals(const string & c) const;
 
     int numberOfMedalsCountry(const string & name) const;
@@ -278,6 +280,12 @@ public:
     vector<string> getCountriesWithMedals() const;
 
     void mostAwardedCountries() const;
+
+    vector<string> getAthletesWithMedals() const;
+
+    int numberOfMedalsAthlete(const string & name) const;
+
+    void mostAwardedAthletes() const;
 
     void friend countriesSort(const Delegation & d, vector<string> & countries);
 
