@@ -13,7 +13,7 @@ Diana Freitas
 CB009101
 26/07/2020
 04/08/2020
-Futebol
+Vela
 Fase1 Fase2 
 55
 164
@@ -53,8 +53,8 @@ Maurilio Maria
 CB089178
 25/07/2020
 08/08/2020
-Atletismo
-100mts 200mts 
+Futebol
+Fase1 Fase2 
 57
 163
 
@@ -73,8 +73,8 @@ Rute Xavier
 CB023167
 24/07/2020
 08/08/2020
-Vela
-SailClassification1 
+Futebol
+Fase1 Fase2 
 53.6
 182
 
