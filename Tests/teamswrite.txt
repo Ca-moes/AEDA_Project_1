@@ -1,2 +1,14 @@
-This is a line.
-This is another line.
+Futebol
+Portugal
+Diana Freitas
+--------
+Badminton
+PortPM
+Joao Lopes, Adalbertino Carvalho
+--------
+Vela
+V3
+Rute Xavier, Manuel Cunha
+
+V4
+Jacinta Albertina, Pateta
