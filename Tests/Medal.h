@@ -11,7 +11,14 @@ using namespace std;
 
 class Medal {
 public:
+    /**Trial Default Constructor*/
     Medal(){}
+
+    /**Trial Constructor
+     * @param type
+     * @param
+     * @param
+     */
     Medal(char type, const string & winner, const string &country);
 
     char getType() const;
@@ -37,9 +44,9 @@ public:
     bool operator >(Medal & m);
 
 private:
-    char type;
-    string winner;
-    string country;
+    char type;/**< The type of the medal - g(old), s(ilver), b(bronze) */
+    string winner;/**< The name of the winner*/
+    string country;/**< The country of the winner*/
 };
 
 

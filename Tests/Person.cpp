@@ -3,6 +3,7 @@
 //
 
 #include "Person.h"
+#include "Delegation.h"
 
 //Person
 Person::Person(const string &name, const Date &birth, const string & passport, const Date &arrival, const Date &departure) : name(
@@ -254,4 +255,11 @@ bool Team::operator<(const Team & p) const{
 
 void Team::addAthlete(Athlete* a) {
     athletes.push_back(a);
+}
+
+void Team::removeAthlete(string name) {
+    vector<Athlete*>::iterator it;
+    for(it = athletes.begin(); it != athletes.end(); it++){
+        if((*it)->getName() == name) athletes.erase(it);
+    }
 }
