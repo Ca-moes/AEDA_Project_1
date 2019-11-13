@@ -27,8 +27,8 @@ class Delegation {
     vector<Team*> teams;/**< All the teams of the Delegation*/
     vector<Sport*> sports;/**< All the sports of the Delegation*/
     list<Sport*> oldSports;/**< Sports that the Delgation no longer participates in*/
-    list<Person> oldAthletes;/**< Ahletes that no longer belong to the Delegation*/
-    list<Team> oldTeams; /**< Teams that no longer belong to the Delegation*/
+    list<Athlete*> oldAthletes;/**< Ahletes that no longer belong to the Delegation*/
+    list<Team*> oldTeams; /**< Teams that no longer belong to the Delegation*/
 public:
     /** Delegation Default Constructor*/
     Delegation();
@@ -155,13 +155,10 @@ public:
     */
     void addStaffMember();
 
-    /**
-    * Removes a staff member of the people vector
-    *
-    */
+    /** Removes a staff member of the people vector */
     void removeStaffMember();
 
-    /**Changes a data of a staff member*/
+    /** Changes a data of a staff member */
     void changeStaffMember();
 
     /**
@@ -197,6 +194,14 @@ public:
     * @returns the index of the Sport, -1 if it does not exist
     */
     int findSport(const string & name) const;
+
+    /**
+    * Find a Team in the teams vector
+    *
+    * @params name the name of the Team
+    * @returns the index of the Team, -1 if it does not exist
+    */
+    int findTeam(const string & name) const;
 
     /**Shows the information of all the members of the Portuguese Delegation in a human friendly way
      * @throws NoMembers if the Delegation has no Members
@@ -661,6 +666,22 @@ public:
     /** No Medals Default Constructor*/
     NoMedals();
     explicit NoMedals(const string & c);
+};
+
+/**
+ *  An exception thrown when the Sport is not a team sport
+ */
+class NotATeamSport{
+    string sport; /**< Name of the sport that doesn't have competitions*/
+public:
+    /** Informs that the sport is not a team sport
+   * @param os the name of the ostream
+   * @param p NotATeamSport object
+   * @returns reference to the original ostream to allow input/output chains
+   */
+    friend ostream & operator <<(ostream & os, NotATeamSport & p);
+    /** NotATeamSport constructor*/
+    explicit NotATeamSport(const string & s);
 };
 
 #endif //PROJECT_1_DELEGATION_H
