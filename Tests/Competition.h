@@ -22,7 +22,9 @@ public:
     /** Competition Default Constructor*/
     Competition();
 
-    /** Competition copy constructor*/
+    /** Competition copy constructor
+     * @param c the Competition to copy
+     */
     Competition(const Competition & c);
 
     /** new competition with specific data
