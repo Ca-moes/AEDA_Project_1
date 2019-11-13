@@ -40,6 +40,20 @@ void participantsMenu(Delegation & delegation);
 void sportsMenu(Delegation & delegation);
 
 /**
+ * Display Trial's menu that allows the user to see the trials orded byte or the trials in a specific date
+ *
+ * @param delegation a delegation
+ */
+void trialsMenu(Delegation & delegation);
+
+/**
+ * Display History menu that allows the user to see the removed sports/athletes data
+ *
+ * @param delegation a delegation
+ */
+/*void historyMenu(Delegation &delegation);*/
+
+/**
  * Display staff's menu that allows the use to manage staff's members - add, remove, change and check information
  *
  * @param delegation a delegation

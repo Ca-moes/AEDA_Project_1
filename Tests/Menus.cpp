@@ -44,11 +44,13 @@ void mainMenu(Delegation &delegation){
         //show the main menu
         cout << "1 - Members" << endl;
         cout << "2 - Sports Competitions" << endl;
-        cout << "3 - Medals Statistics" << endl;
+        cout << "3 - Trials Calendar"<<endl;
+        cout << "4 - Medals Statistics" << endl;
+        /*cout << "5 - History" << endl;*/
         cout << "0 - EXIT" << endl;
         //checking if option is valid
         do {
-            testinput = checkinputchoice(input, 0, 3);
+            testinput = checkinputchoice(input, 0, 4);
             if (testinput != 0 && testinput != 2)
                 cerr << "Invalid option! Please try again." << endl;
         } while (testinput != 0 && testinput != 2);
@@ -63,6 +65,9 @@ void mainMenu(Delegation &delegation){
                 sportsMenu(delegation);
                 break;
             case 3:
+                trialsMenu(delegation);
+                break;
+            case 4:
                 medalsStatisticsMenu(delegation);
                 break;
             default:
@@ -72,7 +77,7 @@ void mainMenu(Delegation &delegation){
     } while (stoi(input) != 0);
 }
 
-//submenus - participants, sports, medals statistics
+//submenus - participants, sports, medals statistics, history
 void participantsMenu(Delegation & delegation) {
     int testinput = 0;
     string input;
@@ -169,6 +174,58 @@ void sportsMenu(Delegation & delegation) {
         }
     } while (stoi(option) != 0);
 }
+void trialsMenu(Delegation & delegation){
+    int testinput = 0;
+    string input;
+    do
+    {
+        if (system("CLS")) system("clear");
+        cout << "_____________________________________________________" << endl << endl;
+        cout << "\t\t   Trials Calendar " << endl;
+        cout << "_____________________________________________________" << endl << endl;
+
+        cout << "1 - All Trials" << endl;
+        cout << "2 - Trials by day" << endl;
+        cout << "0 - BACK" << endl;
+
+        do {
+            testinput = checkinputchoice(input, 0, 3);
+            if (testinput != 0 && testinput != 2)
+                cerr << "Invalid option! Please try again." << endl;
+        } while (testinput != 0 && testinput != 2);
+        if (testinput == 2)
+        { input = "0"; }
+
+        switch (stoi(input)) {
+            case 1:
+                try{
+                    delegation.showAllTrials();
+                }catch(NoTrials & e){
+                    cout<< e;
+                    exceptionHandler();
+                }
+                catch(NoSports & e){
+                    cout << e;
+                    exceptionHandler();
+                }
+                break;
+            case 2:
+                try{
+                    delegation.showTrialsInDay();
+                }catch(NoTrials & e){
+                    cout<< e;
+                    exceptionHandler();
+                }
+                catch(NoSports & e){
+                    cout << e;
+                    exceptionHandler();
+                }
+                break;
+            case 0:
+                break;
+        }
+    } while (stoi(input) != 0);
+}
 void medalsStatisticsMenu(Delegation & delegation){
     int testinput = 0;
     string input;
@@ -217,6 +274,53 @@ void medalsStatisticsMenu(Delegation & delegation){
         }
     } while (stoi(input) != 0);
 }
+/*void historyMenu(Delegation &delegation){
+    int testinput = 0;
+    string input;
+    do
+    {
+        if (system("CLS")) system("clear");
+        cout << "_____________________________________________________" << endl << endl;
+        cout << "\t\t   History " << endl;
+        cout << "_____________________________________________________" << endl << endl;
+
+        cout << "1 - Sports History" << endl;
+        cout << "2 - Athletes History" << endl;
+        cout << "0 - BACK" << endl;
+
+        do {
+            testinput = checkinputchoice(input, 0, 3);
+            if (testinput != 0 && testinput != 2)
+                cerr << "Invalid option! Please try again." << endl;
+        } while (testinput != 0 && testinput != 2);
+        if (testinput == 2)
+        { input = "0"; }
+
+        switch (stoi(input)) {
+            case 1:
+                try{
+                    sportsMenuHistory(delegation);
+                }catch(NoSports & e){
+                    cout << e;
+                    exceptionHandler();
+                }
+                break;
+            case 2:
+                try{
+                    delegation.athletesHistory();
+                }catch(NoAthletes & e){
+                    cout<< e;
+                    exceptionHandler();
+                }
+                break;
+            case 3:
+                medalRankingsMenu(delegation);
+                break;
+            case 0:
+                break;
+        }
+    } while (stoi(input) != 0);
+}*/
 
 //Participants submenus
 void staffMenu(Delegation & delegation) {

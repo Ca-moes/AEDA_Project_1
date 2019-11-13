@@ -2077,10 +2077,76 @@ void Delegation::showAllTrials(const string & sport){
     } while (test != 0 && test != 2);
 }
 
+void Delegation::showAllTrials(){
+    int test = 0;
+    string input = "";
+    vector<Trial> allTrials;
+    vector<Competition>::const_iterator it;
+
+    system("cls");
+    cout << "_____________________________________________________" << endl << endl;
+    cout << "\t\t  Trials Calendar" << endl;
+    cout << "_____________________________________________________" << endl << endl;
+
+    if (!sports.empty()) {
+        for (size_t i = 0; i < sports.size(); i++) {
+            vector<Competition> competitions;
+            competitions = sports[i]->getCompetitions();
+            if (!competitions.empty()) {
+                sort(competitions.begin(), competitions.end(), sortCompetitionsByDate);
+                for (it = competitions.begin(); it != competitions.end(); it++) {
+                    vector<Trial> trials = it->getTrials();
+                    if (!trials.empty()){
+                        allTrials.insert(allTrials.end(),trials.begin(),trials.end());
+                    }
+                }
+            }
+        }
+        if(allTrials.empty())
+            throw NoTrials();
+    } else throw NoSports();
+
+    sort(allTrials.begin(),allTrials.end(),sortTrialsByDate);
+    vector<Date> dates;
+
+    for(size_t i=0; i< allTrials.size(); i++){
+        if(i==0) dates.push_back(allTrials[i].getDate());
+        else{
+            if(find(dates.begin(),dates.end(),allTrials[i].getDate()) == dates.end())
+                dates.push_back(allTrials[i].getDate());
+        }
+    }
+
+    int tmp=0;
+    for(size_t j=0; j<dates.size();j++){
+        cout << "--------------"<<endl;
+        cout << "  " << dates[j] <<endl;
+        cout << "--------------"<<endl;
+        for(size_t i=tmp; i< allTrials.size(); i++){
+            if(allTrials[i].getDate() == dates[j]){
+                allTrials[i].showInfoNoDate();
+                cout <<endl;
+            }
+            else{
+                tmp=i;
+                break;
+            }
+        }
+    }
+
+    cout << endl << "0 - BACK" << endl;
+    do {
+        test = checkinputchoice(input, 0, 0);
+        if (test != 0)
+            cerr << "Invalid option! Press 0 to go back." << endl;
+    } while (test != 0 && test != 2);
+}
+
 void Delegation::showTrials(const string & comp,const string & sport) const{
     int test = 0;
     string input = "";
     vector<Competition> competitions;
+
     for(size_t i=0; i< sports.size(); i++){
         if(sport == sports[i]->getName()){
             competitions = sports[i]->getCompetitions();
@@ -2093,6 +2159,7 @@ void Delegation::showTrials(const string & comp,const string & sport) const{
         for (it = competitions.begin(); it != competitions.end(); it++) {
             if(it->getName() == comp){
                 vector<Trial> trials = it->getTrials();
+                sort(trials.begin(),trials.end(),sortTrialsByDate);
                 if(!trials.empty()){
                     cout << it->getName()<< " trials:" << endl;
                     for(size_t i=0; i< trials.size(); i++){
@@ -2116,6 +2183,91 @@ void Delegation::showTrials(const string & comp,const string & sport) const{
 
 }
 
+void Delegation::showTrialsInDay(){
+    int test = 0;
+    string input = "";
+    vector<Trial> allTrials;
+    vector<Competition>::const_iterator it;
+
+    system("cls");
+    cout << "_____________________________________________________" << endl << endl;
+    cout << "\t\t  Trials Calendar" << endl;
+    cout << "_____________________________________________________" << endl << endl;
+
+    if (!sports.empty()) {
+        for (size_t i = 0; i < sports.size(); i++) {
+            vector<Competition> competitions;
+            competitions = sports[i]->getCompetitions();
+            if (!competitions.empty()) {
+                sort(competitions.begin(), competitions.end(), sortCompetitionsByDate);
+                for (it = competitions.begin(); it != competitions.end(); it++) {
+                    vector<Trial> trials = it->getTrials();
+                    if (!trials.empty()){
+                        allTrials.insert(allTrials.end(),trials.begin(),trials.end());
+                    }
+                }
+            }
+        }
+        if(allTrials.empty())
+            throw NoTrials();
+    } else throw NoSports();
+
+    sort(allTrials.begin(),allTrials.end(),sortTrialsByDate);
+    vector<Date> dates;
+
+    for(size_t i=0; i< allTrials.size(); i++){
+        if(i==0) dates.push_back(allTrials[i].getDate());
+        else{
+            if(find(dates.begin(),dates.end(),allTrials[i].getDate()) == dates.end())
+                dates.push_back(allTrials[i].getDate());
+        }
+    }
+
+    string date;
+    Date d;
+    bool valid =false;
+    do{
+        cout << "Date:";
+        getline(cin,date);
+        if(cin.eof()){
+            cin.clear();
+            return;
+        }
+        if(checkDateInput(date,d))
+            cerr << "Invalid date, please try again!"<<endl;
+        else{
+            if (!d.isOlimpianDate())
+                cerr << "Invalid date, please try again!"<<endl;
+            else
+                valid=true;
+        }
+        }while(checkDateInput(date,d) || !valid);
+
+    bool noTrialsInDay=true;
+    cout<<endl;
+    cout << "--------------"<<endl;
+    cout << "  " << d <<endl;
+    cout << "--------------"<<endl;
+    for(size_t i=0; i< allTrials.size(); i++){
+        if(allTrials[i].getDate() == d){
+            noTrialsInDay=false;
+            allTrials[i].showInfoNoDate();
+            cout <<endl;
+        }
+    }
+
+
+    if(noTrialsInDay)
+        cout << "No Trials occur in that Day!"<<endl;
+
+    cout << endl << "0 - BACK" << endl;
+    do {
+        test = checkinputchoice(input, 0, 0);
+        if (test != 0)
+            cerr << "Invalid option! Press 0 to go back." << endl;
+    } while (test != 0 && test != 2);
+}
+
 int Delegation::findSport(const string & name) const {
     for (int i = 0; i < sports.size(); i++) {
         if (name == sports.at(i)->getName()) return i;
@@ -2123,9 +2275,7 @@ int Delegation::findSport(const string & name) const {
     return -1;
 }
 
-
-//Sort Functions
-
+//Sort People
 void Delegation::sortAllPeople() {
     sort(people.begin(), people.end(), sortPersons);
     sort(athletes.begin(), athletes.end(), sortPersons);
@@ -2947,6 +3097,34 @@ void Delegation::mostAwardedAthletes() const{
     }
 }
 
+//History
+/*void Delegation::athletesHistory() {
+    int test = 0;
+    string input = "";
+
+    system("cls");
+    cout << "_______________________________________________________" << endl << endl;
+    cout << "  Athletes that don't compete in the Olympics anymore  " << endl;
+    cout << "_______________________________________________________" << endl << endl;
+
+
+    if (!oldAthletes.empty()) {
+        vector<Athlete *>::const_iterator it;
+        for (it = athletes.begin(); it != athletes.end(); it++) {
+            (*it)->showInfo();
+            cout << endl;
+        }
+    } else
+        throw NoMembers();
+
+    cout << endl << "0 - BACK" << endl;
+    do {
+        test = checkinputchoice(input, 0, 0);
+        if (test != 0)
+            cerr << "Invalid option! Press 0 to go back." << endl;
+    } while (test != 0 && test != 2);
+}*/
+
 //File Errors - Exceptions
 FileError::FileError(string file) : file(move(file)) {}
 
@@ -3072,7 +3250,10 @@ ostream &operator<<(ostream &os, NoCompetitions &p) {
 NoTrials::NoTrials(const string & sport){this->sport = sport;}
 
 ostream &operator<<(ostream &os, NoTrials &p) {
-    os << p.sport << " competitions don't have any trials!\n";
+    if(p.sport!="")
+        os << p.sport << " competitions don't have any trials!\n";
+    else
+        os << "The Sports of the Delegation don't have Trials!"<<endl;
     return os;
 }
 
