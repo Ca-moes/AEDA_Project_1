@@ -34,6 +34,7 @@ Delegation::~Delegation(){
     // Para fase inicial dar o nome "<nome_ficheiro>_write.txt" aos ficheiros para não dar overwrite"
     writePeopleFile();
     writeCompetitionsFile();
+    writeTeamsFile();
 }
 
 //Reading files functions
@@ -298,7 +299,7 @@ void Delegation::readPeopleFile(const vector<string> &lines) {
 }
 
 void Delegation::writePeopleFile(){
-    ofstream myfile ("people_write.txt");
+    ofstream myfile ("peoplewrite.txt");
     if (myfile.is_open())
     {
         for (unsigned int i = 0; i<people.size(); ++i) {
@@ -533,7 +534,7 @@ void Delegation::readCompetitionsFile(const vector<string> &lines) {
 
 void Delegation::writeCompetitionsFile(){
 
-    ofstream myfile ("competitions_write.txt");
+    ofstream myfile ("competitionswrite.txt");
     if (myfile.is_open()) {
         for (int i = 0; i < sports.size(); ++i) {
             myfile << sports.at(i)->getName() << endl;
@@ -682,6 +683,32 @@ void Delegation::readTeamsFile(const vector<string> &lines) {
     }
 }
 
+void Delegation::writeTeamsFile() {
+    ofstream myfile ("teamswrite.txt");
+    if (myfile.is_open())
+    {
+        for (unsigned int i = 0; i < sports.size(); ++i) {
+            TeamSport* teamsp = dynamic_cast<TeamSport*>(sports.at(i));
+            if (teamsp != NULL){
+                myfile << sports.at(i)->getName() << endl;
+                for (int j = 0; j < teamsp->getTeams().size(); ++j) {
+                    myfile << teamsp->getTeams().at(j)->getName() << endl;
+                    for (int k = 0; k < teamsp->getTeams().at(j)->getAthletes().size(); ++k) {
+                        myfile << teamsp->getTeams().at(j)->getAthletes().at(k).getName();
+                        if (k != teamsp->getTeams().at(j)->getAthletes().size() -1)
+                            myfile << ", ";
+                    }
+                    if (j != teamsp->getTeams().size()-1)
+                        myfile << "\n\n";
+                }
+                if (i != sports.size()-1)
+                    myfile << "\n--------\n";
+            }
+        }
+        myfile.close();
+    }
+    else cerr << "Unable to open file";
+}
 //Acessors and mutators
 const string &Delegation::getCountry() const {
     return country;
