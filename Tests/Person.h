@@ -279,9 +279,8 @@ public:
 /**A class to store the general information about the Team*/
 class Team: public Participant{
 private:
-    vector<Athlete> athletes;/**< The athletes of the Team*/
-    string name;/**< The name of the Team*/
-
+    vector<Athlete*> athletes;
+    string name;
 public:
     /**Team default constructor*/
     Team (){};
@@ -311,13 +310,23 @@ public:
     /** Get the members of the team
     * @returns the members of the team
     */
-    const vector<Athlete> & getAthletes() const;
+    const vector<Athlete*> & getAthletes() const;
 
     /** Set the members of the team
     * @param a the members of the team
     */
-    void setAthletes(const vector<Athlete> & a);
-
+    void setAthletes(const vector<Athlete*> & a);
+    
+    /** Add an athlete to the Team
+    * @param a a pointer to the Athlete to add
+    */
+    void addAthlete(Athlete* a);
+    
+    /** Remove an athlete of the Team
+    * @param a a pointer to the Athlete to remove
+    */
+    void removeAthlete(string name);
+  
     /**Show the information about the Team in a user friendly way*/
     void showInfo() const;
 
