@@ -269,6 +269,11 @@ public:
      */
     void showTrials(const string & comp,const string & sport) const;
 
+    /** Shows the information of all the trials in a specific day
+     * @param sport the name of the sport
+     * @throws NoTrials if the competition doesn't have trials
+     */
+    void showTrialsInDay();
     /** Shows the information of all the medals
     * @throws NoMedals if there isn't information about any medal
     */

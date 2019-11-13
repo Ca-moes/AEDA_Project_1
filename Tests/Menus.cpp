@@ -210,9 +210,13 @@ void trialsMenu(Delegation & delegation){
                 break;
             case 2:
                 try{
-                    //delegation.showTrialsInDay();
-                }catch(NoMedals & e){
+                    delegation.showTrialsInDay();
+                }catch(NoTrials & e){
                     cout<< e;
+                    exceptionHandler();
+                }
+                catch(NoSports & e){
+                    cout << e;
                     exceptionHandler();
                 }
                 break;
