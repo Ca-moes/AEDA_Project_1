@@ -77,22 +77,18 @@ public:
 
     /**
      * Set the Delegation's daily cost for Athletes
-     *
      * @param dailyCost the Delegation's daily cost for Athletes
      */
-
     void setDailyCostAthlete(float dailyCost);
 
     /**
     * Get the Delegation's daily cost for Athletes
-    *
     * @returns the Delegation's daily cost for Athletes
     */
     float getDailyCostAthlete() const;
 
     /**
     * Set the Delegation's daily cost for Teams
-    *
     * @param dailyCost the Delegation's daily cost for Teams
     */
     void setDailyCostStaff(float dailyCost);

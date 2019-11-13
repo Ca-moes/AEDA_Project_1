@@ -109,20 +109,24 @@ public:
     */
     void addParticipant(const string & p);
 
-    /* Show info about the competition in an user friendly way*/
+    /** Show info about the competition in an user friendly way*/
     void showInfo() const;
 
-    /*Show the medals of the competition in an user friendly way*/
+    /**Show the medals of the competition in an user friendly way*/
     void showMedals() const;
 
-    /*Get the Information about the Competition in a string for testing purposes
+    /**Get the Information about the Competition in a string for testing purposes
      *
-     * @returns the information about the 
+     * @returns the information about the competition
      */
     string info() const;
 };
 
-template <class Participant>
+/** Shows the name of the Competition for testing purposes
+ * @param os the name of ostream
+ * @param c the competition object
+ * @returns reference to the original ostream to allow input/output chains
+ */
 ostream& operator<<(ostream& os, const Competition & c);
 
 #endif //PROJECT_1_COMPETITION_H
