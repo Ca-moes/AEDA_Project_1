@@ -1553,6 +1553,7 @@ void Delegation::changeAthlete() {
 
         Date tmp_date;
         int s_index;
+        int t_index;
         vector<Competition> competitions;
         vector<string> competition_names;
 
@@ -1680,20 +1681,80 @@ void Delegation::changeAthlete() {
                     }
                     cin.clear();
                 }
-                if (people.at(index)->isAthlete()) {
-                    Athlete *a = dynamic_cast<Athlete *> (people.at(index));
-                    if (a == NULL) {
-                        cout << "Couldn't change Sport!" << endl;
-                    } else {
-                        s_index = findSport(tmp);
-                        athletes.at(index)->setSport(tmp);
-                        a->setSport(tmp);
-                        competitions = sports.at(s_index)->getCompetitions();
-                        for (int i = 0; i < competitions.size(); i++) {
-                            competition_names.push_back(competitions.at(i).getName());
+                s_index = findSport(tmp);
+                if(s_index == -1){
+                    throw NonExistentSport(tmp);
+                } else {
+                    if (people.at(index)->isAthlete()) {
+                        Athlete *a = dynamic_cast<Athlete *> (people.at(index));
+                        if (a == NULL) {
+                            cout << "Couldn't change Sport!" << endl;
+                        } else {
+                            athletes.at(index)->setSport(tmp);
+                            a->setSport(tmp);
+
+                            if (!(sports.at(s_index)->isTeamSport())) {
+                                competitions = sports.at(s_index)->getCompetitions();
+                                for (int i = 0; i < competitions.size(); i++) {
+                                    competition_names.push_back(competitions.at(i).getName());
+                                }
+                                athletes.at(index)->setCompetitions(competition_names);
+                                a->setCompetitions(competition_names);
+                            } else {
+                                TeamSport *ts = dynamic_cast<TeamSport *> (sports.at(s_index));
+                                vector<Team *> tmp_teams = ts->getTeams();
+
+                                for (int i = 0; i < tmp_teams.size(); i++) {
+                                    cout << tmp_teams.at(i)->getName() << endl;
+                                }
+
+                                cout << "Team: ";
+                                getline(cin, tmp);
+                                if (cin.eof()) {
+                                    cin.clear();
+                                    return; //go back on ctrl+d
+                                }
+                                cin.clear();
+                                while (checkAlphaNumericInput(tmp) == 1) {
+                                    cout << "Invalid Team. Try again!" << endl;
+                                    cout << "Team: ";
+                                    getline(cin, tmp);
+                                    if (cin.eof()) {
+                                        cin.clear();
+                                        return; //go back on ctrl+d
+                                    }
+                                    cin.clear();
+                                }
+
+                                t_index = findTeam(tmp);
+                                if (t_index == -1) {
+                                    throw NonExistentTeam(tmp);
+                                } else {
+                                    if ((teams.at(t_index)->getAthletes()).size() == ts->getNumberofElements()) {
+                                        throw FullTeam(tmp);
+                                    } else {
+                                        string t = "";
+
+                                        for(int i = 0; i < teams.size(); i++){
+                                            vector<Athlete*> tmp_athletes = teams.at(i)->getAthletes();
+                                            for(int j = 0; j < tmp_athletes.size(); j++){
+                                                if (tmp_athletes.at(j)->getName() == a->getName()) t = teams.at(i)->getName();
+                                            }
+                                        }
+
+                                        competition_names = teams.at(t_index)->getCompetitions();
+                                        athletes.at(index)->setCompetitions(competition_names);
+                                        a->setCompetitions(competition_names);
+                                        teams.at(t_index)->addAthlete(a);
+
+                                        if(t != "") {
+                                            t_index = findTeam(t);
+                                            teams.at(t_index)->removeAthlete(a->getName());
+                                        }
+                                    }
+                                }
+                            }
                         }
-                        a->setCompetitions(competition_names);
-                        athletes.at(index)->setCompetitions(competition_names);
                     }
                 }
                 break;

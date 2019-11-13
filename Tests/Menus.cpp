@@ -411,7 +411,7 @@ void athletesMenu(Delegation & delegation) {
                     delegation.removeAthlete();
                 }
                 catch (NonExistentAthlete &e){
-                    cout << e << endl;
+                    cout << e;
                     exceptionHandler();
                 }
                 break;
@@ -420,7 +420,16 @@ void athletesMenu(Delegation & delegation) {
                     delegation.sortAllPeople();
                     delegation.changeAthlete();
                 } catch (NonExistentAthlete &e){
-                    cout << e << endl;
+                    cout << e;
+                    exceptionHandler();
+                } catch (NonExistentSport &e){
+                    cout << e;
+                    exceptionHandler();
+                } catch (NonExistentTeam &e){
+                    cout << e;
+                    exceptionHandler();
+                } catch (FullTeam &e){
+                    cout << e;
                     exceptionHandler();
                 }
                 delegation.sortAllPeople();
