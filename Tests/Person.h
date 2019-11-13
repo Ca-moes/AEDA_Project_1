@@ -226,7 +226,7 @@ public:
 
 class Team: public Participant{
 private:
-    vector<Athlete> athletes;
+    vector<Athlete*> athletes;
     string name;
     //historial
 public:
@@ -236,8 +236,9 @@ public:
     Team(const string &name, const string & sport);
     const string &getName() const;
     void setName(const string &name);
-    const vector<Athlete> & getAthletes() const;
-    void setAthletes(const vector<Athlete> & a);
+    const vector<Athlete*> & getAthletes() const;
+    void setAthletes(const vector<Athlete*> & a);
+    void addAthlete(Athlete* a);
     void showInfo() const;
     bool operator<(const Team & t) const;
 };

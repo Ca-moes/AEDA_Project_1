@@ -133,12 +133,12 @@ void Delegation::readDelegationFile() {
 
     //set team competitions participants
     for (auto &team: teams) {//corre o vetor de equipas
-        vector<Athlete> members = team->getAthletes();//para cada equipa guarda o vetor de membros
+        vector<Athlete*> members = team->getAthletes();//para cada equipa guarda o vetor de membros
         vector<string> comps;//para cada equipa, serve para guarda as competições onde participa
         for(auto & member: members){//corre o vetor de membros de uma equipa
             for(size_t i= 0; i< athletes.size(); i++){//corre o vetor de atletas da delegação
-                if(athletes[i]->getName() == member.getName()) { //se encontrar o atleta nos atletas
-                    vector<string> appendComps = member.getCompetitions(); // guarda o vetor de competições
+                if(athletes[i]->getName() == member->getName()) { //se encontrar o atleta nos atletas
+                    vector<string> appendComps = member->getCompetitions(); // guarda o vetor de competições
                     comps.insert(comps.end(),appendComps.begin(), appendComps.end()); // adiciona o vetor de competições às competições
                     break;
                 }
@@ -347,7 +347,7 @@ void Delegation::readCompetitionsFile(const vector<string> &lines) {
             line = lines[i];
         numline++;
         if (numline == 1) {// se for a primeira linha de uma pessoa vamos ver se é uma nova modalidade, competição ou jogo
-            if (line.empty()) {// Se alinha está vazia vamos ler a próxima competição
+            if (line.empty()) {// Se a linha está vazia vamos ler a próxima competição
                 if (read == 'c' || read == 't') {
                     if (read == 't') {
                         for (auto &athlete :athletes) {
@@ -607,9 +607,9 @@ void Delegation::readTeamsFile(const vector<string> &lines) {
     //Variables to read Athletes:
     istringstream membersStream;
     string memberStr;
-    vector<Athlete> members;
-    vector<Athlete *>::iterator it;
-    Athlete a;
+    vector<Athlete*> members;
+    vector<Athlete*>::iterator it;
+    Athlete* a;
     string sport;
 
     for (size_t i = 0; i < lines.size(); i++) {
@@ -671,7 +671,7 @@ void Delegation::readTeamsFile(const vector<string> &lines) {
                             throw FileStructureError(teamsFilename);
                         for (it = athletes.begin(); it != athletes.end(); it++) {
                             if ((*it)->getName() == memberStr){
-                                a = Athlete(**it);
+                                a = *it;
                                 members.push_back(a);
                             }
                         }
@@ -1232,7 +1232,7 @@ void Delegation::showStaffMembers() {
 //Athletes Functions
 
 void Delegation::addAthlete() {
-    Athlete *novo = new Athlete();
+    Athlete* novo = new Athlete();
     string tmp;
     Date tmp_date;
     vector<Competition> competitions;
@@ -1362,11 +1362,6 @@ void Delegation::addAthlete() {
         throw NonExistentSport(tmp);
     } else {
         novo->setSport(tmp);
-        competitions = sports.at(index)->getCompetitions();
-        for (int i = 0; i < competitions.size(); i++){
-            competition_names.push_back(competitions.at(i).getName());
-        }
-        novo->setCompetitions(competition_names);
     }
 
     cout << "Weight: ";
@@ -1407,14 +1402,59 @@ void Delegation::addAthlete() {
     }
     novo->setHeight(stoi(tmp));
 
+    if(!(sports.at(index)->isTeamSport())){
+        competitions = sports.at(index)->getCompetitions();
+        for (int i = 0; i < competitions.size(); i++) {
+            competition_names.push_back(competitions.at(i).getName());
+        }
+        novo->setCompetitions(competition_names);
+    } else {
+        TeamSport *ts = dynamic_cast<TeamSport *> (sports.at(index));
+        vector<Team *> tmp_teams = ts->getTeams();
+
+        for (int i = 0; i < tmp_teams.size(); i++) {
+            cout << tmp_teams.at(i)->getName() << endl;
+        }
+
+        cout << "Team: ";
+        getline(cin, tmp);
+        if (cin.eof()) {
+            cin.clear();
+            return; //go back on ctrl+d
+        }
+        cin.clear();
+        while (checkAlphaNumericInput(tmp) == 1) {
+            cout << "Invalid Team. Try again!" << endl;
+            cout << "Team: ";
+            getline(cin, tmp);
+            if (cin.eof()) {
+                cin.clear();
+                return; //go back on ctrl+d
+            }
+            cin.clear();
+        }
+        index = findTeam(tmp);
+        cout << "caralho"  << index << endl;
+        if (index == -1) {
+            throw NonExistentTeam(tmp);
+        } else {
+            cout << teams.size() << endl;
+            competition_names = teams.at(index)->getCompetitions();
+            cout << "FODA-SE" << endl;
+            novo->setCompetitions(competition_names);
+            cout << "PUTA" << endl;
+            teams.at(index)->addAthlete(novo);
+            cout << "MERDA" << endl;
+        }
+    }
+
     people.push_back(novo);
     athletes.push_back(novo);
 }
 
 void Delegation::removeAthlete(){
-    int test = 0;
     int index;
-    string input = "", tmp;
+    string tmp;
 
     cout << "Name: ";
     getline(cin, tmp);
@@ -1782,6 +1822,7 @@ void Delegation::showAllAthletes() {
 }
 
 //Teams Functions
+
 void Delegation::showTeam() const {
     int test = 0;
     string input = "";
@@ -1857,6 +1898,13 @@ void Delegation::showAllTeams() {
     } while (test != 0 && test != 2);
 }
 
+int Delegation::findTeam(const string &name) const {
+    for (int i = 0; i < teams.size(); i++) {
+        if (name == teams.at(i)->getName()) return i;
+    }
+    return -1;
+}
+
 //Sports Functions
 void Delegation::removeSport(const string &sport) {
     vector<Sport *>::iterator s;
@@ -1886,9 +1934,9 @@ void Delegation::removeSport(const string &sport) {
                         if ((*t)->getSport() == sport) {
                             //elimina os membros da equipa
                             Team *n = new Team(**t);
-                            oldTeams.push_back(*n);
-                            vector<Athlete>::iterator a;
-                            vector<Athlete> teamMembers = (*t)->getAthletes();
+                            oldTeams.push_back(n);
+                            vector<Athlete*>::iterator a;
+                            vector<Athlete*> teamMembers = (*t)->getAthletes();
                             for (a = teamMembers.begin(); a != teamMembers.end(); a++) {
                                 oldAthletes.push_back(*a);
                                 a = teamMembers.erase(a);
@@ -1904,8 +1952,8 @@ void Delegation::removeSport(const string &sport) {
                 vector<Athlete *>::iterator a;
                 for (a = athletes.begin(); a != athletes.end(); a++) {
                     if ((*a)->getSport() == sport) {
-                        if (find(oldAthletes.begin(), oldAthletes.end(), **a) == oldAthletes.end())
-                            oldAthletes.push_back(**a);
+                        if (find(oldAthletes.begin(), oldAthletes.end(), *a) == oldAthletes.end())
+                            oldAthletes.push_back(*a);
                         athletes.erase(a);
                         a--;
                     }
@@ -1913,7 +1961,8 @@ void Delegation::removeSport(const string &sport) {
                 vector<Person *>::iterator p;
                 for (p = people.begin(); p != people.end(); p++) {
                     if ((*p)->isAthlete()) {
-                        if (find(oldAthletes.begin(), oldAthletes.end(), **p) != oldAthletes.end()) {
+                        Athlete* a = dynamic_cast<Athlete *>(*p);
+                        if (find(oldAthletes.begin(), oldAthletes.end(), a) != oldAthletes.end()) {
                             people.erase(p);
                             p--;
                         }
@@ -3268,3 +3317,11 @@ ostream &operator<<(ostream &os, NoMedals &m) {
         os << m.country << " didn't win any medals!\n";
     return os;
 }
+
+NotATeamSport::NotATeamSport(const string &s){sport=s;}
+
+ostream &operator<<(ostream &os, NotATeamSport &p) {
+    os << p.sport << " is not a team sport!\n";
+    return os;
+}
+

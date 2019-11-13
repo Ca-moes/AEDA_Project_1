@@ -220,11 +220,11 @@ Team::Team(const Team & t){
     athletes = t.getAthletes();
 }
 
-const vector<Athlete> & Team::getAthletes() const{
+const vector<Athlete*> & Team::getAthletes() const{
     return athletes;
 }
 
-void Team::setAthletes(const vector<Athlete> & a){
+void Team::setAthletes(const vector<Athlete*> & a){
     athletes=a;
 }
 
@@ -241,7 +241,7 @@ void Team::showInfo() const{
     cout << endl;
     cout <<  left <<setw(17) << "Members" <<  setw(4) << " ";
     for(size_t i= 0; i< athletes.size(); i++){
-        cout << athletes[i].getName();
+        cout << athletes[i]->getName();
         if( i != athletes.size()-1)
         cout << ", ";
     }
@@ -250,4 +250,8 @@ void Team::showInfo() const{
 
 bool Team::operator<(const Team & p) const{
     return(name < p.getName());
+}
+
+void Team::addAthlete(Athlete* a) {
+    athletes.push_back(a);
 }
