@@ -14,12 +14,13 @@
 using namespace std;
 
 class Trial {
-    string name;
-    vector <string> participants;
+    string name;/**< The name of the Trial*/
+    vector <string> participants;/**< The type of the medal - g(old), s(ilver), b(bronze) */
     string winner; /**< the name of the winner */
-    Date date;
-    unsigned int numberOfElements;
+    Date date; /**< The day of the Trial*/
+    unsigned int numberOfElements; /**< The number of competitors*/
 public:
+    /*Trial Default Constructor*/
     Trial(){};
     Trial(const Trial & t);
     const string & getName() const;
