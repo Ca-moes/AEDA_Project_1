@@ -1434,17 +1434,13 @@ void Delegation::addAthlete() {
             cin.clear();
         }
         index = findTeam(tmp);
-        cout << "caralho"  << index << endl;
         if (index == -1) {
             throw NonExistentTeam(tmp);
         } else {
             cout << teams.size() << endl;
             competition_names = teams.at(index)->getCompetitions();
-            cout << "FODA-SE" << endl;
             novo->setCompetitions(competition_names);
-            cout << "PUTA" << endl;
             teams.at(index)->addAthlete(novo);
-            cout << "MERDA" << endl;
         }
     }
 
