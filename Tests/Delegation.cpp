@@ -298,7 +298,7 @@ void Delegation::readPeopleFile(const vector<string> &lines) {
 }
 
 void Delegation::writePeopleFile(){
-    ofstream myfile ("people_write.txt");
+    ofstream myfile ("peoplewrite.txt");
     if (myfile.is_open())
     {
         for (unsigned int i = 0; i<people.size(); ++i) {
@@ -533,7 +533,7 @@ void Delegation::readCompetitionsFile(const vector<string> &lines) {
 
 void Delegation::writeCompetitionsFile(){
 
-    ofstream myfile ("competitions_write.txt");
+    ofstream myfile ("competitionswrite.txt");
     if (myfile.is_open()) {
         for (int i = 0; i < sports.size(); ++i) {
             myfile << sports.at(i)->getName() << endl;

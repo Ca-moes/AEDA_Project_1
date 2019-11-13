@@ -65,6 +65,10 @@ public:
     */
     void readTeamsFile(const vector<string> & lines);
 
+    /** Used in Destructor, writes data back to .txt file
+     * */
+    void writeTeamsFile();
+
     /**
      * Get the Delegation's Country
      *
