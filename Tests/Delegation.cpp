@@ -35,6 +35,7 @@ Delegation::~Delegation(){
     writePeopleFile();
     writeCompetitionsFile();
     writeTeamsFile();
+    writeDelegationFile();
 }
 
 //Reading files functions
@@ -108,9 +109,7 @@ void Delegation::readDelegationFile() {
     delegationFile.clear();
 
     calculateTotalCost();
-    sort(people.begin(), people.end(), sortPersons);
-    sort(athletes.begin(), athletes.end(), sortMembersAlphabetically<Athlete>);
-
+    sortAllPeople();
     //Read teams file
 
     delegationFile.open(teamsFilename + ".txt");
@@ -694,7 +693,7 @@ void Delegation::writeTeamsFile() {
                 for (int j = 0; j < teamsp->getTeams().size(); ++j) {
                     myfile << teamsp->getTeams().at(j)->getName() << endl;
                     for (int k = 0; k < teamsp->getTeams().at(j)->getAthletes().size(); ++k) {
-                        myfile << teamsp->getTeams().at(j)->getAthletes().at(k).getName();
+                        myfile << teamsp->getTeams().at(j)->getAthletes().at(k)->getName();
                         if (k != teamsp->getTeams().at(j)->getAthletes().size() -1)
                             myfile << ", ";
                     }
@@ -709,6 +708,17 @@ void Delegation::writeTeamsFile() {
     }
     else cerr << "Unable to open file";
 }
+
+void Delegation::writeDelegationFile() {
+    ofstream myfile ("delegationwrite.txt");
+    if (myfile.is_open())
+    {
+        myfile << country << endl << dailyCostAthlete << endl << dailyCostStaff << endl << totalCost << endl << peopleFilename << endl << teamsFilename <<endl << competitionsFilename;
+        myfile.close();
+    }
+    else cerr << "Unable to open file";
+}
+
 //Acessors and mutators
 const string &Delegation::getCountry() const {
     return country;
@@ -3037,9 +3047,9 @@ Team * Delegation::getAthleteTeam(const string & at) const{
     Team * emptyTeam = new Team();
 
     for(size_t j=0; j<teams.size();j++){
-        vector<Athlete>participants=teams[j]->getAthletes();
+        vector<Athlete*>participants=teams[j]->getAthletes();
         for(size_t i=0;i<participants.size(); i++){
-            if(participants[i].getName() == at)
+            if(participants[i]->getName() == at)
                found=true;
             break;
         }
