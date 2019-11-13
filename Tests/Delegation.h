@@ -27,8 +27,8 @@ class Delegation {
     vector<Team*> teams;/**< All the teams of the Delegation*/
     vector<Sport*> sports;/**< All the sports of the Delegation*/
     list<Sport*> oldSports;/**< Sports that the Delgation no longer participates in*/
-    list<Person> oldAthletes;/**< Ahletes that no longer belong to the Delegation*/
-    list<Team> oldTeams; /**< Teams that no longer belong to the Delegation*/
+    list<Athlete*> oldAthletes;/**< Ahletes that no longer belong to the Delegation*/
+    list<Team*> oldTeams; /**< Teams that no longer belong to the Delegation*/
 public:
     /** Delegation Default Constructor*/
     Delegation();
@@ -175,9 +175,6 @@ public:
     */
     void changeAthlete();
 
-    /** Adds a team to the teams vector */
-    void addAthleteToTeam();
-
     /**
    * Find a Person in the people vector
    *
@@ -193,6 +190,14 @@ public:
     * @returns the index of the Sport, -1 if it does not exist
     */
     int findSport(const string & name) const;
+
+    /**
+    * Find a Team in the teams vector
+    *
+    * @params name the name of the Team
+    * @returns the index of the Team, -1 if it does not exist
+    */
+    int findTeam(const string & name) const;
 
     /**Shows the information of all the members of the Portuguese Delegation in a human friendly way
      * @throws NoMembers if the Delegation has no Members

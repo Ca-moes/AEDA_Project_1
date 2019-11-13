@@ -326,6 +326,10 @@ void athletesMenu(Delegation & delegation) {
                     cout << e;
                     exceptionHandler();
                 }
+                catch(NonExistentTeam &e) {
+                    cout << e;
+                    exceptionHandler();
+                }
                 delegation.calculateTotalCost();
                 delegation.sortAllPeople();
                 break;
@@ -388,15 +392,12 @@ void teamsMenu(Delegation & delegation) {
         cout << "\t\t   Teams Options " << endl;
         cout << "_____________________________________________________" << endl << endl;
 
-        cout << "1 - Add Team" << endl;
-        cout << "2 - Change Team" << endl;
-        cout << "3 - Remove Team" << endl;
-        cout << "4 - View Team Info" << endl;
-        cout << "5 - View All Teams Info" << endl;
+        cout << "1 - View Team Info" << endl;
+        cout << "2 - View All Teams Info" << endl;
         cout << "0 - BACK" << endl;
 
         do {
-            testinput = checkinputchoice(input, 0, 5);
+            testinput = checkinputchoice(input, 0, 2);
             if (testinput != 0 && testinput != 2)
                 cerr << "Invalid option! Please try again." << endl;
         } while (testinput != 0 && testinput != 2);
@@ -405,15 +406,6 @@ void teamsMenu(Delegation & delegation) {
 
         switch (stoi(input)) {
             case 1:
-                //delegation.addTeam();
-                break;
-            case 2:
-                //changeTeamMenu(delegation);
-                break;
-            case 3:
-                //delegation.removeTeam();
-                break;
-            case 4:
                 try{
                     delegation.showTeam();
                 }
@@ -426,7 +418,7 @@ void teamsMenu(Delegation & delegation) {
                     exceptionHandler();
                 }
                 break;
-            case 5:
+            case 2:
                 try{
                     delegation.showAllTeams();
                 }
