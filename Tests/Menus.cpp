@@ -180,12 +180,11 @@ void trialsMenu(Delegation & delegation){
     {
         if (system("CLS")) system("clear");
         cout << "_____________________________________________________" << endl << endl;
-        cout << "\t\t   Medals Statistics " << endl;
+        cout << "\t\t   Trials Calendar " << endl;
         cout << "_____________________________________________________" << endl << endl;
 
-        cout << "1 - All Medals" << endl;
-        cout << "2 - Medals by country" << endl;
-        cout << "3 - Medals Rankings" << endl;
+        cout << "1 - All Trials" << endl;
+        cout << "2 - Trials by day" << endl;
         cout << "0 - BACK" << endl;
 
         do {
@@ -199,22 +198,23 @@ void trialsMenu(Delegation & delegation){
         switch (stoi(input)) {
             case 1:
                 try{
-                    delegation.showAllMedals();
-                }catch(NoMedals & e){
+                    delegation.showAllTrials();
+                }catch(NoTrials & e){
                     cout<< e;
+                    exceptionHandler();
+                }
+                catch(NoSports & e){
+                    cout << e;
                     exceptionHandler();
                 }
                 break;
             case 2:
                 try{
-                    delegation.showCountryMedals();
+                    //delegation.showTrialsInDay();
                 }catch(NoMedals & e){
                     cout<< e;
                     exceptionHandler();
                 }
-                break;
-            case 3:
-                medalRankingsMenu(delegation);
                 break;
             case 0:
                 break;

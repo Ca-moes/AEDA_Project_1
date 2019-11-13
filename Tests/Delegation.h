@@ -239,23 +239,29 @@ public:
     void removeSport(const string &sport);
 
     /** Shows the information of a specific competition in a specific sport
-     * @param sport the name of the sport to remove
+     * @param sport the name of the sport
      * @throws NoCompetitions if the sport doesn't have competitions
      * @throws NonExistentCompetition if a specific competition doesn't exist in the sport
      */
     void showCompetition(const string & sport);
 
     /** Shows the information of all the competitions in a specific sport
-     * @param sport the name of the sport to remove
+     * @param sport the name of the sport
      * @throws NoCompetitions if the sport doesn't have competitions
      */
     void showAllCompetitions(const string & sport);
 
     /** Shows the information of all the trials in a specific sport
-     * @param sport the name of the sport to remove
+     * @param sport the name of the sport
      * @throws NoTrials if the sport's competitions don't have trials
      */
     void showAllTrials(const string & sport);
+
+    /** Shows the information of all the trials ordered by Date
+     * @param sport the name of the sport
+     * @throws NoTrials if there are no sports with trials
+     */
+    void showAllTrials();
 
     /** Shows the information of all the trials in a specific competition
      * @param competition the name of the competition
@@ -267,7 +273,6 @@ public:
     * @throws NoMedals if there isn't information about any medal
     */
     void showAllMedals() const;
-
 
     /** Shows the information of all the medals of a country
      * @throws NonExistentCountry if there the country doesn't take part in any competition
@@ -555,6 +560,7 @@ public:
     friend ostream & operator <<(ostream & os, NoTrials & p);
     /** No trials constructor*/
     explicit NoTrials(const string & sport);
+    NoTrials(){sport="";}
 };
 
 /**

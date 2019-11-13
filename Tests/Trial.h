@@ -34,6 +34,7 @@ public:
     void setNumberOfElements(unsigned int n);
     string info() const;
     void showInfo() const;
+    void showInfoNoDate() const;
 };
 
 ostream& operator<<(ostream& os, const Trial & g);

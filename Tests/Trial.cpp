@@ -75,3 +75,12 @@ void Trial::showInfo() const{
     cout << endl;
     cout <<  left <<setw(17) << "Winner" << setw(4) << " "<< winner <<endl;
 }
+
+void Trial::showInfoNoDate() const{
+    cout <<  left <<setw(17) << "Name" << setw(4) << " "<< name <<endl;
+    cout <<  left <<setw(17) << "Participants" <<setw(4) << " ";
+    for(const auto & participant : participants)
+        cout << participant <<" ";
+    cout << endl;
+    cout <<  left <<setw(17) << "Winner" << setw(4) << " "<< winner <<endl;
+}
