@@ -239,6 +239,7 @@ public:
     const vector<Athlete*> & getAthletes() const;
     void setAthletes(const vector<Athlete*> & a);
     void addAthlete(Athlete* a);
+    void removeAthlete(string name);
     void showInfo() const;
     bool operator<(const Team & t) const;
 };

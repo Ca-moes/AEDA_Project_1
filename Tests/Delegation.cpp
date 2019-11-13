@@ -694,7 +694,7 @@ void Delegation::writeTeamsFile() {
                 for (int j = 0; j < teamsp->getTeams().size(); ++j) {
                     myfile << teamsp->getTeams().at(j)->getName() << endl;
                     for (int k = 0; k < teamsp->getTeams().at(j)->getAthletes().size(); ++k) {
-                        myfile << teamsp->getTeams().at(j)->getAthletes().at(k).getName();
+                        myfile << teamsp->getTeams().at(j)->getAthletes().at(k)->getName();
                         if (k != teamsp->getTeams().at(j)->getAthletes().size() -1)
                             myfile << ", ";
                     }
@@ -1437,10 +1437,13 @@ void Delegation::addAthlete() {
         if (index == -1) {
             throw NonExistentTeam(tmp);
         } else {
-            cout << teams.size() << endl;
-            competition_names = teams.at(index)->getCompetitions();
-            novo->setCompetitions(competition_names);
-            teams.at(index)->addAthlete(novo);
+            if((teams.at(index)->getAthletes()).size() == ts->getNumberofElements()){
+                throw FullTeam(tmp);
+            } else {
+                competition_names = teams.at(index)->getCompetitions();
+                novo->setCompetitions(competition_names);
+                teams.at(index)->addAthlete(novo);
+            }
         }
     }
 
@@ -1473,6 +1476,24 @@ void Delegation::removeAthlete(){
     if (index == -1 || !(people.at(index)->isAthlete())) {
         throw NonExistentAthlete(tmp);
     } else {
+        string s = athletes.at(index)->getSport();
+        int index_s = findSport(s);
+        if(sports.at(index_s)->isTeamSport()){
+            TeamSport *ts = dynamic_cast<TeamSport *> (sports.at(index_s));
+            vector<Team *> tmp_teams = ts->getTeams();
+            string t;
+
+            for(int i = 0; i < tmp_teams.size(); i++){
+                vector<Athlete*> tmp_athletes = tmp_teams.at(i)->getAthletes();
+                for(int j = 0; j < tmp_athletes.size(); j++){
+                    if (tmp_athletes.at(j)->getName() == tmp) t = tmp_teams.at(i)->getName();
+                }
+            }
+
+            int index_t = findTeam(t);
+
+            teams.at(index_t)->removeAthlete(tmp);
+        }
         vector<Person *>::iterator it = people.begin() + index;
         vector<Athlete*>::iterator it_a = athletes.begin() + index;
         athletes.erase(it_a);
@@ -2168,7 +2189,7 @@ void Delegation::showAllTrials(){
         cout << "  " << dates[j] <<endl;
         cout << "--------------"<<endl;
         for(size_t i=tmp; i< allTrials.size(); i++){
-            if(allTrials[i].getDate() == dates[j]){
+            if(allTrials.at(i).getDate() == dates[j]){
                 allTrials[i].showInfoNoDate();
                 cout <<endl;
             }
@@ -3037,9 +3058,9 @@ Team * Delegation::getAthleteTeam(const string & at) const{
     Team * emptyTeam = new Team();
 
     for(size_t j=0; j<teams.size();j++){
-        vector<Athlete>participants=teams[j]->getAthletes();
+        vector<Athlete*> participants=teams[j]->getAthletes();
         for(size_t i=0;i<participants.size(); i++){
-            if(participants[i].getName() == at)
+            if(participants[i]->getName() == at)
                found=true;
             break;
         }
@@ -3321,3 +3342,9 @@ ostream &operator<<(ostream &os, NotATeamSport &p) {
     return os;
 }
 
+FullTeam::FullTeam(const string &t) {team = t;}
+
+ostream &operator<<(ostream &os, FullTeam &t) {
+    os << t.team << " is full!\n";
+    return os;
+}

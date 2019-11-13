@@ -398,6 +398,10 @@ void athletesMenu(Delegation & delegation) {
                     cout << e;
                     exceptionHandler();
                 }
+                catch(FullTeam &e){
+                    cout << e;
+                    exceptionHandler();
+                }
                 delegation.calculateTotalCost();
                 delegation.sortAllPeople();
                 break;
