@@ -133,7 +133,6 @@ void Delegation::readDelegationFile() {
 
     //set team competitions participants
     for (auto &team: teams) {//corre o vetor de equipas
-        cout << team->getName()<<endl;
         vector<Athlete*> members = team->getAthletes();//para cada equipa guarda o vetor de membros
         vector<string> comps;//para cada equipa, serve para guarda as competições onde participa
         for(auto & member: members){//corre o vetor de membros de uma equipa
@@ -145,14 +144,11 @@ void Delegation::readDelegationFile() {
                 }
             }
         }
-        cout << comps.size()<<endl;
         noRepeatVector(comps);
         team->setCompetitions(comps);
         comps.resize(0);
         members.resize(0);
     }
-
-    cout<< teams[2]->getCompetitions()[0];
 }
 
 void Delegation::readPeopleFile(const vector<string> &lines) {
@@ -231,8 +227,9 @@ void Delegation::readPeopleFile(const vector<string> &lines) {
                 case 7:
                     //ler competições - confirmar estrutura
                     competitionsStream.str(line);
-                    while (getline(competitionsStream, compStr, ' ')) {
-                        if (checkAlphaNumericInput(line) != 0)
+                    while (getline(competitionsStream, compStr, '/')) {
+                        compStr = regex_replace(compStr, regex("^ +| +$|( ) +"), "$1");
+                        if (compStr.empty())
                             throw FileStructureError(peopleFilename);
                         competitions.push_back(compStr);
                     }
@@ -312,8 +309,11 @@ void Delegation::writePeopleFile(){
             if(people.at(i)->isAthlete()){
                 Athlete* a = dynamic_cast<Athlete *> (people.at(i));
                 myfile << a->getSport() << endl;
-                for (const auto & j : a->getCompetitions())
-                    myfile << j << " ";
+                vector<string> comps = a->getCompetitions();
+                for (size_t j=0; j < comps.size();j++){
+                    myfile << j;
+                    if(j<(comps.size()-1)) myfile <<"/";
+                }
                 myfile << endl << a->getWeight() << endl << a->getHeight();
             }
             else{

@@ -37,80 +37,58 @@ public:
     /**Person Default virtual Destructor*/
     virtual ~Person() {}
 
-    /**
-   * Get the name of the person
-   *
+    /**Get the name of the person
    * @returns the name of the person
    */
     const string &getName() const;
 
-    /**
-   * Set the name of the person
-   *
+    /**Set the name of the person
    * @param name the name of the person
    */
     void setName(const string &name);
 
-    /**
-   * Get the birth date of the person
-   *
+    /**Get the birth date of the person
    * @returns  birth date of the person
    */
     const Date &getBirth() const;
 
-    /**
-      * Set the birth of the person
-      *
-      * @param birth the birth of the person
+    /**Set the birth of the person
+      *@param birth the birth of the person
       */
     void setBirth(const Date &birth);
 
-    /**
-   * Get the passport of the person
-   *
+    /**Get the passport of the person
    * @returns  passport of the person
    */
     const string &getPassport() const;
 
-    /**
-      * Set the passport of a person
-      *
+    /**Set the passport of a person
       * @param birth the passport of the person
       */
     void setPassport(const string &passport);
 
-    /**
-    * Get the date of arrival of the person
-    *
+    /**Get the date of arrival of the person
     * @returns  date of arrival of the person
     */
     const Date &getArrival() const;
 
-    /**
-      * Set the date of arrival of the person
-      *
-      * @param arrival the the date of departure of the person
+    /** Set the date of arrival of the person
+      *@param arrival the the date of departure of the person
       */
     void setArrival(const Date &arrival);
 
-    /**
-    * Get the date of departure of the person
-    *
-    * @returns  date of departure of the person
+    /**Get the date of departure of the person
+    *@returns  date of departure of the person
     */
     const Date &getDeparture() const;
 
-    /**
-      * Set the date of departure of the person
-      *
-      * @param arrival the the date of departure of the person
+    /**Set the date of departure of the person
+      *@param arrival the the date of departure of the person
       */
     void setDeparture(const Date &departure);
 
-    /**
-    * Get the information about the person for testing purposes
-    *
-    * @returns info about the person
+    /**Get the information about the person for testing purposes
+    *@returns info about the person
     */
     virtual string info();
 
@@ -126,7 +104,7 @@ public:
     virtual bool isAthlete() const {return false;};
 
     /** Compares two people
-    * @param p The Person that already exists
+    * @param p The Person to compare with
     * @returns true if the first is an athlete and the second is not, false if the first is not an athlete and second is and, otherwise, return true if the name of the first person comes first in the alphabet
     */
     bool operator<(const Person & p) const;

@@ -4,7 +4,7 @@ CB846485
 29/07/2020
 04/08/2020
 Badminton
-ParesMasculinos 
+0
 115
 153
 
@@ -13,8 +13,8 @@ Diana Freitas
 CB009101
 26/07/2020
 04/08/2020
-Vela
-Fase1 Fase2 
+Futebol
+0/1
 55
 164
 
@@ -24,7 +24,7 @@ CB009178
 24/07/2020
 06/08/2020
 Vela
-SailClassification2 SailFinal 
+0/1
 60
 167
 
@@ -34,7 +34,7 @@ CB162732
 29/07/2020
 02/08/2020
 Badminton
-ParesMasculinos 
+0
 120
 150
 
@@ -44,7 +44,7 @@ CB009167
 25/07/2020
 07/08/2020
 Vela
-SailClassification1 
+0
 67
 180
 
@@ -53,8 +53,8 @@ Maurilio Maria
 CB089178
 25/07/2020
 08/08/2020
-Futebol
-Fase1 Fase2 
+Atletismo
+0/1
 57
 163
 
@@ -64,7 +64,7 @@ CB039179
 24/07/2020
 06/08/2020
 Vela
-SailClassification2 SailFinal 
+0/1
 78
 179
 
@@ -73,8 +73,8 @@ Rute Xavier
 CB023167
 24/07/2020
 08/08/2020
-Futebol
-Fase1 Fase2 
+Vela
+0
 53.6
 182
 
