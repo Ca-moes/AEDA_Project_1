@@ -6,6 +6,7 @@
 #define PROJECT_1_DELEGATION_H
 
 #include "Sport.h"
+#include "Trial.h"
 #include "fstream"
 #include <regex>
 #include <list>
@@ -680,4 +681,19 @@ public:
     explicit NotATeamSport(const string & s);
 };
 
+/**
+ *  An exception thrown when the Team is full
+ */
+class FullTeam{
+    string team; /**< Name of the sport that doesn't have competitions*/
+public:
+    /** Informs that the team is full
+   * @param os the name of the ostream
+   * @param p FullTeam object
+   * @returns reference to the original ostream to allow input/output chains
+   */
+    friend ostream & operator <<(ostream & os, FullTeam & p);
+    /** FullTeam constructor*/
+    explicit FullTeam(const string & t);
+};
 #endif //PROJECT_1_DELEGATION_H
