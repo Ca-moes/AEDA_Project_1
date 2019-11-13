@@ -285,42 +285,116 @@ public:
      */
     void showCountryMedals() const;
 
+    /** Shows the information of all the medals of a country
+     * @param c the country to show medals
+     * @throws NonExistentCountry if there the country doesn't take part in any competition
+     * @throws NoMedals if the country doesn't have any medals
+     */
     void showCountryMedals(const string & c) const;
 
+    /** Return the number of medals of a country
+     * @param name the country
+     * @throws NoMedals if the country doesn't have any medals
+     * @returns number of medals of the country
+     */
     int numberOfMedalsCountry(const string & name) const;
 
+    /** Compares to countries by the total of medals
+     * @param left country1
+     * @param right country2
+     * @returns true if left country has more medals than right
+     */
     bool compareCountriesByMedals(const string &left, const string & right) const;
 
+    /** Get a list of the countries that won medals
+     * @returns list of countries with medals
+     * @throws NoMedals if there are no medals
+     */
     vector<string> getCountriesWithMedals() const;
 
+    /** Show the most awarded countries in a user friendly way*/
     void mostAwardedCountries() const;
 
+    /** Sort the countries by the total of medals
+     * @param delegation the Delegation
+     * @param countries the countries with medals to sort
+     */
     void friend countriesSort(const Delegation & d, vector<string> & countries);
 
+    /** Show the countries with more gold medals*/
     void mostAwardedGold() const;
 
+    /** Get a list of the countries that won gold medals
+     * @returns list of countries with gold medals
+     * @throws NoMedals if there are no gold medals
+     */
     vector<string> getCountriesWithGoldMedals() const;
 
+    /** Compares to countries by the total of gold medals
+     * @param left country1
+     * @param right country2
+     */
     bool compareCountriesByGoldMedals(const string &left, const string & right) const;
 
+    /** Sort the countries by the total of gold medals
+     * @param delegation the Delegation
+     * @param countries the countries with gold medals to sort
+     * @returns true if left country has more gold medals than right
+     */
     void friend countriesSortGold(const Delegation & d, vector<string> & countries);
 
+    /** Return the number of gold medals of a country
+     * @param name country
+     * @throws NoMedals if the country doesn't have any gold medals
+     * @returns number of medals of a country
+     */
     int numberOfGoldMedalsCountry(const string & name) const;
 
+    /** Shows the information of all the gold medals of a country
+    * @param c the country to show gold medals
+    * @throws NonExistentCountry if there the country doesn't take part in any competition
+    * @throws NoMedals if the country doesn't have any gold medals
+    */
     void showCountryGoldMedals(const string & c) const;
 
+    /** Shows the information of all the medals of an athlete
+    * @param c the athlete to show medals
+    */
     void showAthleteMedals(const string & c) const;
 
+    /** Get a list of the athletes that won medals
+     * @returns list of countries with medals
+     * @throws NoMedals if there are no medals
+     */
     vector<string> getAthletesWithMedals() const;
 
+    /** Return the number of medals of an athlete
+     *@param name the name of the athlete
+     *@throws NoMedals if the athlete doesn't have any medals
+     *@returns number of medals of the athlete
+     */
     int numberOfMedalsAthlete(const string & name) const;
 
+    /** Show the athletes with more medals*/
     void mostAwardedAthletes() const;
 
+    /** Sort the athletes by the total of medals
+     * @param delegation the Delegation
+     * @param countries the athletes with medals to sort
+     */
     friend void athletesSort(const Delegation & d,vector<string> & ats);
 
+    /** Compares to athletes by the total of medals
+     * @param left athlete1
+     * @param right athlete2
+     * @returns true if left athlete has more medals than right
+     */
     bool compareAthletesByMedals(const string &left, const string & right) const;
 
+    /** get the Team of an athlete
+     * @param at athlete
+     * @returns the team of the athlete
+     */
     Team * getAthleteTeam(const string & at) const;
 
 };

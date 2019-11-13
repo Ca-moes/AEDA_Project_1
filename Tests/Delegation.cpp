@@ -3070,6 +3070,34 @@ void Delegation::mostAwardedAthletes() const{
     }
 }
 
+//History
+/*void Delegation::athletesHistory() {
+    int test = 0;
+    string input = "";
+
+    system("cls");
+    cout << "_______________________________________________________" << endl << endl;
+    cout << "  Athletes that don't compete in the Olympics anymore  " << endl;
+    cout << "_______________________________________________________" << endl << endl;
+
+
+    if (!oldAthletes.empty()) {
+        vector<Athlete *>::const_iterator it;
+        for (it = athletes.begin(); it != athletes.end(); it++) {
+            (*it)->showInfo();
+            cout << endl;
+        }
+    } else
+        throw NoMembers();
+
+    cout << endl << "0 - BACK" << endl;
+    do {
+        test = checkinputchoice(input, 0, 0);
+        if (test != 0)
+            cerr << "Invalid option! Press 0 to go back." << endl;
+    } while (test != 0 && test != 2);
+}*/
+
 //File Errors - Exceptions
 FileError::FileError(string file) : file(move(file)) {}
 
