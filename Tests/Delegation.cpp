@@ -186,24 +186,27 @@ void Delegation::readPeopleFile(const vector<string> &lines) {
             //ler atleta
             switch (numline) {
                 case 1:
-                    if (checkStringInput(line) != 0)
+                    if (checkStringInput(line) != 0) {
                         throw FileStructureError(peopleFilename);
+                    }
                     a->setName(line);
                     break;
                 case 2:
-                    if (checkDateInput(line, d) !=
-                        0) //just needs to check the format and set variables(in class date there is a function to check the validity)
+                    if (checkDateInput(line, d) != 0) {
                         throw FileStructureError(peopleFilename);
+                    }
                     a->setBirth(d);
                     break;
                 case 3:
-                    if (checkAlphaNumericInput(line) != 0)
+                    if (checkAlphaNumericInput(line) != 0){
                         throw FileStructureError(peopleFilename);
+                    }
                     a->setPassport(line);
                     break;
                 case 4:
-                    if (checkDateInput(line, d) != 0)
+                    if (checkDateInput(line, d) != 0){
                         throw FileStructureError(peopleFilename);
+                    }
                     if (d.isOlimpianDate()) {
                         a->setArrival(d);
                     } else {
@@ -211,8 +214,9 @@ void Delegation::readPeopleFile(const vector<string> &lines) {
                     }
                     break;
                 case 5:
-                    if (checkDateInput(line, d) != 0)
+                    if (checkDateInput(line, d) != 0){
                         throw FileStructureError(peopleFilename);
+                    }
                     if (d.isOlimpianDate()) {
                         a->setDeparture(d);
                     } else {
@@ -220,8 +224,9 @@ void Delegation::readPeopleFile(const vector<string> &lines) {
                     }
                     break;
                 case 6:
-                    if (checkStringInput(line) != 0)
+                    if (checkStringInput(line) != 0){
                         throw FileStructureError(peopleFilename);
+                    }
                     a->setSport(line);
                     break;
                 case 7:
@@ -229,20 +234,23 @@ void Delegation::readPeopleFile(const vector<string> &lines) {
                     competitionsStream.str(line);
                     while (getline(competitionsStream, compStr, '/')) {
                         compStr = regex_replace(compStr, regex("^ +| +$|( ) +"), "$1");
-                        if (compStr.empty())
+                        if (compStr.empty()){
                             throw FileStructureError(peopleFilename);
+                        }
                         competitions.push_back(compStr);
                     }
                     a->setCompetitions(competitions);
                     break;
                 case 8:
-                    if (checkFloatInput(line) != 0)
+                    if (checkFloatInput(line) != 0){
                         throw FileStructureError(peopleFilename);
+                    }
                     a->setWeight(stof(line));
                     break;
                 case 9:
-                    if (checkFloatInput(line) != 0)
+                    if (checkFloatInput(line) != 0){
                         throw FileStructureError(peopleFilename);
+                    }
                     a->setHeight(stof(line));
                     people.push_back(new Athlete(*a));
                     athletes.push_back(new Athlete(*a));
@@ -254,24 +262,27 @@ void Delegation::readPeopleFile(const vector<string> &lines) {
         } else {
             switch (numline) {
                 case 1:
-                    if (checkStringInput(line) != 0)
+                    if (checkStringInput(line) != 0){
                         throw FileStructureError(peopleFilename);
+                    }
                     s->setName(line);
                     break;
                 case 2:
-                    if (checkDateInput(line, d) !=
-                        0) //just needs to check the format and set variables(in class date there is a function to check the validity)
+                    if (checkDateInput(line, d) != 0) {
                         throw FileStructureError(peopleFilename);
+                    }
                     s->setBirth(d);
                     break;
                 case 3:
-                    if (checkAlphaNumericInput(line) != 0)
+                    if (checkAlphaNumericInput(line) != 0){
                         throw FileStructureError(peopleFilename);
+                    }
                     s->setPassport(line);
                     break;
                 case 4:
-                    if (checkDateInput(line, d) != 0)
+                    if (checkDateInput(line, d) != 0){
                         throw FileStructureError(peopleFilename);
+                    }
                     if (d.isOlimpianDate()) {
                         s->setArrival(d);
                     } else {
@@ -279,8 +290,9 @@ void Delegation::readPeopleFile(const vector<string> &lines) {
                     }
                     break;
                 case 5:
-                    if (checkDateInput(line, d) != 0)
+                    if (checkDateInput(line, d) != 0){
                         throw FileStructureError(peopleFilename);
+                    }
                     if (d.isOlimpianDate()) {
                         s->setDeparture(d);
                     } else {
@@ -288,8 +300,9 @@ void Delegation::readPeopleFile(const vector<string> &lines) {
                     }
                     break;
                 case 6:
-                    if (checkStringInput(line) != 0)
+                    if (checkStringInput(line) != 0){
                         throw FileStructureError(peopleFilename);
+                    }
                     s->setFunction(line);
                     people.push_back(new Staff(*s));
                     break;
@@ -301,7 +314,7 @@ void Delegation::readPeopleFile(const vector<string> &lines) {
 }
 
 void Delegation::writePeopleFile(){
-    ofstream myfile ("peoplewrite.txt");
+    ofstream myfile ("people.txt");
     if (myfile.is_open())
     {
         for (unsigned int i = 0; i<people.size(); ++i) {
@@ -539,7 +552,7 @@ void Delegation::readCompetitionsFile(const vector<string> &lines) {
 
 void Delegation::writeCompetitionsFile(){
 
-    ofstream myfile ("competitionswrite.txt");
+    ofstream myfile ("competitions.txt");
     if (myfile.is_open()) {
         for (int i = 0; i < sports.size(); ++i) {
             myfile << sports.at(i)->getName() << endl;
@@ -689,7 +702,7 @@ void Delegation::readTeamsFile(const vector<string> &lines) {
 }
 
 void Delegation::writeTeamsFile() {
-    ofstream myfile ("teamswrite.txt");
+    ofstream myfile ("teams.txt");
     if (myfile.is_open())
     {
         for (unsigned int i = 0; i < sports.size(); ++i) {
@@ -904,8 +917,7 @@ void Delegation::addStaffMember() {
     }
     cin.clear();
     Date arrival = novo->getArrival();
-    while (checkDateInput(tmp, tmp_date) || !(tmp_date.isOlimpianDate()) || !1
-    (dateIsBefore(arrival,tmp))) {
+    while (checkDateInput(tmp, tmp_date) || !(tmp_date.isOlimpianDate()) || !(dateIsBefore(arrival,tmp))) {
         cout << "Invalid Date. Try again!" << endl;
         cout << "Date of Departure: ";
         getline(cin, tmp);
