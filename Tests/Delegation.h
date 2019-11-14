@@ -56,7 +56,7 @@ public:
     */
     void readCompetitionsFile(const vector<string> &lines);
 
-    /** Used in Destructor, writes data back to .txt file
+    /** Used in Destructor, writes Competition data back to .txt file
      * */
     void writeCompetitionsFile();
 
@@ -66,9 +66,13 @@ public:
     */
     void readTeamsFile(const vector<string> & lines);
 
-    /** Used in Destructor, writes data back to .txt file
+    /** Used in Destructor, writes Team data back to .txt file
      * */
     void writeTeamsFile();
+
+    /** Used in Destructor, writes Delegation data back to .txt file
+     * */
+    void writeDelegationFile();
 
     /**
      * Get the Delegation's Country

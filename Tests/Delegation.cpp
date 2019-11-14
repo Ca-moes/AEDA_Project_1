@@ -35,6 +35,7 @@ Delegation::~Delegation(){
     writePeopleFile();
     writeCompetitionsFile();
     writeTeamsFile();
+    writeDelegationFile();
 }
 
 //Reading files functions
@@ -727,6 +728,17 @@ void Delegation::writeTeamsFile() {
     }
     else cerr << "Unable to open file";
 }
+
+void Delegation::writeDelegationFile() {
+    ofstream myfile ("delegationwrite.txt");
+    if (myfile.is_open())
+    {
+        myfile << country << endl << dailyCostAthlete << endl << dailyCostStaff << endl << totalCost << endl << peopleFilename << endl << teamsFilename <<endl << competitionsFilename;
+        myfile.close();
+    }
+    else cerr << "Unable to open file";
+}
+
 //Acessors and mutators
 const string &Delegation::getCountry() const {
     return country;
