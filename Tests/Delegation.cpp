@@ -35,6 +35,7 @@ Delegation::~Delegation(){
     writePeopleFile();
     writeCompetitionsFile();
     writeTeamsFile();
+    writeDelegationFile();
 }
 
 //Reading files functions
@@ -745,6 +746,17 @@ void Delegation::writeTeamsFile() {
     }
     else cerr << "Unable to open file";
 }
+
+void Delegation::writeDelegationFile() {
+    ofstream myfile ("delegation.txt");
+    if (myfile.is_open())
+    {
+        myfile << country << endl << dailyCostAthlete << endl << dailyCostStaff << endl << totalCost << endl << peopleFilename << endl << teamsFilename <<endl << competitionsFilename;
+        myfile.close();
+    }
+    else cerr << "Unable to open file";
+}
+
 //Acessors and mutators
 const string &Delegation::getCountry() const {
     return country;
@@ -967,6 +979,14 @@ void Delegation::addStaffMember() {
     novo->setFunction(tmp);
 
     people.push_back(novo);
+
+    cout << endl << "Staff Member added with success!" << endl;
+    cout << endl << "0 - BACK" << endl;
+    do {
+        test = checkinputchoice(input, 0, 0);
+        if (test != 0&& test != 2)
+            cerr << "Invalid option! Press 0 to go back." << endl;
+    } while (test != 0 && test != 2);
 }
 
 void Delegation::removeStaffMember() {
@@ -998,7 +1018,13 @@ void Delegation::removeStaffMember() {
         vector<Person *>::iterator it = people.begin() + index;
         delete *it;
         people.erase(it);
-        return;
+        cout << endl << "Staff Member removed with success!" << endl;
+        cout << endl << "0 - BACK" << endl;
+        do {
+            test = checkinputchoice(input, 0, 0);
+            if (test != 0&& test != 2)
+                cerr << "Invalid option! Press 0 to go back." << endl;
+        } while (test != 0 && test != 2);
     }
 }
 
@@ -1185,6 +1211,14 @@ void Delegation::changeStaffMember() {
             default:
                 break;
         }
+
+        cout << endl << "Staff Member changed with success!" << endl;
+        cout << endl << "0 - BACK" << endl;
+        do {
+            test = checkinputchoice(input, 0, 0);
+            if (test != 0&& test != 2)
+                cerr << "Invalid option! Press 0 to go back." << endl;
+        } while (test != 0 && test != 2);
     }
 }
 
@@ -1489,11 +1523,21 @@ void Delegation::addAthlete() {
 
     people.push_back(novo);
     athletes.push_back(novo);
+
+    cout << endl << "Athlete added with success!" << endl;
+    cout << endl << "0 - BACK" << endl;
+    do {
+        test = checkinputchoice(input, 0, 0);
+        if (test != 0&& test != 2)
+            cerr << "Invalid option! Press 0 to go back." << endl;
+    } while (test != 0 && test != 2);
 }
 
 void Delegation::removeAthlete(){
     int index;
     string tmp;
+    int test = 0;
+    string input = "";
 
     cout << "Name: ";
     getline(cin, tmp);
@@ -1531,7 +1575,6 @@ void Delegation::removeAthlete(){
             }
 
             int index_t = findTeam(t);
-
             teams.at(index_t)->removeAthlete(tmp);
         }
         vector<Person *>::iterator it = people.begin() + index;
@@ -1539,7 +1582,14 @@ void Delegation::removeAthlete(){
         athletes.erase(it_a);
         delete *it;
         people.erase(it);
-        return;
+
+        cout << endl << "Athlete removed with success!" << endl;
+        cout << endl << "0 - BACK" << endl;
+        do {
+            test = checkinputchoice(input, 0, 0);
+            if (test != 0&& test != 2)
+                cerr << "Invalid option! Press 0 to go back." << endl;
+        } while (test != 0 && test != 2);
     }
 }
 
@@ -1862,6 +1912,14 @@ void Delegation::changeAthlete() {
             default:
                 break;
         }
+
+        cout << endl << "Athlete changed with success!" << endl;
+        cout << endl << "0 - BACK" << endl;
+        do {
+            test = checkinputchoice(input, 0, 0);
+            if (test != 0&& test != 2)
+                cerr << "Invalid option! Press 0 to go back." << endl;
+        } while (test != 0 && test != 2);
     }
 }
 
