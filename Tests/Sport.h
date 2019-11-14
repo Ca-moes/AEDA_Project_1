@@ -49,7 +49,7 @@ public:
 
     /**Get the Sport's competitions
      * @returns sport's competitions*/
-    const vector<Competition> & getCompetitions() const;
+    vector<Competition> getCompetitions() const;
 
     /**Get a string with the information about the sport for testing purposes
      * @returns a string with the info about the sport for testing purposes

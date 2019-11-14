@@ -64,6 +64,14 @@ void Competition::setTrials(const vector<Trial> & trials){
     this->trials = trials;
 }
 
+void Competition::setParticipants(const vector<string> & p){
+    participants=p;
+}
+
+vector<string> Competition::getParticipants(){
+    return participants;
+}
+
 const vector<Trial> & Competition::getTrials() const{
     return trials;
 }
@@ -104,6 +112,14 @@ void Competition::showInfo() const{
         cout <<  left <<setw(17) << "Trials" <<setw(4) << " ";
         for(const auto & trial : trials)
             cout << trial.getName() << " ";
+        cout << endl;
+    }
+    cout << participants.size()<<endl;
+
+    if(!participants.empty()){
+        cout <<  left <<setw(32) << "Participants (of the Delegation)" <<setw(4) << " ";
+        for(const auto & participant : participants)
+            cout << participant<< "  ";
         cout << endl;
     }
     cout <<  left <<setw(17) << "Winners" << setw(4) <<endl;

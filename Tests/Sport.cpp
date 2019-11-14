@@ -24,7 +24,7 @@ void Sport::setCompetitions(const vector<Competition> & competitions){
     this->competitions=competitions;
 }
 
-const vector<Competition> & Sport::getCompetitions() const{
+vector<Competition> Sport::getCompetitions() const{
     return competitions;
 }
 
