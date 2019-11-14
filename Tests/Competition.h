@@ -17,7 +17,7 @@ class Competition {
     Date end; /**< End date of the Competition*/
     vector<Trial> trials; /**< list of the trials*/
     vector<Medal> medals; /**< list of medals */
-    vector<string> participants; /**< List of the participants*/
+    vector<string> participants;/**< List of the participants*/
 public:
     /** Competition Default Constructor*/
     Competition();
@@ -110,6 +110,20 @@ public:
     * @param p the athlete's name
     */
     void addParticipant(const string & p);
+
+    /**
+    * Set the Participants of the competition
+    *
+    * @param n the participants
+    */
+    void setParticipants(const vector<string> & p);
+
+    /**
+    * Get the Participants of the competition
+    *
+    * @returns the participants
+    */
+    vector<string> getParticipants();
 
     /** Show info about the competition in an user friendly way*/
     void showInfo() const;

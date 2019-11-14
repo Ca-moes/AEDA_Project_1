@@ -132,14 +132,14 @@ void Delegation::readDelegationFile() {
     readCompetitionsFile(fileToLineVector(delegationFile));
     delegationFile.clear();
 
-    //set team competitions participants
+    //set team competitions
     for (auto &team: teams) {//corre o vetor de equipas
         vector<Athlete*> members = team->getAthletes();//para cada equipa guarda o vetor de membros
         vector<string> comps;//para cada equipa, serve para guarda as competições onde participa
         for(auto & member: members){//corre o vetor de membros de uma equipa
-            for(size_t i= 0; i< athletes.size(); i++){//corre o vetor de atletas da delegação
-                if(*athletes[i] == *member) { //se encontrar o atleta nos atletas
-                    vector<string> appendComps = athletes[i]->getCompetitions(); // guarda o vetor de competições
+            for(auto & athlete : athletes){//corre o vetor de atletas da delegação
+                if(*athlete == *member) { //se encontrar o atleta nos atletas
+                    vector<string> appendComps = athlete->getCompetitions(); // guarda o vetor de competições
                     comps.insert(comps.end(),appendComps.begin(), appendComps.end()); // adiciona o vetor de competições às competições
                     break;
                 }
@@ -149,6 +149,35 @@ void Delegation::readDelegationFile() {
         team->setCompetitions(comps);
         comps.resize(0);
         members.resize(0);
+    }
+
+    //set competition participants
+    vector<Sport*>::iterator it;
+    for (it=sports.begin(); it!=sports.end();it++) { //corre todos os desportos
+        vector<Competition> sportComps= (*it)->getCompetitions();
+        for(auto &sportComp: sportComps){
+            vector<string> participants;
+            if((*it)->isTeamSport()){
+                for(auto &team: teams){
+                    vector<string> teamComps = team->getCompetitions();
+                    for(auto &teamComp: teamComps){
+                        if(teamComp == sportComp.getName())
+                            participants.push_back(team->getName());
+                    }
+                }
+            }
+            else{
+                for(auto &athlete: athletes){
+                    vector<string> indComps = athlete->getCompetitions();
+                    for(auto &indComp: indComps){
+                        if(indComp == sportComp.getName())
+                            participants.push_back(athlete->getName());
+                    }
+                }
+            }
+            sportComp.setParticipants(participants); //até aqui a competição parece que fica com os participantes certos
+        }
+        (*it)->setCompetitions(sportComps); //não funciona
     }
 }
 
@@ -369,12 +398,6 @@ void Delegation::readCompetitionsFile(const vector<string> &lines) {
             if (line.empty()) {// Se a linha está vazia vamos ler a próxima competição
                 if (read == 'c' || read == 't') {
                     if (read == 't') {
-                        for (auto &athlete :athletes) {
-                            for (auto &comp : athlete->getCompetitions()) {
-                                if (comp == competition.getName())
-                                    competition.addParticipant(athlete->getName());
-                            }
-                        }
                         competition.setTrials(trials);
                     }
                     competition.setMedals(medals);
@@ -392,12 +415,6 @@ void Delegation::readCompetitionsFile(const vector<string> &lines) {
             } else if (line == "////////" || i == lines.size()) {//novo desporto - guardar os dados das competições e jogos e limpar variáveis auxiliares; ou útlima linha do ficheiro
                 if (read == 't' || read == 'c'){
                     if (read == 't') {
-                        for (auto &athlete :athletes) {
-                            for (auto &comp : athlete->getCompetitions()) {
-                                if (comp == competition.getName())
-                                    competition.addParticipant(athlete->getName());
-                            }
-                        }
                         competition.setTrials(trials);
                     }
                     competition.setMedals(medals);
@@ -631,12 +648,13 @@ void Delegation::readTeamsFile(const vector<string> &lines) {
     Athlete* a;
     string sport;
 
-    for (size_t i = 0; i < lines.size(); i++) {
+    for (size_t i = 0; i < lines.size()+1; i++) {
         numline++;
         line = lines[i];
-        if (line == "&&&&") {
+        if (i==lines.size()) {
             teams.push_back(new Team(*t));
             break;
+
         }
 
         if (line.empty()) { // Se alinha está vazia voltamos a colocar o numLines a 0 para ler a próxima equipa
