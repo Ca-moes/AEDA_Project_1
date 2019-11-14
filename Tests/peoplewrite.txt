@@ -4,9 +4,19 @@ CB846485
 29/07/2020
 04/08/2020
 Badminton
-0
+Pares Masculinos
 115
 153
+
+Catarina Freitas
+14/10/1996
+CB5443434
+25/07/2020
+24/07/2020
+Atletismo
+100mts/200mts
+60
+160
 
 Diana Freitas
 24/07/1999
@@ -14,7 +24,7 @@ CB009101
 26/07/2020
 04/08/2020
 Futebol
-0/1
+Fase 1/Fase 2
 55
 164
 
@@ -24,7 +34,7 @@ CB009178
 24/07/2020
 06/08/2020
 Vela
-0/1
+Sail Classification 2/Sail Final
 60
 167
 
@@ -34,7 +44,7 @@ CB162732
 29/07/2020
 02/08/2020
 Badminton
-0
+Pares Masculinos
 120
 150
 
@@ -44,7 +54,7 @@ CB009167
 25/07/2020
 07/08/2020
 Vela
-0
+Sail Classification 1
 67
 180
 
@@ -54,7 +64,7 @@ CB089178
 25/07/2020
 08/08/2020
 Atletismo
-0/1
+100mts/200mts
 57
 163
 
@@ -64,7 +74,7 @@ CB039179
 24/07/2020
 06/08/2020
 Vela
-0/1
+Sail Classification 2/Sail Final
 78
 179
 
@@ -74,7 +84,7 @@ CB023167
 24/07/2020
 08/08/2020
 Vela
-0
+Sail Classification 1
 53.6
 182
 

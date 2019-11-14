@@ -95,17 +95,8 @@ bool Date::operator ==(const Date & d) const{
    return (d.getYear() ==  year && d.getMonth() == month && d.getDay() == day);
 }
 
+
 ostream& operator<<(ostream& os, const Date & d){
     os << right << setfill('0') << setw(2) << d.getDay() << "/" << setfill('0') << setw(2) << d.getMonth() << "/" << d.getYear() << setfill(' ');
     return os;
-}
-
-//Exceptions
-ostream & operator <<(ostream & os, InvalidDate & d){
-    os << d.date << " is not a valid date \n";
-    return os;
-}
-
-InvalidDate::InvalidDate(string date){
-    this->date = date;
 }

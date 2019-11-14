@@ -52,6 +52,14 @@ int checkFloatInput(string & st);
 int checkDateInput(string date, Date & d);
 
 /**
+* Check if a date is before the other
+*@param d the date that should be before
+*@param date the date string that should be after
+*@returns 0 if the date d is before the date
+*/
+int dateIsBefore(Date & d,string date);
+
+/**
 * Check if a string can be converted to an int
 *
 * @returns 0 if the string is convertible to an int
@@ -133,6 +141,11 @@ bool sortPersons(const Person * p1, const Person * p2);
  */
 bool sortTrialsByDate(const Trial & t1, const Trial & t2);
 
+/**
+ * Sorts a vector of objects of a comparable class (> must be defined) using insertion sort algorithm
+ * @tparam Comparable the comparable class of the objects to order
+ * @param v the vector to be sorted
+ */
 template <class Comparable>
 void insertionSort(vector<Comparable> &v)
 {
@@ -146,8 +159,18 @@ void insertionSort(vector<Comparable> &v)
     }
 }
 
+/**
+ * Performs a case insensitive char comparison
+ * @param c1,c2 chars to compare
+ * @returns true if the chars are equal
+ */
 bool compareChar(const char & c1, const char & c2);
 
+/**
+ * Performs a case insensitive string comparison
+ * @param str1,str2 strings to compare
+ * @returns true if the strings are equal
+ */
 bool caseInSensStringCompare(const string & str1, const string &str2);
 
 #endif //PROJECT_1_INPUTCHECK_H

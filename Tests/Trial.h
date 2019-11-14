@@ -13,6 +13,7 @@
 
 using namespace std;
 
+/**A class to store the information about a Trial*/
 class Trial {
     string name;/**< The name of the Trial*/
     vector <string> participants;/**< The type of the medal - g(old), s(ilver), b(bronze) */

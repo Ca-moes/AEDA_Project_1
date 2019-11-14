@@ -9,6 +9,9 @@
 
 using namespace std;
 
+/**
+ * A class to store the information about a Medal
+ */
 class Medal {
 public:
     /**Trial Default Constructor*/

@@ -311,7 +311,7 @@ void Delegation::writePeopleFile(){
                 myfile << a->getSport() << endl;
                 vector<string> comps = a->getCompetitions();
                 for (size_t j=0; j < comps.size();j++){
-                    myfile << j;
+                    myfile << comps[j];
                     if(j<(comps.size()-1)) myfile <<"/";
                 }
                 myfile << endl << a->getWeight() << endl << a->getHeight();
@@ -903,7 +903,9 @@ void Delegation::addStaffMember() {
         return; //go back on ctrl+d
     }
     cin.clear();
-    while (checkDateInput(tmp, tmp_date) || !(tmp_date.isOlimpianDate())) {
+    Date arrival = novo->getArrival();
+    while (checkDateInput(tmp, tmp_date) || !(tmp_date.isOlimpianDate()) || !1
+    (dateIsBefore(arrival,tmp))) {
         cout << "Invalid Date. Try again!" << endl;
         cout << "Date of Departure: ";
         getline(cin, tmp);
@@ -1333,7 +1335,8 @@ void Delegation::addAthlete() {
         return; //go back on ctrl+d
     }
     cin.clear();
-    while (checkDateInput(tmp, tmp_date) || !(tmp_date.isOlimpianDate())) {
+    Date arrival = novo->getArrival();
+    while (checkDateInput(tmp, tmp_date) || !(tmp_date.isOlimpianDate()) || !(dateIsBefore(arrival,tmp))) {
         cout << "Invalid Date. Try again!" << endl;
         cout << "Date of Departure: ";
         getline(cin, tmp);
