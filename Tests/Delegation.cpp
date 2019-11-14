@@ -152,7 +152,7 @@ void Delegation::readDelegationFile() {
     }
 
     //set competition participants
-    vector<Sport*>::iterator it;
+    /*vector<Sport*>::iterator it;
     for (it=sports.begin(); it!=sports.end();it++) { //corre todos os desportos
         vector<Competition> sportComps= (*it)->getCompetitions();
         for(auto &sportComp: sportComps){
@@ -178,7 +178,7 @@ void Delegation::readDelegationFile() {
             sportComp.setParticipants(participants); //até aqui a competição parece que fica com os participantes certos
         }
         (*it)->setCompetitions(sportComps); //não funciona
-    }
+    }*/
 }
 
 void Delegation::readPeopleFile(const vector<string> &lines) {
@@ -648,15 +648,13 @@ void Delegation::readTeamsFile(const vector<string> &lines) {
     Athlete* a;
     string sport;
 
-    for (size_t i = 0; i < lines.size()+1; i++) {
+    for (size_t i = 0; i < (lines.size()+1); i++) {
         numline++;
-        line = lines[i];
         if (i==lines.size()) {
             teams.push_back(new Team(*t));
             break;
-
         }
-
+        line = lines[i];
         if (line.empty()) { // Se alinha está vazia voltamos a colocar o numLines a 0 para ler a próxima equipa
             teams.push_back(new Team(*t));
             numline = 1;
@@ -1025,6 +1023,7 @@ void Delegation::removeStaffMember() {
             if (test != 0&& test != 2)
                 cerr << "Invalid option! Press 0 to go back." << endl;
         } while (test != 0 && test != 2);
+        return;
     }
 }
 
@@ -1590,6 +1589,7 @@ void Delegation::removeAthlete(){
             if (test != 0&& test != 2)
                 cerr << "Invalid option! Press 0 to go back." << endl;
         } while (test != 0 && test != 2);
+        return;
     }
 }
 
