@@ -79,6 +79,15 @@ int dateIsBefore(Date & d,string date){
     return d < departure || d == departure;
 }
 
+int dateIsAfter(Date & d,string date){
+    Date arrival;
+    if(checkDateInput(date,arrival) != 0){
+        cout << "Arrival and Departure not ok"<<endl;
+        return 1;
+    }
+    return arrival < d || d == arrival;
+}
+
 int checkPositiveIntInput(string & str){
     //check if the string is empty
     try{
