@@ -60,6 +60,14 @@ int checkDateInput(string date, Date & d);
 int dateIsBefore(Date & d,string date);
 
 /**
+* Check if a date is after the other
+*@param d the date that should be after
+*@param date the date string that should be before
+*@returns 0 if the date d is after the date
+*/
+int dateIsAfter(Date & d,string date);
+
+/**
 * Check if a string can be converted to an int
 *
 * @returns 0 if the string is convertible to an int

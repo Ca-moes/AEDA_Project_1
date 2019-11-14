@@ -809,7 +809,7 @@ void Delegation::showMembers() {
     cout << endl << "0 - BACK" << endl;
     do {
         test = checkinputchoice(input, 0, 0);
-        if (test != 0)
+        if (test != 0&& test != 2)
             cerr << "Invalid option! Press 0 to go back." << endl;
     } while (test != 0 && test != 2);
 }
@@ -1010,6 +1010,8 @@ void Delegation::changeStaffMember() {
     if (index == -1 || people.at(index)->isAthlete()) {
         throw NonExistentStaff(tmp);
     } else {
+        Date departure = people[index]->getDeparture();
+        Date arrival = people[index]->getArrival();
         system("cls");
         cout << "_____________________________________________________" << endl << endl;
         cout << "\t\t   What do you want to change?" << endl;
@@ -1101,7 +1103,7 @@ void Delegation::changeStaffMember() {
                     return; //go back on ctrl+d
                 }
                 cin.clear();
-                while (checkDateInput(tmp, tmp_date) || !(tmp_date.isOlimpianDate())) {
+                while (checkDateInput(tmp, tmp_date) || !(tmp_date.isOlimpianDate()) || !(dateIsAfter(departure,tmp))) {
                     cout << "Invalid Date. Try again!" << endl;
                     cout << "Date of Arrival: ";
                     getline(cin, tmp);
@@ -1121,7 +1123,7 @@ void Delegation::changeStaffMember() {
                     return; //go back on ctrl+d
                 }
                 cin.clear();
-                while (checkDateInput(tmp, tmp_date) || !(tmp_date.isOlimpianDate())) {
+                while (checkDateInput(tmp, tmp_date) || !(tmp_date.isOlimpianDate())|| !(dateIsBefore(arrival,tmp))) {
                     cout << "Invalid Date. Try again!" << endl;
                     cout << "Date of Departure: ";
                     getline(cin, tmp);
@@ -1213,7 +1215,7 @@ void Delegation::showStaffMember() const {
     cout << endl << "0 - BACK" << endl;
     do {
         test = checkinputchoice(input, 0, 0);
-        if (test != 0)
+        if (test != 0&& test != 2)
             cerr << "Invalid option! Press 0 to go back." << endl;
     } while (test != 0 && test != 2);
 }
@@ -1549,6 +1551,9 @@ void Delegation::changeAthlete() {
     if (index == -1 || !(people.at(index)->isAthlete())) {
         throw NonExistentAthlete(tmp);
     } else {
+        Date departure = people[index]->getDeparture();
+        Date arrival = people[index]->getArrival();
+
         system("cls");
         cout << "_____________________________________________________" << endl << endl;
         cout << "\t\t   What do you want to change?" << endl;
@@ -1649,7 +1654,7 @@ void Delegation::changeAthlete() {
                     return; //go back on ctrl+d
                 }
                 cin.clear();
-                while (checkDateInput(tmp, tmp_date) || !(tmp_date.isOlimpianDate())) {
+                while (checkDateInput(tmp, tmp_date) || !(tmp_date.isOlimpianDate()) || !(dateIsAfter(departure,tmp))) {
                     cout << "Invalid Date. Try again!" << endl;
                     cout << "Date of Arrival: ";
                     getline(cin, tmp);
@@ -1670,7 +1675,7 @@ void Delegation::changeAthlete() {
                     return; //go back on ctrl+d
                 }
                 cin.clear();
-                while (checkDateInput(tmp, tmp_date) || !(tmp_date.isOlimpianDate())) {
+                while (checkDateInput(tmp, tmp_date) || !(tmp_date.isOlimpianDate()) || !(dateIsBefore(arrival,tmp))) {
                     cout << "Invalid Date. Try again!" << endl;
                     cout << "Date of Departure: ";
                     getline(cin, tmp);
@@ -1896,7 +1901,7 @@ void Delegation::showAthlete() const {
     cout << endl << "0 - BACK" << endl;
     do {
         test = checkinputchoice(input, 0, 0);
-        if (test != 0)
+        if (test != 0&& test != 2)
             cerr << "Invalid option! Press 0 to go back." << endl;
     } while (test != 0 && test != 2);
 }
@@ -1932,7 +1937,7 @@ void Delegation::showAllAthletes() {
     cout << endl << "0 - BACK" << endl;
     do {
         test = checkinputchoice(input, 0, 0);
-        if (test != 0)
+        if (test != 0&& test != 2)
             cerr << "Invalid option! Press 0 to go back." << endl;
     } while (test != 0 && test != 2);
 }
@@ -1982,7 +1987,7 @@ void Delegation::showTeam() const {
     cout << endl << "0 - BACK" << endl;
     do {
         test = checkinputchoice(input, 0, 0);
-        if (test != 0)
+        if (test != 0&& test != 2)
             cerr << "Invalid option! Press 0 to go back." << endl;
     } while (test != 0 && test != 2);
 }
@@ -2009,7 +2014,7 @@ void Delegation::showAllTeams() {
     cout << endl << "0 - BACK" << endl;
     do {
         test = checkinputchoice(input, 0, 0);
-        if (test != 0)
+        if (test != 0&& test != 2)
             cerr << "Invalid option! Press 0 to go back." << endl;
     } while (test != 0 && test != 2);
 }
@@ -2075,7 +2080,7 @@ void Delegation::showCompetition(const string & sport){
 
     do {
         test = checkinputchoice(input, 0, 1);
-        if (test != 0)
+        if (test != 0&& test != 2)
             cerr << "Invalid option! Press 0 to go back." << endl;
     } while (test != 0 && test != 2);
     if (testinput == 2)
@@ -2125,7 +2130,7 @@ void Delegation::showAllCompetitions(const string & sport){
     cout << endl << "0 - BACK" << endl;
     do {
         test = checkinputchoice(input, 0, 0);
-        if (test != 0)
+        if (test != 0&& test != 2)
             cerr << "Invalid option! Press 0 to go back." << endl;
     } while (test != 0 && test != 2);
 }
@@ -2169,7 +2174,7 @@ void Delegation::showAllTrials(const string & sport){
     cout << endl << "0 - BACK" << endl;
     do {
         test = checkinputchoice(input, 0, 0);
-        if (test != 0)
+        if (test != 0&& test != 2)
             cerr << "Invalid option! Press 0 to go back." << endl;
     } while (test != 0 && test != 2);
 }
@@ -2234,7 +2239,7 @@ void Delegation::showAllTrials(){
     cout << endl << "0 - BACK" << endl;
     do {
         test = checkinputchoice(input, 0, 0);
-        if (test != 0)
+        if (test != 0&& test != 2)
             cerr << "Invalid option! Press 0 to go back." << endl;
     } while (test != 0 && test != 2);
 }
@@ -2266,7 +2271,7 @@ void Delegation::showTrials(const string & comp,const string & sport) const{
                     cout << endl << "0 - BACK" << endl;
                     do {
                         test = checkinputchoice(input, 0, 0);
-                        if (test != 0)
+                        if (test != 0 && test != 2)
                             cerr << "Invalid option! Press 0 to go back." << endl;
                     } while (test != 0 && test != 2);
                     return;
@@ -2360,7 +2365,7 @@ void Delegation::showTrialsInDay(){
     cout << endl << "0 - BACK" << endl;
     do {
         test = checkinputchoice(input, 0, 0);
-        if (test != 0)
+        if (test != 0&& test != 2)
             cerr << "Invalid option! Press 0 to go back." << endl;
     } while (test != 0 && test != 2);
 }
@@ -2414,7 +2419,7 @@ void Delegation::showAllMedals() const {
     cout << endl << "0 - BACK" << endl;
     do {
         test = checkinputchoice(input, 0, 0);
-        if (test != 0)
+        if (test != 0&& test != 2)
             cerr << "Invalid option! Press 0 to go back." << endl;
     } while (test != 0 && test != 2);
 }
@@ -2498,7 +2503,7 @@ void Delegation::showCountryMedals() const{
     cout << endl << "0 - BACK" << endl;
     do {
         test = checkinputchoice(input, 0, 0);
-        if (test != 0)
+        if (test != 0&& test != 2)
             cerr << "Invalid option! Press 0 to go back." << endl;
     } while (test != 0 && test != 2);
 }
@@ -2679,7 +2684,7 @@ void Delegation::mostAwardedCountries() const{
 
     do {
         test = checkinputchoice(input, 0, 1);
-        if (test != 0)
+        if (test != 0&& test != 2)
             cerr << "Invalid option! Press 0 to go back." << endl;
     } while (test != 0 && test != 2);
     if (test == 2)
@@ -2703,7 +2708,7 @@ void Delegation::mostAwardedCountries() const{
             cout << endl << "0 - BACK" << endl;
             do {
                 test = checkinputchoice(input, 0, 0);
-                if (test != 0)
+                if (test != 0&& test != 2)
                     cerr << "Invalid option! Press 0 to go back." << endl;
             } while (test != 0 && test != 2);
             break;
@@ -2763,7 +2768,7 @@ void Delegation::mostAwardedGold() const{
 
     do {
         test = checkinputchoice(input, 0, 1);
-        if (test != 0)
+        if (test != 0&& test != 2)
             cerr << "Invalid option! Press 0 to go back." << endl;
     } while (test != 0 && test != 2);
     if (test == 2)
@@ -2786,7 +2791,7 @@ void Delegation::mostAwardedGold() const{
             cout << endl << "0 - BACK" << endl;
             do {
                 test = checkinputchoice(input, 0, 0);
-                if (test != 0)
+                if (test != 0&& test != 2)
                     cerr << "Invalid option! Press 0 to go back." << endl;
             } while (test != 0 && test != 2);
             break;
@@ -2905,11 +2910,14 @@ void Delegation::showCountryGoldMedals(const string & c) const{
                                 cout << left << setw(23) <<cit->getName();
                             }
                             cout << left << m->getWinner();
+
                         }
                     }
                     if(!noMedalsInComp)
                         cout << endl;
                 }
+                if(!noMedalsInComp)
+                    cout << endl;
             }
         }
     }
@@ -3185,7 +3193,7 @@ void Delegation::mostAwardedAthletes() const{
             cout << endl << "0 - BACK" << endl;
             do {
                 test = checkinputchoice(input, 0, 0);
-                if (test != 0)
+                if (test != 0&& test != 2)
                     cerr << "Invalid option! Press 0 to go back." << endl;
             } while (test != 0 && test != 2);
             break;
