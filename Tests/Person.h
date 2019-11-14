@@ -7,9 +7,10 @@
 
 #include "Date.h"
 #include <vector>
-#include "Sport.h"
 #include <iomanip>
+#include "Sport.h"
 
+class Delegation;
 /**
  * A class to store the general information about a Person
  */
@@ -92,16 +93,22 @@ public:
     */
     virtual string info();
 
-    /** Shows the information of a person of the Portuguese Delegation in a human friendly way*/
+    /** Shows the information of a person of the Delegation in a human friendly way*/
     virtual void showInfo() const;
 
-    /** Shows the information of a person of the Portuguese Delegation in a human friendly way*/
+    /** Shows the information of a person of the Delegation in a human friendly way*/
     virtual void showInfoPerson() const;
 
     /** Checks if a person is an athlete
      *@returns true if the person is an athlete
      */
     virtual bool isAthlete() const {return false;};
+
+    /** Checks if an athlete plays team sport
+     *@param delegation the delegation
+     *@returns true if the person is an athlete and plays a team sport
+     */
+    virtual bool playsTeamSport(const Delegation & delegation) const{return false;};
 
     /** Compares two people
     * @param p The Person to compare with
@@ -252,6 +259,12 @@ public:
 
     /**Show the information about the athlete in a user friendly way*/
     void showInfo() const;
+
+    /** Checks if an athlete plays team sport
+     *@param delegation the delegation
+     *@returns true if the person is an athlete and plays a team sport
+     */
+    bool playsTeamSport(const Delegation &delegation) const;
 };
 
 /**A class to store the general information about the Team*/

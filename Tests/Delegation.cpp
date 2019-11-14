@@ -1880,6 +1880,15 @@ void Delegation::showAthlete() const {
         else {
             cout << endl;
             (*(people.begin() + index))->showInfo();
+            if((*(people.begin() + index))->playsTeamSport(*this)){
+                for(size_t i=0; i<teams.size();i++){
+                    vector<Athlete*> ats=teams[i]->getAthletes();
+                    for(size_t j=0;j<ats.size(); j++){
+                        if(ats[j]->getName() == (*(people.begin() + index))->getName())
+                            cout <<  left <<setw(17) << "Team" <<  setw(4) << " " << teams[i]->getName() <<endl;
+                    }
+                }
+            }
         }
     } else
         throw NoMembers();
@@ -1906,6 +1915,15 @@ void Delegation::showAllAthletes() {
         vector<Athlete *>::const_iterator it;
         for (it = athletes.begin(); it != athletes.end(); it++) {
             (*it)->showInfo();
+            if((*it)->playsTeamSport(*this)){
+                for(size_t i=0; i<teams.size();i++){
+                    vector<Athlete*> ats=teams[i]->getAthletes();
+                    for(size_t j=0;j<ats.size(); j++){
+                        if(ats[j]->getName() == (*it)->getName())
+                            cout <<  left <<setw(17) << "Team" <<  setw(4) << " " << teams[i]->getName() <<endl;
+                    }
+                }
+            }
             cout << endl;
         }
     } else

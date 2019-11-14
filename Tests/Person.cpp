@@ -191,6 +191,7 @@ string Athlete::info(){
 void Athlete::showInfoPerson() const{
     Person::showInfoPerson();
     cout << left << setw(17) << "Sport" << setw(4) << " "<< getSport() << setw(3) <<endl;
+
 }
 
 void Athlete::showInfo() const{
@@ -201,6 +202,16 @@ void Athlete::showInfo() const{
     cout << endl;
     cout <<  left <<setw(17) << "Weight" <<setw(4) << " " << to_string(weight) <<endl;
     cout <<  left <<setw(17) << "Height" <<  setw(4) << " " << to_string(height) <<endl;
+}
+
+bool Athlete::playsTeamSport(const Delegation & delegation) const{
+    vector<Sport*> sports = delegation.getSports();
+    for(size_t i=0; i<sports.size();i++){
+        if(sports[i]->getName() == sport)
+            if(sports[i]->isTeamSport())
+                return true;
+    }
+    return false;
 }
 //Team
 

@@ -5,12 +5,11 @@
 #ifndef PROJECT_1_DELEGATION_H
 #define PROJECT_1_DELEGATION_H
 
-#include "Sport.h"
-#include "Trial.h"
-#include "fstream"
 #include <regex>
-#include <list>
-
+#include <fstream>
+#include <Person.h>
+#include "Trial.h"
+#include "Sport.h"
 
 /**
  * A class to store the general information about a Delegation that takes part in the 2020 Tokyo Olympic Games
@@ -27,9 +26,6 @@ class Delegation {
     vector<Athlete*> athletes;/**< All the athletes of the Delegation*/
     vector<Team*> teams;/**< All the teams of the Delegation*/
     vector<Sport*> sports;/**< All the sports of the Delegation*/
-    list<Sport*> oldSports;/**< Sports that the Delgation no longer participates in*/
-    list<Athlete*> oldAthletes;/**< Ahletes that no longer belong to the Delegation*/
-    list<Team*> oldTeams; /**< Teams that no longer belong to the Delegation*/
 public:
     /** Delegation Default Constructor*/
     Delegation();
