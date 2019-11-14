@@ -1,7 +1,7 @@
 Portugal
-67.70
-59.50
-500
+67.7
+59.5
+8782.7
 people
 teams
 competitions
