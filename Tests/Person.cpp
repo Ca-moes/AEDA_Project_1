@@ -197,8 +197,11 @@ void Athlete::showInfoPerson() const{
 void Athlete::showInfo() const{
     showInfoPerson();
     cout <<  left <<setw(17) << "Competitions" <<setw(4) << " ";
-    for(const auto & competition:competitions)
-        cout << competition<<" ";
+    for(size_t i=0; i<competitions.size();i++){
+        cout << competitions[i];
+        if(i!=competitions.size()-1)
+            cout <<", ";
+    }
     cout << endl;
     cout <<  left <<setw(17) << "Weight" <<setw(4) << " " << to_string(weight) <<endl;
     cout <<  left <<setw(17) << "Height" <<  setw(4) << " " << to_string(height) <<endl;

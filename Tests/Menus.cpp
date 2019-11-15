@@ -36,9 +36,9 @@ void mainMenu(Delegation &delegation){
     do
     {
         if (system("CLS")) system("clear");
-        cout << "_____________________________________________________________________________" << endl << endl;
-        cout << "\t\t" << delegation.getCountry() << "'s Olympic Delegation - Tokyo 2020" << endl;
-        cout << "_____________________________________________________________________________" << endl << endl;
+        cout << "----------------------------------------------------------------------" << endl;
+        cout << setw(14) << " " << delegation.getCountry() << "'s Olympic Delegation - Tokyo 2020" << endl;
+        cout << "----------------------------------------------------------------------" << endl << endl;
 
         cout << "Choose an option by typing a number and pressing Enter." << endl << endl;
         //show the main menu
@@ -84,9 +84,9 @@ void participantsMenu(Delegation & delegation) {
     do
     {
         if (system("CLS")) system("clear");
-        cout << "_____________________________________________________" << endl << endl;
-        cout << "\t\t   Members Options " << endl;
-        cout << "_____________________________________________________" << endl << endl;
+        cout << "----------------------------------------------------------------------" << endl;
+        cout << setw(27) << " "<<"Members Options" << endl;
+        cout << "----------------------------------------------------------------------" << endl << endl;
 
         cout << "1 - Athletes" << endl;
         cout << "2 - Teams" << endl;
@@ -134,9 +134,9 @@ void sportsMenu(Delegation & delegation) {
     do
     {
         if (system("CLS")) system("clear");
-        cout << "_____________________________________________________" << endl << endl;
-        cout << "\t\t  Sports Options " << endl;
-        cout << "_____________________________________________________" << endl << endl;
+        cout << "----------------------------------------------------------------------" << endl;
+        cout << setw(28) << " "<<"Sports Options" << endl;
+        cout << "----------------------------------------------------------------------" << endl << endl;
 
         for(size_t i=0; i < delegation.getSports().size(); i++){
             cout << i+1 << " - " << delegation.getSports()[i]->getName() << endl;
@@ -180,9 +180,9 @@ void trialsMenu(Delegation & delegation){
     do
     {
         if (system("CLS")) system("clear");
-        cout << "_____________________________________________________" << endl << endl;
-        cout << "\t\t   Trials Calendar " << endl;
-        cout << "_____________________________________________________" << endl << endl;
+        cout << "----------------------------------------------------------------------" << endl;
+        cout << setw(27) << " "<<"Trials Calendar" << endl;
+        cout << "----------------------------------------------------------------------" << endl << endl;
 
         cout << "1 - All Trials" << endl;
         cout << "2 - Trials by day" << endl;
@@ -232,9 +232,9 @@ void medalsStatisticsMenu(Delegation & delegation){
     do
     {
         if (system("CLS")) system("clear");
-        cout << "_____________________________________________________" << endl << endl;
-        cout << "\t\t   Medals Statistics " << endl;
-        cout << "_____________________________________________________" << endl << endl;
+        cout << "----------------------------------------------------------------------" << endl;
+        cout << setw(26) << " "<<"Medals Statistics" << endl;
+        cout << "----------------------------------------------------------------------" << endl << endl;
 
         cout << "1 - All Medals" << endl;
         cout << "2 - Medals by country" << endl;
@@ -282,9 +282,9 @@ void staffMenu(Delegation & delegation) {
     do
     {
         if (system("CLS")) system("clear");
-        cout << "_____________________________________________________" << endl << endl;
-        cout << "\t\t   Staff's Options " << endl;
-        cout << "_____________________________________________________" << endl << endl;
+        cout << "----------------------------------------------------------------------" << endl;
+        cout << setw(27) << " "<<"Staff's Options" << endl;
+        cout << "----------------------------------------------------------------------" << endl << endl;
 
         cout << "1 - Add Staff member" << endl;
         cout << "2 - Remove Staff member" << endl;
@@ -362,9 +362,9 @@ void athletesMenu(Delegation & delegation) {
     do
     {
         if (system("CLS")) system("clear");
-        cout << "_____________________________________________________" << endl << endl;
-        cout << "\t\t   Athletes Options " << endl;
-        cout << "_____________________________________________________" << endl << endl;
+        cout << "----------------------------------------------------------------------" << endl;
+        cout << setw(27) << " "<<"Athletes Options" << endl;
+        cout << "----------------------------------------------------------------------" << endl << endl;
 
         cout << "1 - Add Athlete" << endl;
         cout << "2 - Remove Athlete" << endl;
@@ -469,9 +469,9 @@ void teamsMenu(Delegation & delegation) {
     do
     {
         if (system("CLS")) system("clear");
-        cout << "_____________________________________________________" << endl << endl;
-        cout << "\t\t   Teams Options " << endl;
-        cout << "_____________________________________________________" << endl << endl;
+        cout << "----------------------------------------------------------------------"<< endl;
+        cout << setw(28) << " "<<"Teams Options" << endl;
+        cout << "----------------------------------------------------------------------" << endl << endl;
 
         cout << "1 - View Team Info" << endl;
         cout << "2 - View All Teams Info" << endl;
@@ -521,9 +521,10 @@ void competitionsMenu(Delegation & delegation, const string & sport){
     do
     {
         system("cls");
-        cout << "_____________________________________________________" << endl << endl;
-        cout << "\t   " << sport << " - Competitions & Trials" << endl;
-        cout << "_____________________________________________________" << endl << endl;
+        cout << "----------------------------------------------------------------------" << endl;
+        int space = (70-(sport.size()+24))/2;
+        cout << setw(space)<<" "<< sport << " - Competitions & Trials" << endl;
+        cout << "----------------------------------------------------------------------" << endl << endl;
 
         cout << "Choose an option by typing a number and pressing Enter." << endl << endl;
         //show the main menu
@@ -586,9 +587,9 @@ void medalRankingsMenu(Delegation & delegation){
     do
     {
         if (system("CLS")) system("clear");
-        cout << "_____________________________________________________" << endl << endl;
-        cout << "\t\t   Medals Rankings " << endl;
-        cout << "_____________________________________________________" << endl << endl;
+        cout << "----------------------------------------------------------------------" << endl;
+        cout << setw(27) << " " <<"Medals Rankings" << endl;
+        cout << "----------------------------------------------------------------------" << endl << endl;
 
         cout << "1 - Most awarded countries (total of medals)" << endl;
         cout << "2 - Most awarded countries (gold medals)" << endl;

@@ -511,7 +511,9 @@ void Delegation::readCompetitionsFile(const vector<string> &lines) {
                     while (getline(participantsStream, name, ',')) {
                         if (name.find('-') != string::npos) {
                             pCountry = name.substr(0, name.find('-'));
+                            pCountry = regex_replace(pCountry, regex("^ +| +$|( ) +"), "$1");
                             participant = name.substr(name.find('-') + 1, name.size());
+                            participant = regex_replace(participant, regex("^ +| +$|( ) +"), "$1");
                             medal.setWinner(participant);
                             medal.setCountry(pCountry);
                             if (medalCount == 0)
@@ -820,9 +822,9 @@ void Delegation::showMembers() {
     string input = "";
 
     system("cls");
-    cout << "_____________________________________________________" << endl << endl;
-    cout << "\t\t   Portuguese Delegation Members" << endl;
-    cout << "_____________________________________________________" << endl << endl;
+    cout << "----------------------------------------------------------------------" << endl;
+    cout << setw(26) << " " <<"Delegation Members" << endl;
+    cout << "----------------------------------------------------------------------"  << endl << endl;
 
 
     if (!people.empty()) {
@@ -1226,9 +1228,9 @@ void Delegation::showStaffMember() const {
     string input = "";
 
     system("cls");
-    cout << "_____________________________________________________" << endl << endl;
-    cout << "\t   Information about a Staff Member" << endl;
-    cout << "_____________________________________________________" << endl << endl;
+    cout << "----------------------------------------------------------------------" << endl;
+    cout << setw(19) << " "<<"Information about a Staff Member" << endl;
+    cout << "----------------------------------------------------------------------" << endl << endl;
 
 
     if (!people.empty()) {
@@ -1276,9 +1278,9 @@ void Delegation::showStaffMembers() {
     string input = "";
 
     system("cls");
-    cout << "_____________________________________________________" << endl << endl;
-    cout << "\t  Information about Staff Members" << endl;
-    cout << "_____________________________________________________" << endl << endl;
+    cout << "----------------------------------------------------------------------" << endl;
+    cout << setw(19) << " " <<"Information about Staff Members" << endl;
+    cout << "----------------------------------------------------------------------" << endl << endl;
 
 
     if (!people.empty()) {
@@ -1928,9 +1930,9 @@ void Delegation::showAthlete() const {
     string input = "";
 
     system("cls");
-    cout << "_____________________________________________________" << endl << endl;
-    cout << "\t   Information about an Athlete" << endl;
-    cout << "_____________________________________________________" << endl << endl;
+    cout << "----------------------------------------------------------------------" << endl;
+    cout << setw(21) << " "<<"Information about an Athlete" << endl;
+    cout << "----------------------------------------------------------------------" << endl<<endl;
 
 
     if (!people.empty()) {
@@ -1987,9 +1989,9 @@ void Delegation::showAllAthletes() {
     string input = "";
 
     system("cls");
-    cout << "_____________________________________________________" << endl << endl;
-    cout << "\t  Information about Athletes" << endl;
-    cout << "_____________________________________________________" << endl << endl;
+    cout << "----------------------------------------------------------------------" << endl;
+    cout << setw(22) << " " <<"Information about Athletes" << endl;
+    cout << "----------------------------------------------------------------------"  << endl << endl;
 
 
     if (!athletes.empty()) {
@@ -2025,9 +2027,9 @@ void Delegation::showTeam() const {
     string input = "";
 
     system("cls");
-    cout << "_____________________________________________________" << endl << endl;
-    cout << "\t\tInformation about a Team" << endl;
-    cout << "_____________________________________________________" << endl << endl;
+    cout << "----------------------------------------------------------------------"  << endl;
+    cout << setw(23) << " " <<"Information about a Team" << endl;
+    cout << "----------------------------------------------------------------------"  << endl << endl;
 
 
     if (!teams.empty()) {
@@ -2073,9 +2075,9 @@ void Delegation::showAllTeams() {
     string input = "";
 
     system("cls");
-    cout << "_____________________________________________________" << endl << endl;
-    cout << "\t\t   Information about Teams" << endl;
-    cout << "_____________________________________________________" << endl << endl;
+    cout << "----------------------------------------------------------------------" << endl;
+    cout << setw(23) << " " <<"Information about Teams" << endl;
+    cout << "----------------------------------------------------------------------"  << endl << endl;
 
 
     if (!teams.empty()) {
@@ -2111,9 +2113,10 @@ void Delegation::showCompetition(const string & sport){
     vector<Competition>::const_iterator cit;
 
     system("cls");
-    cout << "_____________________________________________________" << endl << endl;
-    cout << "\t\t" << sport<<" Competition Info" << endl;
-    cout << "_____________________________________________________" << endl << endl;
+    cout << "----------------------------------------------------------------------" << endl;
+    int space = (70-(sport.size()+17))/2;
+    cout << setw(space) << " " << sport<<" Competition Info" << endl;
+    cout << "----------------------------------------------------------------------" << endl << endl;
 
     vector<Sport * >::iterator s = sports.begin();
     string nm;
@@ -2183,9 +2186,10 @@ void Delegation::showAllCompetitions(const string & sport){
     vector<Competition> competitions;
 
     system("cls");
-    cout << "_____________________________________________________" << endl << endl;
-    cout << "\t\t" << sport << " Competitions" << endl;
-    cout << "_____________________________________________________" << endl << endl;
+    cout << "----------------------------------------------------------------------" << endl;
+    int space = (70-(sport.size()+13))/2;
+    cout << setw(space) << " " << sport << "Competitions" << endl;
+    cout << "----------------------------------------------------------------------" << endl << endl;
 
     for(size_t i=0; i< sports.size(); i++){
         if(sport == sports[i]->getName()){
@@ -2218,9 +2222,10 @@ void Delegation::showAllTrials(const string & sport){
     int nTrials=0;
 
     system("cls");
-    cout << "_____________________________________________________" << endl << endl;
-    cout << "\t\t" << sport << " Trials" << endl;
-    cout << "_____________________________________________________" << endl << endl;
+    cout << "----------------------------------------------------------------------" << endl;
+    int space = (70-(sport.size()+7))/2;
+    cout << setw(space) << " " << sport << " Trials" << endl;
+    cout << "----------------------------------------------------------------------" << endl << endl;
 
     for(size_t i=0; i< sports.size(); i++){
         if(sport == sports[i]->getName()){
@@ -2262,9 +2267,9 @@ void Delegation::showAllTrials(){
     vector<Competition>::const_iterator it;
 
     system("cls");
-    cout << "_____________________________________________________" << endl << endl;
-    cout << "\t\t  Trials Calendar" << endl;
-    cout << "_____________________________________________________" << endl << endl;
+    cout << "----------------------------------------------------------------------" << endl;
+    cout << setw(27) << " "<<"Trials Calendar" << endl;
+    cout << "----------------------------------------------------------------------" << endl << endl;
 
     if (!sports.empty()) {
         for (size_t i = 0; i < sports.size(); i++) {
@@ -2368,9 +2373,9 @@ void Delegation::showTrialsInDay(){
     vector<Competition>::const_iterator it;
 
     system("cls");
-    cout << "_____________________________________________________" << endl << endl;
-    cout << "\t\t  Trials Calendar" << endl;
-    cout << "_____________________________________________________" << endl << endl;
+    cout << "----------------------------------------------------------------------"<< endl;
+    cout << setw(27) << " "<<"Trials Calendar" << endl;
+    cout << "----------------------------------------------------------------------" << endl << endl;
 
     if (!sports.empty()) {
         for (size_t i = 0; i < sports.size(); i++) {
@@ -2465,9 +2470,9 @@ void Delegation::showAllMedals() const {
     string input = "",sport="";
 
     system("cls");
-    cout << "_____________________________________________________" << endl << endl;
-    cout << "\t\t  All Medals " << endl;
-    cout << "_____________________________________________________" << endl << endl;
+    cout << "----------------------------------------------------------------------"<< endl;
+    cout << setw(30) << " "<<"All Medals" << endl;
+    cout << "----------------------------------------------------------------------" << endl << endl;
 
     vector<Sport*>::const_iterator s;
     vector<Competition>::iterator c;
@@ -2519,9 +2524,10 @@ void Delegation::showCountryMedals() const{
     }while(checkStringInput(cntr));
 
     system("cls");
-    cout << "_____________________________________________________" << endl << endl;
-    cout << "\t\t" << country <<  " Medals " << endl;
-    cout << "_____________________________________________________" << endl << endl;
+    cout << "----------------------------------------------------------------------" << endl;
+    int space = (70-(sport.size()+7))/2;
+    cout << setw(space)<<" " << country <<  " Medals " << endl;
+    cout << "----------------------------------------------------------------------" << endl << endl;
 
     vector<Sport*>::const_iterator s;
     vector<Competition>::iterator c;
@@ -2721,9 +2727,9 @@ void Delegation::mostAwardedCountries() const{
     int g=0,sil=0,b=0;
 
     system("cls");
-    cout << "_____________________________________________________" << endl << endl;
-    cout << "\t\t Most Awarded Countries " << endl;
-    cout << "_____________________________________________________" << endl << endl;
+    cout << "----------------------------------------------------------------------" << endl;
+    cout << setw(24) << " "<<"Most Awarded Countries" << endl;
+    cout << "----------------------------------------------------------------------" << endl << endl;
 
     try{
         countries = getCountriesWithMedals();
@@ -2750,11 +2756,11 @@ void Delegation::mostAwardedCountries() const{
 
 
     cout<< endl<< left << setw(4) << " " << setw(10) <<  "COUNTRY" << left << setw(4) << "|"<< setw(4) << "MEDALS" <<endl;
-    cout << "______________|__________"<<endl;
+    cout << "--------------|----------"<<endl;
     for(size_t i= 0; i<stoi(n); i++){
         cout<< left << setw(4) << " " << setw(10)<<  countries[i] << left << setw(4) << "|"<< setw(4) << (*this).numberOfMedalsCountry(countries[i]) << endl;
     }
-
+    cout << "--------------|----------"<<endl<<endl;
     cout << endl << "1 - Medals Details";
     cout << endl << "0 - BACK" << endl;
 
@@ -2805,9 +2811,9 @@ void Delegation::mostAwardedGold() const{
     int g=0,sil=0,b=0;
 
     system("cls");
-    cout << "_____________________________________________________" << endl << endl;
-    cout << "\t Most Awarded Countries - Gold Medals " << endl;
-    cout << "_____________________________________________________" << endl << endl;
+    cout << "----------------------------------------------------------------------" << endl;
+    cout << setw(17) << " " <<"Most Awarded Countries - Gold Medals" << endl;
+    cout << "----------------------------------------------------------------------" << endl << endl;
 
     try{
         countries = getCountriesWithGoldMedals();
@@ -2834,10 +2840,11 @@ void Delegation::mostAwardedGold() const{
 
 
     cout<< endl<< left << setw(4) << " " << setw(10) <<  "COUNTRY" << left << setw(4) << "|"<< setw(4) << "GOLD MEDALS" <<endl;
-    cout << "______________|______________"<<endl;
+    cout << "--------------|--------------"<<endl;
     for(size_t i= 0; i<stoi(n); i++){
         cout<< left << setw(4) << " " << setw(10)<<  countries[i] << left << setw(4) << "|"<< setw(4) << (*this).numberOfGoldMedalsCountry(countries[i]) << endl;
     }
+    cout << "--------------|--------------"<<endl<<endl;
 
     cout << endl << "1 - Medals Details";
     cout << endl << "0 - BACK" << endl;
@@ -3207,9 +3214,9 @@ void Delegation::mostAwardedAthletes() const{
     int g=0,sil=0,b=0;
 
     system("cls");
-    cout << "_____________________________________________________" << endl << endl;
-    cout << "\t\t Most Awarded Atheltes " << endl;
-    cout << "_____________________________________________________" << endl << endl;
+    cout << "----------------------------------------------------------------------"  << endl;
+    cout << setw(24) << " " <<"Most Awarded Atheltes" << endl;
+    cout << "----------------------------------------------------------------------" << endl << endl;
 
     try{
         ats = getAthletesWithMedals();
@@ -3235,11 +3242,11 @@ void Delegation::mostAwardedAthletes() const{
 
 
     cout<< endl<< left << setw(4) << " " << setw(20) <<  "ATHLETE" << left << setw(4) << "|"<< setw(4) << "MEDALS" <<endl;
-    cout << "________________________|__________"<<endl;
+    cout << "------------------------|----------"<<endl;
     for(size_t i= 0; i<stoi(n); i++){
         cout<< left << setw(4) << " " << setw(20)<<  ats[i] << left << setw(4) << "|"<< setw(4) << (*this).numberOfMedalsAthlete(ats[i]) << endl;
     }
-
+    cout << "------------------------|----------"<<endl<<endl;
     cout << endl << "1 - Medals Details";
     cout << endl << "0 - BACK" << endl;
 
