@@ -43,10 +43,13 @@ void Delegation::readDelegationFile() {
     int numline = 0;
     string line, file;
     ifstream delegationFile;
-    cout << "Delegation .txt File: ";
-    // Falta checar inputs;
-    // cin >> file;
-    file = "delegation";
+    do{
+        cout << "Delegation .txt File: ";
+        cin >> file;
+        if(cin.fail())
+            cin.clear();
+    }while(cin.fail());
+
     file += ".txt";
     delegationFile.open(file);
     if (delegationFile.fail())
@@ -1562,7 +1565,7 @@ void Delegation::addAthlete() {
 
 void Delegation::removeAthlete(){
     int index;
-    string tmp;
+    string tmp,nmAt;
     int test = 0;
     string input = "";
 
@@ -1606,6 +1609,21 @@ void Delegation::removeAthlete(){
         }
         vector<Person *>::iterator it = people.begin() + index;
         vector<Athlete*>::iterator it_a = athletes.begin() + index;
+        nmAt = (*it_a)->getName();
+
+        if(!(sports.at(index_s)->isTeamSport())){
+            //elimina o participante das competições
+            vector<Competition> comps = sports.at(index_s)->getCompetitions();
+            vector<Competition> competitionsToSet;
+            for(size_t i=0; i< comps.size(); i++){
+                vector<string>participants = comps[i].getParticipants();
+                vector<string>::iterator part_it = find(participants.begin(), participants.end(),nmAt);
+                if(part_it != participants.end()) participants.erase(part_it);
+                comps[i].setParticipants(participants);
+                competitionsToSet.push_back(Competition(comps[i]));
+            }
+            sports.at(index_s)->setCompetitions(competitionsToSet);
+        }
         athletes.erase(it_a);
         delete *it;
         people.erase(it);
