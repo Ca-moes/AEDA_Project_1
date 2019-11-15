@@ -123,7 +123,7 @@ public:
     *
     * @returns the participants
     */
-    vector<string> getParticipants();
+    const vector<string> & getParticipants() const;
 
     /** Show info about the competition in an user friendly way*/
     void showInfo() const;

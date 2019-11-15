@@ -45,7 +45,7 @@ public:
 
     /**Set the Sport's competitions
      * @param sport's competitions */
-    void setCompetitions(const vector<Competition> & competitions);
+    void setCompetitions(const vector<Competition> & comps);
 
     /**Get the Sport's competitions
      * @returns sport's competitions*/

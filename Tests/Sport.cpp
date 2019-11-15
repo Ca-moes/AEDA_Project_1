@@ -20,8 +20,8 @@ void Sport::setName(string n){
     name = n;
 }
 
-void Sport::setCompetitions(const vector<Competition> & competitions){
-    this->competitions=competitions;
+void Sport::setCompetitions(const vector<Competition> & comps){
+    this->competitions=vector<Competition>(comps);
 }
 
 vector<Competition> Sport::getCompetitions() const{

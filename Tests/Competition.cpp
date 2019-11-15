@@ -30,6 +30,7 @@ Competition::Competition(const Competition & c){
     end = c.getEnd();
     trials = c.getTrials();
     medals = c.getMedals();
+    participants =c.getParticipants();
 }
 
 const Date & Competition::getBegin() const{
@@ -65,10 +66,10 @@ void Competition::setTrials(const vector<Trial> & trials){
 }
 
 void Competition::setParticipants(const vector<string> & p){
-    participants=p;
+    participants=vector<string>(p);
 }
 
-vector<string> Competition::getParticipants(){
+const vector<string> & Competition::getParticipants() const{
     return participants;
 }
 
@@ -114,10 +115,8 @@ void Competition::showInfo() const{
             cout << trial.getName() << " ";
         cout << endl;
     }
-    cout << participants.size()<<endl;
-
     if(!participants.empty()){
-        cout <<  left <<setw(32) << "Participants (of the Delegation)" <<setw(4) << " ";
+        cout <<  left <<setw(17) << "Participants" <<setw(4) << " ";
         for(const auto & participant : participants)
             cout << participant<< "  ";
         cout << endl;

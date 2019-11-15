@@ -43,10 +43,13 @@ void Delegation::readDelegationFile() {
     int numline = 0;
     string line, file;
     ifstream delegationFile;
-    cout << "Delegation .txt File: ";
-    // Falta checar inputs;
-    // cin >> file;
-    file = "delegation";
+    do{
+        cout << "Delegation .txt File: ";
+        cin >> file;
+        if(cin.fail())
+            cin.clear();
+    }while(cin.fail());
+
     file += ".txt";
     delegationFile.open(file);
     if (delegationFile.fail())
@@ -152,9 +155,10 @@ void Delegation::readDelegationFile() {
     }
 
     //set competition participants
-    /*vector<Sport*>::iterator it;
+    vector<Sport*>::iterator it;
     for (it=sports.begin(); it!=sports.end();it++) { //corre todos os desportos
         vector<Competition> sportComps= (*it)->getCompetitions();
+        vector<Competition> competitionsToSet;
         for(auto &sportComp: sportComps){
             vector<string> participants;
             if((*it)->isTeamSport()){
@@ -174,11 +178,15 @@ void Delegation::readDelegationFile() {
                             participants.push_back(athlete->getName());
                     }
                 }
+
             }
-            sportComp.setParticipants(participants); //até aqui a competição parece que fica com os participantes certos
+            noRepeatVector(participants);
+            sportComp.setParticipants(participants);
+            competitionsToSet.push_back(Competition(sportComp));
         }
-        (*it)->setCompetitions(sportComps); //não funciona
-    }*/
+        (*it)->setCompetitions(competitionsToSet);
+    }
+
 }
 
 void Delegation::readPeopleFile(const vector<string> &lines) {
@@ -1311,7 +1319,7 @@ void Delegation::addAthlete() {
     Date tmp_date;
     vector<Competition> competitions;
     vector<string> competition_names;
-    int index;
+    int index,indexTeam;
 
     int test = 0;
     string input = "";
@@ -1478,17 +1486,38 @@ void Delegation::addAthlete() {
     novo->setHeight(stoi(tmp));
 
     if(!(sports.at(index)->isTeamSport())){
+        //se for competição individual
+        //adiciona todas as competições ao atleta
         competitions = sports.at(index)->getCompetitions();
         for (int i = 0; i < competitions.size(); i++) {
             competition_names.push_back(competitions.at(i).getName());
         }
         novo->setCompetitions(competition_names);
+
+        //adiciona o atleta às competições
+        for(auto &sportComp: competitions){
+            vector<string> participants = sportComp.getParticipants();
+            vector<string> indComps = novo->getCompetitions();
+            for(auto &indComp: indComps){
+                if(indComp == sportComp.getName())
+                    participants.push_back(novo->getName());
+            }
+            noRepeatVector(participants);
+            sportComp.setParticipants(participants);
+        }
+        sports.at(index)->setCompetitions(competitions);
     } else {
         TeamSport *ts = dynamic_cast<TeamSport *> (sports.at(index));
         vector<Team *> tmp_teams = ts->getTeams();
 
-        for (int i = 0; i < tmp_teams.size(); i++) {
-            cout << tmp_teams.at(i)->getName() << endl;
+        if(!tmp_teams.empty()){
+            cout << "Possible Teams:";
+            for (int i = 0; i < tmp_teams.size(); i++) {
+                cout << tmp_teams.at(i)->getName();
+                if(i!=tmp_teams.size()-1)
+                    cout << ", ";
+            }
+            cout << endl;
         }
 
         cout << "Team: ";
@@ -1508,14 +1537,14 @@ void Delegation::addAthlete() {
             }
             cin.clear();
         }
-        index = findTeam(tmp);
-        if (index == -1) {
+        indexTeam = findTeam(tmp);
+        if (indexTeam == -1) {
             throw NonExistentTeam(tmp);
         } else {
-            if((teams.at(index)->getAthletes()).size() == ts->getNumberofElements()){
+            if((teams.at(indexTeam)->getAthletes()).size() == ts->getNumberofElements()){
                 throw FullTeam(tmp);
             } else {
-                competition_names = teams.at(index)->getCompetitions();
+                competition_names = teams.at(indexTeam)->getCompetitions();
                 novo->setCompetitions(competition_names);
                 teams.at(index)->addAthlete(novo);
             }
@@ -1536,7 +1565,7 @@ void Delegation::addAthlete() {
 
 void Delegation::removeAthlete(){
     int index;
-    string tmp;
+    string tmp,nmAt;
     int test = 0;
     string input = "";
 
@@ -1580,6 +1609,21 @@ void Delegation::removeAthlete(){
         }
         vector<Person *>::iterator it = people.begin() + index;
         vector<Athlete*>::iterator it_a = athletes.begin() + index;
+        nmAt = (*it_a)->getName();
+
+        if(!(sports.at(index_s)->isTeamSport())){
+            //elimina o participante das competições
+            vector<Competition> comps = sports.at(index_s)->getCompetitions();
+            vector<Competition> competitionsToSet;
+            for(size_t i=0; i< comps.size(); i++){
+                vector<string>participants = comps[i].getParticipants();
+                vector<string>::iterator part_it = find(participants.begin(), participants.end(),nmAt);
+                if(part_it != participants.end()) participants.erase(part_it);
+                comps[i].setParticipants(participants);
+                competitionsToSet.push_back(Competition(comps[i]));
+            }
+            sports.at(index_s)->setCompetitions(competitionsToSet);
+        }
         athletes.erase(it_a);
         delete *it;
         people.erase(it);
@@ -2188,7 +2232,7 @@ void Delegation::showAllCompetitions(const string & sport){
     system("cls");
     cout << "----------------------------------------------------------------------" << endl;
     int space = (70-(sport.size()+13))/2;
-    cout << setw(space) << " " << sport << "Competitions" << endl;
+    cout << setw(space) << " " << sport << " Competitions" << endl;
     cout << "----------------------------------------------------------------------" << endl << endl;
 
     for(size_t i=0; i< sports.size(); i++){
