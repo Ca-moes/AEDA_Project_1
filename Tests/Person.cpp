@@ -274,6 +274,9 @@ void Team::addAthlete(Athlete* a) {
 void Team::removeAthlete(string name) {
     vector<Athlete*>::iterator it;
     for(it = athletes.begin(); it != athletes.end(); it++){
-        if((*it)->getName() == name) athletes.erase(it);
+        if((*it)->getName() == name){
+            athletes.erase(it);
+            break;
+        }
     }
 }
